@@ -417,6 +417,23 @@ body.has-mouse .spot{opacity:1}
 footer{margin-top:90px;padding:34px 0 120px;text-align:center;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
 footer .tag{font-family:'Bebas Neue',sans-serif;font-size:30px;letter-spacing:.1em;color:#fff;text-shadow:0 0 10px var(--pink),0 0 30px rgba(255,47,126,.6)}
 
+
+/* ---------- MARCA DE AGUA · SONETIX ---------- */
+.credit{position:relative;margin:46px -18px 0;padding:30px 18px 0;opacity:.82;transition:opacity .3s}
+.credit:hover{opacity:1}
+.credit::before{content:"";position:absolute;left:0;right:0;top:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,47,126,.5),rgba(225,29,72,.55),transparent)}
+.credit::after{content:"";position:absolute;left:50%;top:0;width:min(70%,520px);height:120px;transform:translate(-50%,-30%);pointer-events:none;
+  background:radial-gradient(ellipse at 50% 40%,rgba(225,29,72,.18),rgba(255,47,126,.07) 45%,transparent 70%)}
+.partners{position:relative;z-index:1;display:inline-flex;align-items:center;gap:14px;font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:.14em;line-height:1}
+.partners .p1{color:#fff;text-shadow:0 0 10px rgba(255,47,126,.8),0 0 26px rgba(255,47,126,.45)}
+.partners .p2{color:#fff;text-shadow:0 0 10px rgba(225,29,72,.9),0 0 26px rgba(225,29,72,.5)}
+.partners .x{font-family:'Inter',sans-serif;font-size:13px;font-weight:300;letter-spacing:0;color:var(--muted);transform:translateY(-1px)}
+.partners .p2 i{font-style:normal;color:#ff4d6d}
+.credit-row{position:relative;z-index:1;display:flex;justify-content:space-between;align-items:center;gap:8px 24px;flex-wrap:wrap;max-width:880px;margin:16px auto 0;font-size:12.5px;color:var(--muted)}
+.credit-row .heart{color:#ff4d6d;text-shadow:0 0 10px rgba(255,77,109,.7);display:inline-block;animation:beat 2.4s ease-in-out infinite}
+@keyframes beat{0%,60%,100%{transform:scale(1)}70%{transform:scale(1.25)}80%{transform:scale(1)}90%{transform:scale(1.18)}}
+@media(max-width:560px){.credit-row{justify-content:center;text-align:center}.partners{font-size:22px;gap:11px}}
+
 /* ---------- MODAL ---------- */
 .scrim{position:fixed;inset:0;z-index:80;background:rgba(4,4,8,.72);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
 .scrim.show{opacity:1;visibility:visible}
@@ -555,6 +572,13 @@ noscript{display:block;padding:40px;text-align:center}
     <footer>
       <div class="tag">#SomosCultura</div>
       <div style="margin-top:6px">El Coctelazo — by Perritos Gourmet de la Uva</div>
+      <div class="credit" role="contentinfo">
+        <div class="partners" aria-label="El Coctelazo y Sonetix"><span class="p1">EL COCTELAZO</span><span class="x" aria-hidden="true">✕</span><span class="p2">SONETIX<i>.</i></span></div>
+        <div class="credit-row">
+          <span id="creditL">© 2026 Sonetix. Páginas web a la medida.</span>
+          <span id="creditR">Hecho con <span class="heart" aria-hidden="true">♥</span> para negocios que quieren crecer</span>
+        </div>
+      </div>
     </footer>
   </div>
 </div>
@@ -748,7 +772,7 @@ const SEDES = [
    ========================================================= */
 const UI = {
   es:{tabMenu:'Menú',tabInfo:'Información',ctaMenu:'Ver la carta',ctaSedes:'Nuestras sedes',searchLabel:'Buscar en la carta',searchPh:'Busca un trago, un sushi, un sabor…',surprise:'Sorpréndeme',
-    sedesTitle:'Nuestras sedes',address:'Dirección',hours:'Horario',hoursV:'Lunes a domingo: 2:30 PM – 12:00 AM',how:'Cómo llegar',map:'Ver mapa',hideMap:'Ocultar mapa',locTitle:'Encuentra tu sede más cercana',locSub:'Te mostramos la más cerca de ti y cómo llegar',locAgain:'Actualizar mi ubicación',locAgainSub:'Volver a buscar la sede más cercana',locBusy:'Buscando tu ubicación…',
+    sedesTitle:'Nuestras sedes',address:'Dirección',hours:'Horario',hoursV:'Lunes a domingo: 2:30 PM – 12:00 AM',how:'Cómo llegar',map:'Ver mapa',hideMap:'Ocultar mapa',creditL:'© 2026 Sonetix. Páginas web a la medida.',creditR:'Hecho con <span class="heart" aria-hidden="true">♥</span> para negocios que quieren crecer',locTitle:'Encuentra tu sede más cercana',locSub:'Te mostramos la más cerca de ti y cómo llegar',locAgain:'Actualizar mi ubicación',locAgainSub:'Volver a buscar la sede más cercana',locBusy:'Buscando tu ubicación…',
     nearEyebrow:'Tu sede más cercana',nearOthers:'Otras sedes cerca de ti',straight:'en línea recta',nearFlag:'Más cercana',goThere:'Cómo llegar',seeMap:'Ver en el mapa',
     locDenied:'No pudimos acceder a tu ubicación. Activa el permiso de ubicación en tu navegador e inténtalo de nuevo, o elige una sede aquí abajo.',locFail:'No logramos obtener tu ubicación. Revisa tu conexión o el GPS e inténtalo otra vez.',locNo:'Tu navegador no permite compartir la ubicación. Elige una sede aquí abajo.',
     locPriv:'Tu ubicación solo se usa para calcular la distancia en tu dispositivo; no la guardamos.',locFar:km=>`Estás a unos ${km} km de la más cercana.`,
@@ -758,7 +782,7 @@ const UI = {
     close:'Cerrar',top:'Volver arriba',newb:'NUEVO',comboTag:'Combo especial',unit:'c/u',from:'desde',trago:'Trago',media:'Media',botella:'Botella',
     comboTagline:'Ahorra combinando'},
   en:{tabMenu:'Menu',tabInfo:'Information',ctaMenu:'See the menu',ctaSedes:'Our locations',searchLabel:'Search the menu',searchPh:'Search a drink, a sushi, a flavor…',surprise:'Surprise me',
-    sedesTitle:'Our locations',address:'Address',hours:'Hours',hoursV:'Monday to Sunday: 2:30 PM – 12:00 AM',how:'Get directions',map:'Show map',hideMap:'Hide map',locTitle:'Find your nearest location',locSub:'We’ll show the closest one to you and how to get there',locAgain:'Update my location',locAgainSub:'Search for the nearest location again',locBusy:'Finding your location…',
+    sedesTitle:'Our locations',address:'Address',hours:'Hours',hoursV:'Monday to Sunday: 2:30 PM – 12:00 AM',how:'Get directions',map:'Show map',hideMap:'Hide map',creditL:'© 2026 Sonetix. Websites made to measure.',creditR:'Made with <span class="heart" aria-hidden="true">♥</span> for businesses that want to grow',locTitle:'Find your nearest location',locSub:'We’ll show the closest one to you and how to get there',locAgain:'Update my location',locAgainSub:'Search for the nearest location again',locBusy:'Finding your location…',
     nearEyebrow:'Your nearest location',nearOthers:'Other locations near you',straight:'straight line',nearFlag:'Nearest',goThere:'Get directions',seeMap:'See on map',
     locDenied:'We couldn’t access your location. Allow location access in your browser and try again, or pick a location below.',locFail:'We couldn’t get your location. Check your connection or GPS and try again.',locNo:'Your browser can’t share your location. Pick a location below.',
     locPriv:'Your location is only used to calculate distance on your device; we don’t store it.',locFar:km=>`You’re about ${km} km from the nearest one.`,
@@ -1015,6 +1039,7 @@ function applyI18n(){
   $$('[data-i18n-ph]').forEach(el=>{ el.placeholder=t(el.dataset.i18nPh); });
   $('#lang').dataset.lang = state.lang;
   $$('#lang button').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.l===state.lang)));
+  $('#creditL').textContent = t('creditL'); $('#creditR').innerHTML = t('creditR');
   $('#mClose').setAttribute('aria-label',t('close'));
   $('#topBtn').setAttribute('aria-label',t('top')); $('#topBtn').title=t('top');
   $('#qClear').setAttribute('aria-label', state.lang==='en'?'Clear search':'Limpiar búsqueda');
