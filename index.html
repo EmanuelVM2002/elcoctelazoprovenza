@@ -90,22 +90,6 @@ body.has-mouse .spot{opacity:1}
 .lang button[aria-pressed="true"]{color:#fff}
 .lang i{position:absolute;top:3px;left:3px;width:36px;height:26px;border-radius:999px;background:linear-gradient(90deg,rgba(255,47,126,.85),rgba(41,216,255,.6));box-shadow:0 0 14px rgba(255,47,126,.4);transition:transform .3s var(--ease)}
 .lang[data-lang="en"] i{transform:translateX(36px)}
-.cartbtn{
-  position:relative;flex:none;display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 14px;
-  border-radius:999px;border:1px solid rgba(255,47,126,.5);background:rgba(255,47,126,.1);color:#fff;
-  font-size:13px;font-weight:700;transition:box-shadow .25s,background .25s,transform .15s;
-}
-.cartbtn:hover{box-shadow:0 0 22px -2px var(--pink);background:rgba(255,47,126,.2)}
-.cartbtn:active{transform:scale(.96)}
-.cartbtn svg{width:19px;height:19px}
-.cartbtn .badge{
-  min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:var(--pink);color:#fff;
-  font-size:11px;font-weight:800;display:inline-grid;place-items:center;box-shadow:0 0 12px var(--pink);
-}
-.cartbtn .badge[data-n="0"]{background:rgba(255,255,255,.14);box-shadow:none;color:var(--muted)}
-.cartbtn.bump{animation:bump .5s var(--ease)}
-@keyframes bump{30%{transform:scale(1.15);box-shadow:0 0 30px var(--pink)}}
-.cartbtn .lbl{display:none}
 
 /* ---------- HERO ---------- */
 .hero{position:relative;text-align:center;padding:40px 18px 12px}
@@ -266,15 +250,6 @@ body.has-mouse .spot{opacity:1}
 .cfoot{display:flex;align-items:center;justify-content:space-between;gap:8px}
 .price{font-weight:800;font-size:16px;color:var(--gold);white-space:nowrap;text-shadow:0 0 16px rgba(255,178,56,.4)}
 .price small{font-size:11px;font-weight:600;color:var(--muted);margin-left:4px;text-shadow:none}
-.add{
-  flex:none;width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,47,126,.6);background:rgba(255,47,126,.14);color:#fff;display:grid;place-items:center;
-  transition:transform .15s,background .2s,box-shadow .25s;
-}
-.add svg{width:18px;height:18px;transition:transform .35s var(--ease)}
-.add:hover{background:var(--pink);box-shadow:0 0 22px -2px var(--pink)}
-.add:hover svg{transform:rotate(90deg)}
-.add:active{transform:scale(.88)}
-.add.done{background:#1fd68f;border-color:#1fd68f;box-shadow:0 0 22px -2px #1fd68f}
 
 /* tarjeta combo */
 .deal{grid-column:1/-1}
@@ -306,7 +281,6 @@ body.has-mouse .spot{opacity:1}
 .rname{font-weight:600;font-size:15px}
 .rdesc{font-size:12.5px;color:var(--muted);margin-top:2px;max-width:56ch}
 .rright{display:flex;align-items:center;gap:12px;flex:none}
-.row .add{width:34px;height:34px}
 .cols2{display:grid;gap:0 36px}
 @media(min-width:860px){.cols2{grid-template-columns:1fr 1fr}}
 
@@ -318,14 +292,9 @@ body.has-mouse .spot{opacity:1}
 .liq.head:hover{background:none}
 .liq.head span+span{text-align:center}
 .liq .nm{font-weight:600;font-size:14px}
-.pb{
-  justify-self:end;min-width:0;padding:7px 8px;border-radius:10px;border:1px solid var(--line);background:rgba(255,255,255,.03);color:var(--gold);font-weight:700;font-size:12.5px;
-  transition:border-color .2s,background .2s,box-shadow .25s,transform .12s;width:100%;
-}
-.pb:hover:not(:disabled){border-color:var(--pink);background:rgba(255,47,126,.15);color:#fff;box-shadow:0 0 18px -4px var(--pink)}
-.pb:active:not(:disabled){transform:scale(.94)}
-.pb:disabled{border-color:transparent;background:none;color:#4d4a58;cursor:default}
-@media(max-width:480px){.liq{gap:5px}.pb{padding:7px 3px;font-size:11.5px}.liq .nm{font-size:13px}}
+.pp{justify-self:center;color:var(--gold);font-weight:700;font-size:13px;text-shadow:0 0 14px rgba(255,178,56,.35)}
+.pp.none{color:#4d4a58;text-shadow:none}
+@media(max-width:480px){.liq{gap:5px}.pp{font-size:11.5px}.liq .nm{font-size:13px}}
 
 /* ---------- GRANIZADO A TU MEDIDA ---------- */
 .builder{
@@ -420,74 +389,16 @@ footer .tag{font-family:'Bebas Neue',sans-serif;font-size:30px;letter-spacing:.1
 .mhead h3{margin:0;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:36px;line-height:1.05;letter-spacing:.04em;color:#fff;text-shadow:0 0 16px rgba(255,47,126,.4)}
 .mhead .price{font-size:22px;padding-top:6px}
 .mdesc{margin:6px 0 0;color:var(--muted);font-size:14px;line-height:1.6}
-.mopts{margin-top:16px}
-.mopts .lbl{font-size:10.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan);margin-bottom:8px}
-.mopts .chips{display:flex;flex-wrap:wrap;gap:7px}
-.mfoot{display:flex;align-items:center;gap:12px;margin-top:20px}
-.qty{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.04)}
-.qty button{width:40px;height:44px;border:0;background:none;font-size:20px;border-radius:999px;transition:background .2s,color .2s}
-.qty button:hover{background:rgba(255,47,126,.2);color:#fff}
-.qty output{min-width:26px;text-align:center;font-weight:800}
-.mfoot .btn{flex:1;padding:14px 18px}
 
-/* ---------- CARRITO ---------- */
-.drawer{
-  position:fixed;top:0;right:0;bottom:0;z-index:90;width:min(430px,100vw);display:flex;flex-direction:column;
-  background:linear-gradient(180deg,rgba(22,20,30,.99),rgba(9,9,13,.99));border-left:1px solid rgba(255,255,255,.12);
-  box-shadow:-30px 0 80px -20px rgba(0,0,0,.8),-1px 0 40px -14px var(--pink);
-  transform:translateX(104%);visibility:hidden;transition:transform .5s var(--ease),visibility .5s;
-}
-.drawer.show{transform:none;visibility:visible}
-.dhead{display:flex;align-items:center;justify-content:space-between;padding:20px 22px 14px;border-bottom:1px solid var(--line)}
-.dhead h3{margin:0;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:32px;letter-spacing:.06em;color:#fff;text-shadow:0 0 16px rgba(255,47,126,.5)}
-.dclose{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:rgba(255,255,255,.05);font-size:20px;display:grid;place-items:center}
-.dclose:hover{background:rgba(255,47,126,.4)}
-.dlist{flex:1;overflow:auto;padding:6px 22px}
-.dempty{text-align:center;color:var(--muted);padding:60px 10px;font-size:14px}
-.dempty .big{font-family:'Bebas Neue',sans-serif;font-size:30px;color:#fff;text-shadow:0 0 16px var(--g-pink);margin-bottom:6px}
-.line{display:grid;grid-template-columns:1fr auto;gap:4px 12px;padding:14px 0;border-bottom:1px solid var(--line);animation:lineIn .4s var(--ease)}
-@keyframes lineIn{from{opacity:0;transform:translateX(16px)}}
-.line .n{font-weight:600;font-size:14.5px}
-.line .v{font-size:12px;color:var(--cyan)}
-.line .lp{font-weight:800;color:var(--gold);text-align:right}
-.line .ctl{display:flex;align-items:center;gap:8px;grid-column:1/-1}
-.mini{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:999px}
-.mini button{width:30px;height:30px;border:0;background:none;border-radius:999px;font-size:16px}
-.mini button:hover{background:rgba(255,47,126,.25)}
-.mini output{min-width:22px;text-align:center;font-size:13px;font-weight:700}
-.rm{margin-left:auto;background:none;border:0;color:var(--muted);font-size:12px;text-decoration:underline;text-underline-offset:3px}
-.rm:hover{color:var(--pink)}
-.dfoot{padding:16px 22px 22px;border-top:1px solid var(--line);background:rgba(0,0,0,.25)}
-.total{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px}
-.total span{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:700}
-.total b{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:38px;color:var(--gold);text-shadow:0 0 20px rgba(255,178,56,.5)}
-.fld{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
-.fld input,.fld select{width:100%;height:42px;padding:0 12px;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.05);color:var(--ink);font:inherit;font-size:13px}
-.fld select option{background:#14131b}
-.fld input:focus,.fld select:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 3px rgba(41,216,255,.12)}
-.dact{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.dact .btn{padding:12px 10px;font-size:11.5px}
-.dact .full{grid-column:1/-1}
-.dfine{margin:10px 0 0;font-size:11px;color:var(--muted);text-align:center}
-.btn.wa{background:#1fd68f;color:#04130c;box-shadow:0 8px 26px -10px #1fd68f}
-.btn.wa:hover{box-shadow:0 0 30px -4px #1fd68f}
-
-/* ---------- TOAST + ARRIBA ---------- */
-.toast{
-  position:fixed;left:50%;bottom:22px;z-index:100;display:flex;align-items:center;gap:12px;max-width:calc(100vw - 32px);
-  padding:11px 12px 11px 18px;border-radius:999px;background:rgba(18,16,26,.96);border:1px solid rgba(255,47,126,.55);font-size:13px;font-weight:600;
-  box-shadow:0 14px 40px -10px rgba(0,0,0,.8),0 0 30px -6px var(--pink);transform:translate(-50%,160%);transition:transform .5s var(--ease)
-}
-.toast.show{transform:translate(-50%,0)}
-.toast button{border:0;border-radius:999px;padding:6px 12px;background:var(--pink);color:#fff;font-size:12px;font-weight:800;letter-spacing:.04em}
+/* ---------- ARRIBA ---------- */
 .top{position:fixed;right:18px;bottom:18px;z-index:45;width:46px;height:46px;border-radius:50%;border:1px solid rgba(255,47,126,.5);background:rgba(8,8,12,.8);color:#fff;font-size:18px;
   box-shadow:0 0 24px -6px var(--pink);opacity:0;transform:translateY(14px);pointer-events:none;transition:opacity .3s,transform .3s var(--ease),background .2s}
 .top.show{opacity:1;transform:none;pointer-events:auto}
 .top:hover{background:var(--pink)}
-body.cart-open .top,body.modal-open .top{display:none}
+body.modal-open .top{display:none}
 
 /* ---------- RESPONSIVE ---------- */
-@media(min-width:640px){.tb-brand{display:block}.cartbtn .lbl{display:inline}.mtabs{justify-content:center}}
+@media(min-width:640px){.tb-brand{display:block}.mtabs{justify-content:center}}
 @media(max-width:480px){
   .tb{gap:8px;padding:0 12px}.mtab{padding:0 12px;font-size:20px}
   .sec-head h2{font-size:32px}
@@ -527,10 +438,6 @@ noscript{display:block;padding:40px;text-align:center}
         <button type="button" data-l="es" aria-pressed="true">ES</button>
         <button type="button" data-l="en" aria-pressed="false">EN</button>
       </div>
-      <button class="cartbtn" id="cartBtn" type="button" aria-haspopup="dialog">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6h15l-1.6 8.2a2 2 0 0 1-2 1.6H8.4a2 2 0 0 1-2-1.6L4.2 3H2"/><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/></svg>
-        <span class="lbl" data-i18n="myOrder">Mi pedido</span><span class="badge" id="cartCount" data-n="0">0</span>
-      </button>
     </div>
   </header>
 
@@ -605,35 +512,9 @@ noscript{display:block;padding:40px;text-align:center}
     <div class="mbody">
       <div class="mhead"><h3 id="mTitle"></h3><div class="price" id="mPrice"></div></div>
       <p class="mdesc" id="mDesc"></p>
-      <div class="mopts" id="mOpts" hidden></div>
-      <div class="mfoot">
-        <div class="qty"><button type="button" id="qMinus" aria-label="−">−</button><output id="qVal">1</output><button type="button" id="qPlus" aria-label="+">+</button></div>
-        <button class="btn primary" id="mAdd" type="button"></button>
-      </div>
-    </div>
   </div>
 </div>
 
-<!-- CARRITO -->
-<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="dTitle" aria-hidden="true">
-  <div class="dhead"><h3 id="dTitle" data-i18n="myOrder">Mi pedido</h3><button class="dclose" id="dClose" type="button" aria-label="Cerrar">×</button></div>
-  <div class="dlist" id="dList"></div>
-  <div class="dfoot" id="dFoot">
-    <div class="total"><span data-i18n="total">Total</span><b id="dTotal">$0</b></div>
-    <div class="fld">
-      <select id="fSede" aria-label="Sede"></select>
-      <input id="fName" type="text" maxlength="40" autocomplete="name" data-i18n-ph="namePh" placeholder="Nombre o mesa">
-    </div>
-    <div class="dact">
-      <button class="btn wa full" id="bWa" type="button"><span data-i18n="sendWa">Enviar por WhatsApp</span></button>
-      <button class="btn ghost" id="bCopy" type="button" data-i18n="copy">Copiar</button>
-      <button class="btn ghost" id="bClear" type="button" data-i18n="clear">Vaciar</button>
-    </div>
-    <p class="dfine" data-i18n="fine">Muestra este pedido en la mesa o envíalo. El equipo lo confirma contigo.</p>
-  </div>
-</aside>
-
-<div class="toast" id="toast" role="status" aria-live="polite"><span id="toastMsg"></span><button type="button" id="toastBtn"></button></div>
 <button class="top" id="topBtn" type="button" aria-label="Volver arriba">↑</button>
 
 <noscript>Esta carta necesita JavaScript para mostrarse. / This menu needs JavaScript.</noscript>
@@ -645,10 +526,6 @@ noscript{display:block;padding:40px;text-align:center}
 /* =========================================================
    CONFIGURACIÓN
    ========================================================= */
-// Si pones aquí el número de WhatsApp del local (solo dígitos, con indicativo: 573001234567),
-// el botón "Enviar por WhatsApp" abrirá directo ese chat. Vacío = el cliente elige el contacto.
-const WHATSAPP_NUMBER = '';
-
 const HOURS = {open: 14*60+30, close: 24*60};   // 2:30 PM – 12:00 AM, todos los días
 const TZ = 'America/Bogota';
 
@@ -768,11 +645,10 @@ X('ml','choco',['Chocoramo','Chocoramo'],null,22000,'malteada-chocoramo');
 X('ml','oreo',['Oreo','Oreo'],null,18000,'malteada-oreo');
 
 // Comidas
-const PROT = [['Camarón apanado','Breaded shrimp'],['Camarón cevichado','Ceviche shrimp'],['Pollo crocante','Crispy chicken'],['Palmito apanado','Breaded palmito'],['Chicharrón acevichado','Ceviche-style pork'],['Tocino ahumado','Smoked bacon']];
 const PROT_DESC = ['Elige 1 proteína: camarón apanado, camarón cevichado, pollo crocante, palmito apanado, chicharrón acevichado o tocino ahumado.','Choose 1 protein: breaded shrimp, ceviche shrimp, crispy chicken, breaded palmito, ceviche-style pork or smoked bacon.'];
 X('f-combo','combo',['Combo Ceviche','Ceviche combo'],['Ceviche Fukuoka + granizado tradicional + margarita.','Fukuoka ceviche + traditional slush + margarita.'],79000,'ceviche-fukuoka',{deal:['ceviche-fukuoka','granizado-tradicional','margarita']});
-X('f-rap','perr',['Perritos','Hot dogs'],PROT_DESC,11000,'perritos',{opts:PROT});
-X('f-rap','ham',['Hamburguesas','Burgers'],PROT_DESC,13000,'hamburguesas',{opts:PROT});
+X('f-rap','perr',['Perritos','Hot dogs'],PROT_DESC,11000,'perritos');
+X('f-rap','ham',['Hamburguesas','Burgers'],PROT_DESC,13000,'hamburguesas');
 X('f-ent','palm',['Palmito apanado','Breaded palmito'],['Palmito apanado en queso parmesano, relleno de queso crema, bañado en salsa teriyaki y blanca de la casa, coronado con cebolla puerro crocante caramelizada.','Parmesan-breaded palmito filled with cream cheese, covered in teriyaki and house white sauce, topped with caramelized crispy leek.'],25000,'palmito');
 X('f-ent','cal',['Calamar apanado','Breaded calamari'],['Calamar apanado en queso parmesano, bañado en salsa teriyaki, chile y blanca de la casa, acompañado con pasta japonesa crocante y cebolla puerro crocante caramelizada.','Parmesan-breaded calamari with teriyaki, chili and house white sauce, served with crispy Japanese noodles and caramelized crispy leek.'],25000,'calamar-apanado');
 const BAO = ['Queso crema, cebolla dulce, salsa pique y teriyaki de la casa. Terminado con coco crocante caramelizado y brotes.','Cream cheese, sweet onion, house chili sauce and teriyaki. Finished with caramelized crispy coconut and sprouts.'];
@@ -806,25 +682,19 @@ const SEDES = [
    TEXTOS DE LA INTERFAZ
    ========================================================= */
 const UI = {
-  es:{tabMenu:'Menú',tabInfo:'Información',myOrder:'Mi pedido',ctaMenu:'Ver la carta',ctaSedes:'Nuestras sedes',searchLabel:'Buscar en la carta',searchPh:'Busca un trago, un sushi, un sabor…',surprise:'Sorpréndeme',
-    sedesTitle:'Nuestras sedes',address:'Dirección',hours:'Horario',hoursV:'Lunes a domingo: 2:30 PM – 12:00 AM',how:'Cómo llegar',map:'Ver mapa',hideMap:'Ocultar mapa',orderHere:'Pedir aquí',
-    total:'Total',namePh:'Nombre o mesa',sendWa:'Enviar por WhatsApp',copy:'Copiar',clear:'Vaciar',fine:'Muestra este pedido en la mesa o envíalo. El equipo lo confirma contigo.',
-    emptyCart:'Tu pedido está vacío',emptyCartSub:'Toca el + de cualquier producto para armarlo aquí.',remove:'Quitar',add:'Agregar',addTo:'Agregar al pedido',added:'añadido',viewOrder:'Ver pedido',copied:'Pedido copiado',
+  es:{tabMenu:'Menú',tabInfo:'Información',ctaMenu:'Ver la carta',ctaSedes:'Nuestras sedes',searchLabel:'Buscar en la carta',searchPh:'Busca un trago, un sushi, un sabor…',surprise:'Sorpréndeme',
+    sedesTitle:'Nuestras sedes',address:'Dirección',hours:'Horario',hoursV:'Lunes a domingo: 2:30 PM – 12:00 AM',how:'Cómo llegar',map:'Ver mapa',hideMap:'Ocultar mapa',
     openNow:'Abierto ahora · cierra 12:00 AM',opensAt:'Abrimos hoy a las 2:30 PM',openB:'Abierto',closedB:'Cerrado · abre 2:30 PM',
     results:(n,q)=>`${n} resultado${n===1?'':'s'} para «${q}»`,noRes:'Nada por aquí',noResSub:'Prueba con otra palabra: margarita, mango, ceviche…',
-    sizesAlt:'Tamaños de granizados',build:'Granizado a tu medida',buildLede:'Elige el estilo y el tamaño. El precio se calcula solo.',tip:'Elige 3 toppings a tu gusto',chooseProt:'Elige tu proteína',
-    surpriseToast:'Hoy te toca',greet:'Hola El Coctelazo 👋 Quiero hacer este pedido',sede:'Sede',who:'A nombre de / mesa',noteApprox:'Valores en pesos colombianos.',
-    close:'Cerrar',top:'Volver arriba',newb:'NUEVO',comboTag:'Combo especial',unit:'c/u',from:'desde',shareTitle:'Mi pedido en El Coctelazo',trago:'Trago',media:'Media',botella:'Botella',
+    sizesAlt:'Tamaños de granizados',build:'Granizado a tu medida',buildLede:'Elige el estilo y el tamaño. El precio se calcula solo.',tip:'Elige 3 toppings a tu gusto',
+    close:'Cerrar',top:'Volver arriba',newb:'NUEVO',comboTag:'Combo especial',unit:'c/u',from:'desde',trago:'Trago',media:'Media',botella:'Botella',
     comboTagline:'Ahorra combinando'},
-  en:{tabMenu:'Menu',tabInfo:'Information',myOrder:'My order',ctaMenu:'See the menu',ctaSedes:'Our locations',searchLabel:'Search the menu',searchPh:'Search a drink, a sushi, a flavor…',surprise:'Surprise me',
-    sedesTitle:'Our locations',address:'Address',hours:'Hours',hoursV:'Monday to Sunday: 2:30 PM – 12:00 AM',how:'Get directions',map:'Show map',hideMap:'Hide map',orderHere:'Order here',
-    total:'Total',namePh:'Name or table',sendWa:'Send via WhatsApp',copy:'Copy',clear:'Clear',fine:'Show this order at your table or send it. The team will confirm it with you.',
-    emptyCart:'Your order is empty',emptyCartSub:'Tap the + on any product to build it here.',remove:'Remove',add:'Add',addTo:'Add to order',added:'added',viewOrder:'View order',copied:'Order copied',
+  en:{tabMenu:'Menu',tabInfo:'Information',ctaMenu:'See the menu',ctaSedes:'Our locations',searchLabel:'Search the menu',searchPh:'Search a drink, a sushi, a flavor…',surprise:'Surprise me',
+    sedesTitle:'Our locations',address:'Address',hours:'Hours',hoursV:'Monday to Sunday: 2:30 PM – 12:00 AM',how:'Get directions',map:'Show map',hideMap:'Hide map',
     openNow:'Open now · closes 12:00 AM',opensAt:'We open today at 2:30 PM',openB:'Open',closedB:'Closed · opens 2:30 PM',
     results:(n,q)=>`${n} result${n===1?'':'s'} for “${q}”`,noRes:'Nothing here',noResSub:'Try another word: margarita, mango, ceviche…',
-    sizesAlt:'Slush sizes',build:'Build your slush',buildLede:'Pick the style and the size. The price updates by itself.',tip:'Choose 3 toppings of your liking',chooseProt:'Choose your protein',
-    surpriseToast:'Tonight it’s',greet:'Hi El Coctelazo 👋 I’d like to order this',sede:'Location',who:'Name / table',noteApprox:'Prices in Colombian pesos.',
-    close:'Close',top:'Back to top',newb:'NEW',comboTag:'Special combo',unit:'each',from:'from',shareTitle:'My order at El Coctelazo',trago:'Shot',media:'Half',botella:'Bottle',
+    sizesAlt:'Slush sizes',build:'Build your slush',buildLede:'Pick the style and the size. The price updates by itself.',tip:'Choose 3 toppings of your liking',
+    close:'Close',top:'Back to top',newb:'NEW',comboTag:'Special combo',unit:'each',from:'from',trago:'Shot',media:'Half',botella:'Bottle',
     comboTagline:'Save by combining'}
 };
 
@@ -842,8 +712,7 @@ const store = {
   set(k,v){try{localStorage.setItem(k,v)}catch(e){}}
 };
 
-const state = {lang: store.get('coctelazo-language')==='en'?'en':'es', view:'menu', cat:'granizados', q:'', cart:[], gb:{type:0,size:1}, modal:null};
-try{ state.cart = JSON.parse(store.get('coctelazo-cart-v2')||'[]').filter(l=>l&&(BY_ID[l.id]||String(l.id).startsWith('gran-'))); }catch(e){ state.cart=[]; }
+const state = {lang: store.get('coctelazo-language')==='en'?'en':'es', view:'menu', cat:'granizados', q:'', gb:{type:0,size:1}, modal:null};
 
 const t = k => UI[state.lang][k];
 const nm = i => i[state.lang];
@@ -876,27 +745,20 @@ function cardHTML(it, idx){
   }
   const badge = sub.isNew ? `<span class="chiptag">${t('newb')}</span>` : '';
   const price = money(it.price) + (it.unit?` <small>${it.unit}</small>`:'');
-  const addBtn = it.opts
-    ? `<button class="add" type="button" data-act="open" data-id="${it.id}" aria-label="${esc(t('chooseProt'))}">${ICON.plus}</button>`
-    : `<button class="add" type="button" data-act="add" data-id="${it.id}" aria-label="${esc(t('add'))} ${esc(nm(it))}">${ICON.plus}</button>`;
   const tagline = it.deal ? `<span class="tagline">${t('comboTag')}</span>` : '';
-  const body = `<div class="cbody">${tagline}<h3>${esc(nm(it))}</h3><p>${esc(ds(it))}</p><div class="cfoot"><span class="price">${price}</span>${addBtn}</div></div>`;
+  const body = `<div class="cbody">${tagline}<h3>${esc(nm(it))}</h3><p>${esc(ds(it))}</p><div class="cfoot"><span class="price">${price}</span></div></div>`;
   return `<div class="cell${it.deal?' deal':''}"><article class="card${v}${hasImg||it.deal?'':' noimg'}" data-tilt="${it.deal?5:11}" data-act="open" data-id="${it.id}" tabindex="0" role="button" aria-label="${esc(nm(it))}">${badge}<div class="glare"></div>${stage}${body}</article></div>`;
 }
 
 function rowHTML(it){
   const price = money(it.price);
-  const plus = it.opts ? 'open' : 'add';
   return `<div class="row" data-act="open" data-id="${it.id}" tabindex="0" role="button">
     <div><div class="rname">${esc(nm(it))}</div>${ds(it)?`<div class="rdesc">${esc(ds(it))}</div>`:''}</div>
-    <div class="rright"><span class="price">${price}</span><button class="add" type="button" data-act="${plus}" data-id="${it.id}" aria-label="${esc(t('add'))} ${esc(nm(it))}">${ICON.plus}</button></div></div>`;
+    <div class="rright"><span class="price">${price}</span></div></div>`;
 }
 
 function liqHTML(it){
-  const labs = ['trago','media','botella'];
-  const btns = it.prices.map((p,i)=> p==null
-    ? `<button class="pb" type="button" disabled aria-label="${t(labs[i])}: —">—</button>`
-    : `<button class="pb" type="button" data-act="addv" data-id="${it.id}" data-v="${i}" aria-label="${esc(nm(it))} · ${t(labs[i])} ${money(p)}">${money(p)}</button>`).join('');
+  const btns = it.prices.map(p=> p==null ? `<span class="pp none" aria-label="—">—</span>` : `<span class="pp">${money(p)}</span>`).join('');
   return `<div class="liq"><div class="nm">${esc(nm(it))}</div>${btns}</div>`;
 }
 const liqHead = () => `<div class="liq head"><span></span><span>${t('trago')}</span><span>${t('media')}</span><span>${t('botella')}</span></div>`;
@@ -920,7 +782,7 @@ function builderHTML(){
       <h3>${t('build')}</h3><p class="lede">${t('buildLede')}</p>
       <div class="seg" role="radiogroup" aria-label="${esc(t('build'))}">${GTYPES.map((x,i)=>`<button type="button" role="radio" aria-checked="${i===g.type}" data-act="gtype" data-i="${i}">${pick(x)}</button>`).join('')}</div>
       <div class="sizes" role="radiogroup">${GSIZES.map((s,i)=>`<button class="size" type="button" role="radio" aria-checked="${i===g.size}" data-act="gsize" data-i="${i}"><b>${pick(s)}</b><span>${money(ty.p[i])}</span></button>`).join('')}</div>
-      <div class="bprice"><div class="big" id="bBig" data-v="${ty.p[g.size]}">${money(ty.p[g.size])}</div><button class="btn primary" type="button" data-act="gadd">${ICON.plus.replace('<svg','<svg width="16" height="16"')} ${t('addTo')}</button></div>
+      <div class="bprice"><div class="big" id="bBig" data-v="${ty.p[g.size]}">${money(ty.p[g.size])}</div></div>
       <p class="tip">${t('tip')}</p>
     </div></div>
     <div class="sizesimg" data-tilt="8"><img src="img/tamanos-granizado.webp" alt="${esc(t('sizesAlt'))}" loading="lazy" decoding="async"></div>`;
@@ -988,7 +850,6 @@ function renderSedes(){
       <div class="sede-actions">
         <a class="btn ghost" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=${q}">${t('how')} →</a>
         <button class="btn ghost" type="button" data-act="map" data-i="${i}">${t('map')}</button>
-        <button class="btn primary" type="button" data-act="sede" data-i="${i}">${t('orderHere')}</button>
       </div>
       <div class="mapbox" id="map-${i}" data-q="${q}"></div></article>`;
   }).join('');
@@ -1016,16 +877,13 @@ function applyI18n(){
   $$('[data-i18n-ph]').forEach(el=>{ el.placeholder=t(el.dataset.i18nPh); });
   $('#lang').dataset.lang = state.lang;
   $$('#lang button').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.l===state.lang)));
-  $('#mClose').setAttribute('aria-label',t('close')); $('#dClose').setAttribute('aria-label',t('close'));
+  $('#mClose').setAttribute('aria-label',t('close'));
   $('#topBtn').setAttribute('aria-label',t('top')); $('#topBtn').title=t('top');
-  $('#mAdd').textContent = t('addTo');
-  $('#toastBtn').textContent = t('viewOrder');
   $('#qClear').setAttribute('aria-label', state.lang==='en'?'Clear search':'Limpiar búsqueda');
-  $('#cartBtn').setAttribute('aria-label', t('myOrder'));
 }
 
 function renderAll(){
-  applyI18n(); renderStatus(); renderCatNav(); renderMenu(); renderSedes(); renderCart(); fillSedeSelect();
+  applyI18n(); renderStatus(); renderCatNav(); renderMenu(); renderSedes();
   if (state.modal) openModal(state.modal.id, {keep:true});
 }
 
@@ -1061,66 +919,13 @@ function route(){
 }
 
 /* =========================================================
-   PEDIDO
-   ========================================================= */
-const lineKey = (id,v) => id+'|'+(v??'');
-function saveCart(){ store.set('coctelazo-cart-v2', JSON.stringify(state.cart)); }
-function cartCount(){ return state.cart.reduce((n,l)=>n+l.qty,0); }
-function cartTotal(){ return state.cart.reduce((n,l)=>n+l.qty*l.price,0); }
-
-function addLine({id,name,variant=null,price,qty=1}){
-  const key = lineKey(id, variant?variant.es:'');
-  const ex = state.cart.find(l=>l.key===key);
-  if (ex) ex.qty += qty; else state.cart.push({key,id,name,variant,price,qty});
-  saveCart(); renderCart();
-  const b = $('#cartBtn'); b.classList.remove('bump'); void b.offsetWidth; b.classList.add('bump');
-  toast(`${name[state.lang]}${variant?' · '+variant[state.lang]:''} — ${t('added')}`);
-}
-function addItem(id, qty=1, optIdx=null){
-  const it = BY_ID[id]; if (!it) return;
-  let variant = null;
-  if (it.opts && optIdx!=null) variant = {es:it.opts[optIdx][0],en:it.opts[optIdx][1]};
-  addLine({id, name:{es:it.es,en:it.en}, variant, price:it.price, qty});
-}
-function addLiq(id, vi){
-  const it = BY_ID[id]; const labs=[['Trago','Shot'],['Media','Half'],['Botella','Bottle']][vi];
-  addLine({id, name:{es:it.es,en:it.en}, variant:{es:labs[0],en:labs[1]}, price:it.prices[vi]});
-}
-
-function renderCart(){
-  const n = cartCount(); const badge = $('#cartCount');
-  badge.textContent = n; badge.dataset.n = n;
-  const list = $('#dList');
-  if (!state.cart.length){
-    list.innerHTML = `<div class="dempty"><div class="big">${t('emptyCart')}</div>${t('emptyCartSub')}</div>`;
-  } else {
-    list.innerHTML = state.cart.map((l,i)=>`<div class="line"><div><div class="n">${esc(l.name[state.lang])}</div>${l.variant?`<div class="v">${esc(l.variant[state.lang])}</div>`:''}</div><div class="lp">${money(l.price*l.qty)}</div>
-      <div class="ctl"><div class="mini"><button type="button" data-act="dec" data-i="${i}" aria-label="−">−</button><output>${l.qty}</output><button type="button" data-act="inc" data-i="${i}" aria-label="+">+</button></div><button class="rm" type="button" data-act="rm" data-i="${i}">${t('remove')}</button></div></div>`).join('');
-  }
-  $('#dTotal').textContent = money(cartTotal());
-  $('#dFoot').style.display = state.cart.length ? '' : 'none';
-}
-
-function fillSedeSelect(){
-  const sel = $('#fSede'); const cur = sel.value || store.get('coctelazo-sede') || '';
-  sel.innerHTML = SEDES.map(s=>`<option value="${esc(s.n)}">${t('sede')}: ${esc(s.n)}</option>`).join('');
-  if (cur && SEDES.some(s=>s.n===cur)) sel.value = cur;
-}
-
-function orderText(){
-  const lines = state.cart.map(l=>`• ${l.qty}× ${l.name[state.lang]}${l.variant?` (${l.variant[state.lang]})`:''} — ${money(l.price*l.qty)}`);
-  const who = $('#fName').value.trim();
-  return [`${t('greet')}:`, '', ...lines, '', `${t('total')}: ${money(cartTotal())}`, `${t('sede')}: ${$('#fSede').value}`, who?`${t('who')}: ${who}`:'', `(${t('noteApprox')})`].filter((x,i,a)=>x!==''||a[i-1]!=='').join('\n');
-}
-
-/* =========================================================
    MODAL DE PRODUCTO
    ========================================================= */
-let lastFocus=null, mOpt=0, mQty=1;
+let lastFocus=null;
 function openModal(id, {keep=false}={}){
   const it = BY_ID[id]; if (!it) return;
   state.modal = it;
-  if (!keep){ mOpt=0; mQty=1; lastFocus=document.activeElement; }
+  if (!keep) lastFocus=document.activeElement;
   $('#mTitle').textContent = nm(it);
   const pr = it.prices ? null : it.price;
   $('#mPrice').textContent = pr!=null ? money(pr)+(it.unit?' '+it.unit:'') : '';
@@ -1130,13 +935,6 @@ function openModal(id, {keep=false}={}){
   if (it.deal) pic.innerHTML = it.deal.map(d=>`<img src="img/${d}.webp" alt="" style="position:absolute;bottom:10%;width:46%;${d===it.deal[0]?'left:0;transform:rotate(-8deg)':d===it.deal[1]?'left:27%;z-index:2;bottom:20%':'right:0;transform:rotate(7deg)'}">`).join('');
   else if (it.img) pic.innerHTML = `<img src="${it.img}" alt="${esc(nm(it))}">`;
   else pic.innerHTML = `<div class="glyph" style="position:static;transform:none"><div style="width:120px;color:var(--pink);filter:drop-shadow(0 0 14px var(--g-pink))">${it.glyph==='roll'?ICON.roll:ICON.glass}</div></div>`;
-  const opts = $('#mOpts');
-  if (it.opts){
-    opts.hidden=false;
-    opts.innerHTML = `<div class="lbl">${t('chooseProt')}</div><div class="chips" role="radiogroup">${it.opts.map((o,i)=>`<button class="chip${i===mOpt?' on':''}" type="button" role="radio" aria-checked="${i===mOpt}" data-act="opt" data-i="${i}">${esc(o[state.lang==='en'?1:0])}</button>`).join('')}</div>`;
-  } else { opts.hidden=true; opts.innerHTML=''; }
-  $('#qVal').textContent = mQty;
-  $('#mAdd').style.display = it.prices ? 'none' : '';
   $('#modal').classList.add('show'); $('#scrim').classList.add('show');
   $('#modal').setAttribute('aria-hidden','false');
   document.body.classList.add('locked','modal-open');
@@ -1145,30 +943,8 @@ function openModal(id, {keep=false}={}){
 function closeModal(){
   state.modal=null;
   $('#modal').classList.remove('show'); $('#modal').setAttribute('aria-hidden','true');
-  if (!$('#drawer').classList.contains('show')){ $('#scrim').classList.remove('show'); document.body.classList.remove('locked'); }
-  document.body.classList.remove('modal-open');
+  $('#scrim').classList.remove('show'); document.body.classList.remove('locked','modal-open');
   lastFocus?.focus?.({preventScroll:true});
-}
-function openDrawer(){
-  closeModal();
-  $('#drawer').classList.add('show'); $('#drawer').setAttribute('aria-hidden','false'); $('#scrim').classList.add('show');
-  document.body.classList.add('locked','cart-open'); lastFocus=$('#cartBtn');
-  setTimeout(()=>$('#dClose').focus(),80);
-}
-function closeDrawer(){
-  $('#drawer').classList.remove('show'); $('#drawer').setAttribute('aria-hidden','true');
-  $('#scrim').classList.remove('show'); document.body.classList.remove('locked','cart-open');
-  lastFocus?.focus?.({preventScroll:true});
-}
-
-/* =========================================================
-   TOAST
-   ========================================================= */
-let toastT;
-function toast(msg){
-  $('#toastMsg').textContent = msg;
-  const el=$('#toast'); el.classList.add('show');
-  clearTimeout(toastT); toastT=setTimeout(()=>el.classList.remove('show'),2600);
 }
 
 /* =========================================================
@@ -1177,24 +953,12 @@ function toast(msg){
 document.addEventListener('click', e=>{
   const el = e.target.closest('[data-act]'); if (!el) return;
   const act = el.dataset.act, id = el.dataset.id, i = +el.dataset.i;
-  if (act==='add'){ e.stopPropagation(); addItem(id); flash(el); return; }
-  if (act==='open'){ if (e.target.closest('.add') && el.classList.contains('card')) return; openModal(id); return; }
-  if (act==='addv'){ addLiq(id,+el.dataset.v); return; }
+  if (act==='open'){ openModal(id); return; }
   if (act==='gtype'){ state.gb.type=i; updateBuilder(); return; }
   if (act==='gsize'){ state.gb.size=i; updateBuilder(); return; }
-  if (act==='gadd'){
-    const ty=GTYPES[state.gb.type], sz=GSIZES[state.gb.size];
-    addLine({id:'gran-'+state.gb.type+'-'+state.gb.size, name:{es:'Granizado tradicional',en:'Traditional slush'}, variant:{es:`${ty.es} · ${sz.es}`,en:`${ty.en} · ${sz.en}`}, price:ty.p[state.gb.size]}); return;
-  }
   if (act==='food'){ e.preventDefault(); history.replaceState(null,'','#'+el.dataset.a); $('#'+el.dataset.a)?.scrollIntoView({behavior:'smooth',block:'start'}); return; }
-  if (act==='opt'){ mOpt=i; $$('#mOpts .chip').forEach((c,k)=>{c.classList.toggle('on',k===i);c.setAttribute('aria-checked',String(k===i));}); return; }
-  if (act==='inc'){ state.cart[i].qty++; saveCart(); renderCart(); return; }
-  if (act==='dec'){ state.cart[i].qty--; if (state.cart[i].qty<=0) state.cart.splice(i,1); saveCart(); renderCart(); return; }
-  if (act==='rm'){ state.cart.splice(i,1); saveCart(); renderCart(); return; }
   if (act==='map'){ toggleMap(i,el); return; }
-  if (act==='sede'){ store.set('coctelazo-sede',SEDES[i].n); $('#fSede').value=SEDES[i].n; openDrawer(); return; }
 });
-function flash(btn){ btn.classList.add('done'); setTimeout(()=>btn.classList.remove('done'),700); }
 function updateBuilder(){
   const b=$('#builder'); if(!b) return;
   const ty=GTYPES[state.gb.type]; b.dataset.type=state.gb.type;
@@ -1253,13 +1017,13 @@ $('#qClear').addEventListener('click',()=>{ qIn.value=''; state.q=''; $('#search
 document.addEventListener('keydown',e=>{
   if (e.key==='/' && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)){ e.preventDefault(); setView('menu',{scroll:false}); qIn.focus(); }
   if (e.key==='Escape'){
-    if (state.modal) closeModal(); else if ($('#drawer').classList.contains('show')) closeDrawer();
+    if (state.modal) closeModal();
     else if (document.activeElement===qIn && qIn.value){ $('#qClear').click(); }
   }
   if (e.key==='Tab'){ trap(e); }
 });
 function trap(e){
-  const host = state.modal ? $('#mpanel') : $('#drawer').classList.contains('show') ? $('#drawer') : null; if(!host) return;
+  const host = state.modal ? $('#mpanel') : null; if(!host) return;
   const f = $$('button:not([disabled]),input,select,a[href],[tabindex="0"]',host).filter(x=>x.offsetParent!==null); if(!f.length) return;
   const first=f[0], last=f[f.length-1];
   if (e.shiftKey && document.activeElement===first){ e.preventDefault(); last.focus(); }
@@ -1270,34 +1034,13 @@ function trap(e){
 $('#surprise').addEventListener('click',()=>{
   const pool = ITEMS.filter(i=>i.img && ['casa','chupitos','malteadas','comidas','granizados'].includes(i.cat) && !i.deal);
   const it = pool[Math.floor(Math.random()*pool.length)];
-  toast(`${t('surpriseToast')}: ${nm(it)} ✨`);
   openModal(it.id);
 });
 
 /* modal */
 $('#mClose').addEventListener('click',closeModal);
-$('#scrim').addEventListener('click',()=>{ if(state.modal) closeModal(); else closeDrawer(); });
+$('#scrim').addEventListener('click',closeModal);
 $('#modal').addEventListener('click',e=>{ if(e.target.id==='modal') closeModal(); });
-$('#qMinus').addEventListener('click',()=>{ mQty=Math.max(1,mQty-1); $('#qVal').textContent=mQty; });
-$('#qPlus').addEventListener('click',()=>{ mQty=Math.min(20,mQty+1); $('#qVal').textContent=mQty; });
-$('#mAdd').addEventListener('click',()=>{ const it=state.modal; if(!it) return; addItem(it.id,mQty,it.opts?mOpt:null); closeModal(); });
-
-/* carrito */
-$('#cartBtn').addEventListener('click',openDrawer);
-$('#dClose').addEventListener('click',closeDrawer);
-$('#toastBtn').addEventListener('click',()=>{ $('#toast').classList.remove('show'); openDrawer(); });
-$('#fSede').addEventListener('change',e=>store.set('coctelazo-sede',e.target.value));
-$('#bClear').addEventListener('click',()=>{ state.cart=[]; saveCart(); renderCart(); });
-$('#bCopy').addEventListener('click',async()=>{
-  const txt=orderText();
-  try{ await navigator.clipboard.writeText(txt); }
-  catch(e){ const ta=document.createElement('textarea'); ta.value=txt; document.body.appendChild(ta); ta.select(); try{document.execCommand('copy')}catch(_){} ta.remove(); }
-  toast(t('copied'));
-});
-$('#bWa').addEventListener('click',()=>{
-  const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(orderText())}`;
-  window.open(url,'_blank','noopener');
-});
 
 /* volver arriba */
 const topBtn=$('#topBtn');
