@@ -712,7 +712,7 @@ noscript{display:block;padding:40px;text-align:center}
   <div class="dfoot" id="dFoot">
     <div class="total"><span data-i18n="total">Total</span><b id="dTotal">$0</b></div>
     <div class="seg two dmode" id="dMode" role="radiogroup" aria-label="Tipo de pedido"></div>
-    <div class="dmin" id="dMin" aria-live="polite"><div class="t" id="dMinT"></div><div class="bar"><i id="dMinBar"></i></div></div>
+    <div class="dmin" id="dMin" aria-live="polite"><div class="t" id="dMinT"></div><div class="t" id="dMinS"></div><div class="bar"><i id="dMinBar"></i></div></div>
     <div class="fld">
       <select id="fSede" aria-label="Sede"></select>
       <input id="fName" type="text" maxlength="40" autocomplete="name" data-i18n-ph="namePh" placeholder="Nombre o mesa">
@@ -744,6 +744,7 @@ noscript{display:block;padding:40px;text-align:center}
 const WHATSAPP_NUMBER = '573002456331';
 
 const DELIVERY_MIN = 20000;   // pedido mínimo para domicilio (COP)
+const DELIVERY_SEDE = 'Belén La Nubia';   // los domicilios salen únicamente de esta sede (nombre igual al de SEDES)
 const HOURS ={open: 14*60+30, close: 24*60};   // 2:30 PM – 12:00 AM, todos los días
 const TZ = 'America/Bogota';
 
@@ -915,7 +916,7 @@ const UI = {
     myOrder:'Mi pedido',orderHere:'Pedir aquí',total:'Total',namePh:'Nombre o mesa',sendWa:'Enviar por WhatsApp',copy:'Copiar',clear:'Vaciar',fine:'Muestra este pedido en la mesa o envíalo. El equipo lo confirma contigo.',
     emptyCart:'Tu pedido está vacío',emptyCartSub:'Toca el + de cualquier producto para armarlo aquí.',remove:'Quitar',add:'Agregar',addTo:'Agregar al pedido',added:'añadido',viewOrder:'Ver pedido',copied:'Pedido copiado',
     flavor:'Sabor',deliveryM:'Domicilio',pickupM:'Recoger en sede',orderType:'Tipo de pedido',addrPh:'Dirección de entrega (barrio, torre, apto)',namePhD:'Tu nombre',
-    minNeed:(n,m)=>`Pedido mínimo para domicilio: <b>${m}</b>. Te faltan <b>${n}</b>.`,minOk:m=>`Domicilio disponible · mínimo ${m} ✓`,minToast:m=>`El domicilio requiere un pedido mínimo de ${m}`,needAddr:'Escribe la dirección de entrega',whoD:'Nombre',type:'Tipo',addr:'Dirección',
+    minNeed:(n,m)=>`Pedido mínimo para domicilio: <b>${m}</b>. Te faltan <b>${n}</b>.`,minOk:m=>`Domicilio disponible · mínimo ${m} ✓`,minToast:m=>`El domicilio requiere un pedido mínimo de ${m}`,needAddr:'Escribe la dirección de entrega',onlyFrom:s=>`Los domicilios salen únicamente de la sede ${s}.`,whoD:'Nombre',type:'Tipo',addr:'Dirección',
     chooseProt:'Elige tu proteína',surpriseToast:'Hoy te toca',greet:'Hola El Coctelazo 👋 Quiero hacer este pedido',sede:'Sede',who:'A nombre de / mesa',noteApprox:'Valores en pesos colombianos.',shareTitle:'Mi pedido en El Coctelazo',
     openNow:'Abierto ahora · cierra 12:00 AM',opensAt:'Abrimos hoy a las 2:30 PM',openB:'Abierto',closedB:'Cerrado · abre 2:30 PM',
     results:(n,q)=>`${n} resultado${n===1?'':'s'} para «${q}»`,noRes:'Nada por aquí',noResSub:'Prueba con otra palabra: margarita, mango, ceviche…',
@@ -930,7 +931,7 @@ const UI = {
     myOrder:'My order',orderHere:'Order here',total:'Total',namePh:'Name or table',sendWa:'Send via WhatsApp',copy:'Copy',clear:'Clear',fine:'Show this order at your table or send it. The team will confirm it with you.',
     emptyCart:'Your order is empty',emptyCartSub:'Tap the + on any product to build it here.',remove:'Remove',add:'Add',addTo:'Add to order',added:'added',viewOrder:'View order',copied:'Order copied',
     flavor:'Flavor',deliveryM:'Delivery',pickupM:'Pick up at location',orderType:'Order type',addrPh:'Delivery address (area, building, apt)',namePhD:'Your name',
-    minNeed:(n,m)=>`Minimum order for delivery: <b>${m}</b>. You need <b>${n}</b> more.`,minOk:m=>`Delivery available · minimum ${m} ✓`,minToast:m=>`Delivery requires a minimum order of ${m}`,needAddr:'Enter the delivery address',whoD:'Name',type:'Type',addr:'Address',
+    minNeed:(n,m)=>`Minimum order for delivery: <b>${m}</b>. You need <b>${n}</b> more.`,minOk:m=>`Delivery available · minimum ${m} ✓`,minToast:m=>`Delivery requires a minimum order of ${m}`,needAddr:'Enter the delivery address',onlyFrom:s=>`Deliveries leave only from the ${s} location.`,whoD:'Name',type:'Type',addr:'Address',
     chooseProt:'Choose your protein',surpriseToast:'Tonight it’s',greet:'Hi El Coctelazo 👋 I’d like to order this',sede:'Location',who:'Name / table',noteApprox:'Prices in Colombian pesos.',shareTitle:'My order at El Coctelazo',
     openNow:'Open now · closes 12:00 AM',opensAt:'We open today at 2:30 PM',openB:'Open',closedB:'Closed · opens 2:30 PM',
     results:(n,q)=>`${n} result${n===1?'':'s'} for “${q}”`,noRes:'Nothing here',noResSub:'Try another word: margarita, mango, ceviche…',
@@ -1285,7 +1286,7 @@ function renderCart(){
 /* domicilio / recoger */
 const isDelivery = () => state.mode==='delivery';
 const deliveryShort = () => Math.max(0, DELIVERY_MIN - cartTotal());
-function setMode(m){ state.mode = m==='pickup'?'pickup':'delivery'; store.set('coctelazo-mode',state.mode); renderMode(); }
+function setMode(m){ state.mode = m==='pickup'?'pickup':'delivery'; store.set('coctelazo-mode',state.mode); fillSedeSelect(); renderMode(); }
 function renderMode(){
   const d = isDelivery(), tot = cartTotal(), short = deliveryShort();
   $('#dMode').setAttribute('aria-label', t('orderType'));
@@ -1294,6 +1295,7 @@ function renderMode(){
   $$('button',modeBox).forEach(b=>{ b.textContent = t(b.dataset.m==='delivery'?'deliveryM':'pickupM'); b.setAttribute('aria-checked',String(b.dataset.m===state.mode)); });
   const box = $('#dMin'); box.hidden = !d;
   box.classList.toggle('ok', d && short===0);
+  $('#dMinS').textContent = t('onlyFrom')(DELIVERY_SEDE);
   $('#dMinT').innerHTML = short ? t('minNeed')(money(short), money(DELIVERY_MIN)) : t('minOk')(money(DELIVERY_MIN));
   $('#dMinBar').style.width = Math.min(100, tot/DELIVERY_MIN*100)+'%';
   $('#fAddr').hidden = !d;
@@ -1303,9 +1305,12 @@ function renderMode(){
 }
 
 function fillSedeSelect(){
-  const sel = $('#fSede'); const cur = sel.value || store.get('coctelazo-sede') || '';
-  sel.innerHTML = SEDES.map(s=>`<option value="${esc(s.n)}">${t('sede')}: ${esc(s.n)}</option>`).join('');
-  if (cur && SEDES.some(s=>s.n===cur)) sel.value = cur;
+  const sel = $('#fSede'), d = isDelivery();
+  const list = d ? SEDES.filter(s=>s.n===DELIVERY_SEDE) : SEDES;
+  const cur = d ? DELIVERY_SEDE : (store.get('coctelazo-sede') || '');
+  sel.innerHTML = list.map(s=>`<option value="${esc(s.n)}">${t('sede')}: ${esc(s.n)}</option>`).join('');
+  if (cur && list.some(s=>s.n===cur)) sel.value = cur;
+  sel.disabled = d;
 }
 
 function orderText(){
@@ -1396,7 +1401,11 @@ document.addEventListener('click', e=>{
   if (act==='dec'){ state.cart[i].qty--; if (state.cart[i].qty<=0) state.cart.splice(i,1); saveCart(); renderCart(); return; }
   if (act==='rm'){ state.cart.splice(i,1); saveCart(); renderCart(); return; }
   if (act==='map'){ toggleMap(i,el); return; }
-  if (act==='sede'){ store.set('coctelazo-sede',SEDES[i].n); $('#fSede').value=SEDES[i].n; openDrawer(); return; }
+  if (act==='sede'){
+    store.set('coctelazo-sede',SEDES[i].n);
+    if (isDelivery() && SEDES[i].n!==DELIVERY_SEDE) setMode('pickup'); else fillSedeSelect();
+    openDrawer(); return;
+  }
   if (act==='gosede'){ goSede(i, !!el.dataset.map); return; }
 });
 function flash(btn){ btn.classList.add('done'); setTimeout(()=>btn.classList.remove('done'),700); }
