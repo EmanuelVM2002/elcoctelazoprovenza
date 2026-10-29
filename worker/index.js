@@ -12,6 +12,23 @@
 //   ADMIN_PASS      contraseña de la barra
 //   SESSION_SECRET  texto largo al azar (firma las sesiones de la barra)
 //   QR_SECRET       texto largo al azar (firma los QR de las mesas)
+//
+// POR AHORA los 4 valores van de EJEMPLO aquí abajo, para que funcione sin configurar nada en Cloudflare.
+// Más adelante se guardan como secretos en Cloudflare (tienen prioridad sobre estos) y se borran de este archivo.
+// OJO: mientras estén aquí, cualquiera que vea el repositorio los conoce. Los QR ya impresos solo valen con este QR_SECRET:
+// al pasarlo a secreto, usa el MISMO valor para no tener que reimprimirlos.
+const EJEMPLO = {
+  ADMIN_USER: 'BarraProvenza',
+  ADMIN_PASS: 'Provenza2026*',
+  SESSION_SECRET: '9LT3VSxxfIAFxJjnCY0u6mLO_v9nzc0iK59i5ya_-Rc',
+  QR_SECRET: 'XPeJTGh4fyrGqQ6Rb_7nwFz8LVvsdhkE7eKFXGrenlU'
+};
+const conf = env => ({
+  ADMIN_USER: env.ADMIN_USER || EJEMPLO.ADMIN_USER,
+  ADMIN_PASS: env.ADMIN_PASS || EJEMPLO.ADMIN_PASS,
+  SESSION_SECRET: env.SESSION_SECRET || EJEMPLO.SESSION_SECRET,
+  QR_SECRET: env.QR_SECRET || EJEMPLO.QR_SECRET
+});
 
 const enc = new TextEncoder();
 const MAX_MESA = 99;
@@ -69,18 +86,19 @@ export default {
     const path = url.pathname;
     if (!path.startsWith('/api/')) return env.ASSETS ? env.ASSETS.fetch(request) : json({ error: 'No encontrado' }, 404);
     const barra = env.BARRA.get(env.BARRA.idFromName('provenza'));
+    const cfg = conf(env);
     const to = (route, data) => barra.fetch(new Request('http://barra' + route, { method: 'POST', body: JSON.stringify(data || {}) }));
 
     try {
       // La mesa del QR es válida (la página lo consulta al escanear)
       if (path === '/api/mesa' && request.method === 'GET') {
-        const n = await mesaValida(env, url.searchParams.get('m'), url.searchParams.get('k'));
+        const n = await mesaValida(cfg, url.searchParams.get('m'), url.searchParams.get('k'));
         return n ? json({ ok: true, mesa: n }) : json({ ok: false }, 403);
       }
 
       // Cliente: estado de su llamado
       if (path === '/api/llamar' && request.method === 'GET') {
-        const n = await mesaValida(env, url.searchParams.get('m'), url.searchParams.get('k'));
+        const n = await mesaValida(cfg, url.searchParams.get('m'), url.searchParams.get('k'));
         if (!n) return json({ ok: false }, 403);
         return barra.fetch(new Request('http://barra/estado?mesa=' + n));
       }
@@ -88,37 +106,36 @@ export default {
       // Cliente: llama al mesero
       if (path === '/api/llamar' && request.method === 'POST') {
         const b = await bodyOf(request);
-        const n = await mesaValida(env, b.m, b.k);
+        const n = await mesaValida(cfg, b.m, b.k);
         if (!n) return json({ ok: false }, 403);
         return to('/llamar', { mesa: n });
       }
 
       // Barra: iniciar sesión
       if (path === '/api/login' && request.method === 'POST') {
-        if (!env.ADMIN_USER || !env.ADMIN_PASS || !env.SESSION_SECRET) return json({ ok: false, error: 'Servidor sin configurar' }, 503);
-        const ip = request.headers.get('CF-Connecting-IP') || 'local';
+                const ip = request.headers.get('CF-Connecting-IP') || 'local';
         const bloqueo = await (await to('/login-estado', { ip })).json();
         if (bloqueo.bloqueado) return json({ ok: false, error: 'Demasiados intentos. Espera unos minutos.' }, 429);
         const b = await bodyOf(request);
         // se comparan SIEMPRE ambos campos, para no revelar cuál falló
-        const okU = await safeEqual(b.usuario ?? '', env.ADMIN_USER);
-        const okP = await safeEqual(b.clave ?? '', env.ADMIN_PASS);
+        const okU = await safeEqual(b.usuario ?? '', cfg.ADMIN_USER);
+        const okP = await safeEqual(b.clave ?? '', cfg.ADMIN_PASS);
         if (!(okU && okP)) {
           await to('/login-fallo', { ip });
           return json({ ok: false, error: 'Usuario o contraseña incorrectos' }, 401);
         }
         await to('/login-ok', { ip });
         const exp = Date.now() + SESSION_MS;
-        return json({ ok: true, token: await sessionToken(env, exp), exp });
+        return json({ ok: true, token: await sessionToken(cfg, exp), exp });
       }
 
       // Barra (con sesión): ver y atender llamados
       if (path === '/api/llamados' && request.method === 'GET') {
-        if (!(await sessionOk(env, request))) return json({ ok: false }, 401);
+        if (!(await sessionOk(cfg, request))) return json({ ok: false }, 401);
         return barra.fetch(new Request('http://barra/lista'));
       }
       if (path === '/api/atender' && request.method === 'POST') {
-        if (!(await sessionOk(env, request))) return json({ ok: false }, 401);
+        if (!(await sessionOk(cfg, request))) return json({ ok: false }, 401);
         const b = await bodyOf(request);
         return to('/atender', { mesa: Number(b.mesa) });
       }

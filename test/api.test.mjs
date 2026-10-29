@@ -19,9 +19,23 @@ test('la mesa solo es válida con la llave de su QR', async () => {
   assert.equal((await call(env, 'GET', `/api/mesa?m=0&k=${await mesaToken(env.QR_SECRET, 0)}`)).status, 403, 'mesa fuera de rango');
 });
 
-test('sin QR_SECRET ninguna mesa es válida (falla cerrado)', async () => {
-  const env = makeEnv({ QR_SECRET: undefined });
+test('sin secretos en Cloudflare se usan los de ejemplo del código (los QR impresos siguen valiendo)', async () => {
+  const env = makeEnv({ QR_SECRET: undefined, ADMIN_USER: undefined, ADMIN_PASS: undefined, SESSION_SECRET: undefined });
+  // llaves de los QR ya impresos (mesa 1, 2 y 3)
+  assert.equal((await call(env, 'GET', '/api/mesa?m=1&k=3gaSZmjwJEAqQbbg')).status, 200);
+  assert.equal((await call(env, 'GET', '/api/mesa?m=2&k=EFXXu7TDAjE_RvvE')).status, 200);
+  assert.equal((await call(env, 'GET', '/api/mesa?m=3&k=wFHLhA75lDIvGQHM')).status, 200);
+  assert.equal((await call(env, 'GET', '/api/mesa?m=3&k=3gaSZmjwJEAqQbbg')).status, 403);
   assert.equal((await call(env, 'GET', '/api/mesa?m=1&k=abc')).status, 403);
+  const ok = await call(env, 'POST', '/api/login', { usuario: 'BarraProvenza', clave: 'Provenza2026*' });
+  assert.equal(ok.status, 200);
+  assert.equal((await call(env, 'POST', '/api/login', { usuario: 'BarraProvenza', clave: 'otra' })).status, 401);
+});
+
+test('un secreto de Cloudflare tiene prioridad sobre el ejemplo del código', async () => {
+  const env = makeEnv({ ADMIN_PASS: 'nueva-clave' });
+  assert.equal((await call(env, 'POST', '/api/login', { usuario: 'BarraProvenza', clave: 'nueva-clave' })).status, 200);
+  assert.equal((await call(env, 'POST', '/api/login', { usuario: 'BarraProvenza', clave: 'clave-de-prueba-local' })).status, 401);
 });
 
 test('llamar al mesero: activo, se ve en la barra, se atiende y se puede volver a llamar', async () => {
@@ -91,10 +105,10 @@ test('login: un éxito borra los fallos; el usuario también se valida', async (
   assert.equal((await call(env, 'POST', '/api/login', { usuario: 'BarraProvenza', clave: 'clave-de-prueba-local' })).status, 200);
 });
 
-test('login sin secretos configurados responde 503 y no entra nadie', async () => {
+test('login con clave vacía o ausente no entra', async () => {
   const env = makeEnv({ ADMIN_PASS: undefined });
-  assert.equal((await call(env, 'POST', '/api/login', { usuario: 'BarraProvenza', clave: '' })).status, 503);
-  assert.equal((await call(env, 'POST', '/api/login', { usuario: 'BarraProvenza', clave: undefined })).status, 503);
+  assert.equal((await call(env, 'POST', '/api/login', { usuario: 'BarraProvenza', clave: '' })).status, 401);
+  assert.equal((await call(env, 'POST', '/api/login', { usuario: 'BarraProvenza' })).status, 401);
 });
 
 test('la respuesta del servidor nunca trae la contraseña ni los secretos', async () => {
