@@ -1,0 +1,12 @@
+worker
+test
+wrangler.jsonc
+.assetsignore
+.gitignore
+.dev.vars
+.dev.vars.example
+.wrangler
+node_modules
+qr-mesas
+package.json
+DESPLIEGUE.md

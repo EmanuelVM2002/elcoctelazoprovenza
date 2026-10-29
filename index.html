@@ -468,7 +468,7 @@ footer .tag{font-family:'Bebas Neue',sans-serif;font-size:30px;letter-spacing:.1
 
 /* ---------- TOAST + ARRIBA ---------- */
 .toast{
-  position:fixed;left:50%;bottom:22px;z-index:100;display:flex;align-items:center;gap:12px;max-width:calc(100vw - 32px);
+  position:fixed;left:50%;bottom:22px;z-index:160;display:flex;align-items:center;gap:12px;max-width:calc(100vw - 32px);
   padding:11px 12px 11px 18px;border-radius:999px;background:rgba(18,16,26,.96);border:1px solid rgba(255,47,126,.55);font-size:13px;font-weight:600;
   box-shadow:0 14px 40px -10px rgba(0,0,0,.8),0 0 30px -6px var(--pink);transform:translate(-50%,160%);transition:transform .5s var(--ease)
 }
@@ -488,7 +488,7 @@ body.cart-open .top,body.modal-open .top{display:none}
 .mesachip.has .mt{display:inline}
 .mesachip.has{border-color:rgba(31,214,143,.6);background:rgba(31,214,143,.12)}
 .linkbtn{background:none;border:0;padding:0;color:var(--cyan);font-size:12px;text-decoration:underline;text-underline-offset:3px}
-.scan{position:fixed;inset:0;z-index:110;display:grid;place-items:center;padding:16px;background:rgba(4,4,8,.9);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
+.scan{position:fixed;inset:0;z-index:130;display:grid;place-items:center;padding:16px;background:rgba(4,4,8,.9);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
 .scan.show{opacity:1;visibility:visible}
 .scan-panel{position:relative;width:min(420px,100%);max-height:100%;overflow:auto;padding:20px;border-radius:22px;background:linear-gradient(180deg,rgba(22,20,30,.99),rgba(9,9,13,.99));border:1px solid rgba(255,255,255,.12);box-shadow:0 0 60px -20px var(--pink)}
 .scan-panel h3{margin:0 40px 0 0;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:30px;letter-spacing:.06em;color:#fff;text-shadow:0 0 16px rgba(255,47,126,.5)}
@@ -508,6 +508,66 @@ body.cart-open .top,body.modal-open .top{display:none}
 .scan-form .row{display:flex;gap:8px}
 .scan-form input{flex:1;min-width:0;height:44px;padding:0 14px;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.05);color:var(--ink);font:inherit;font-size:16px}
 .scan-form input:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 3px rgba(41,216,255,.12)}
+
+/* ---------- PANTALLA DE INICIO ---------- */
+.gate{position:fixed;inset:0;z-index:120;overflow:auto;display:grid;place-items:center;padding:24px 16px;
+  background:radial-gradient(circle at 50% 0%,rgba(255,47,126,.22),transparent 55%),radial-gradient(circle at 100% 100%,rgba(41,216,255,.14),transparent 50%),rgba(8,8,12,.98);
+  opacity:0;visibility:hidden;transition:opacity .35s,visibility .35s}
+.gate.show{opacity:1;visibility:visible}
+.gate-in{width:min(460px,100%);text-align:center}
+.gate-logo{width:min(250px,64%);height:auto;display:block;margin:0 auto 6px;filter:drop-shadow(0 10px 26px rgba(255,47,126,.4))}
+.gate h2{margin:4px 0 8px;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:36px;letter-spacing:.06em;text-shadow:0 0 18px rgba(255,47,126,.5)}
+.gopt{display:flex;align-items:center;gap:14px;width:100%;text-align:left;padding:15px 16px;margin-top:10px;border-radius:18px;border:1px solid var(--line);background:var(--glass);color:inherit;text-decoration:none;transition:transform .15s,box-shadow .25s,border-color .25s}
+.gopt:hover{border-color:rgba(41,216,255,.55);box-shadow:0 0 30px -10px var(--cyan)}
+.gopt:active{transform:scale(.98)}
+.gopt.primary{border-color:rgba(255,47,126,.65);background:linear-gradient(120deg,rgba(255,47,126,.28),rgba(255,47,126,.08));box-shadow:0 0 34px -10px var(--pink)}
+.gopt .ic{flex:none;width:48px;height:48px;border-radius:14px;display:grid;place-items:center;background:rgba(255,255,255,.08)}
+.gopt .ic svg{width:26px;height:26px}
+.gopt b{display:block;font-size:15.5px}
+.gopt small{display:block;color:var(--muted);font-size:12.5px;line-height:1.35;margin-top:2px}
+.gate-age{margin:18px 6px 0;font-size:11px;color:var(--muted)}
+.glang{display:inline-flex;gap:6px;margin-top:14px}
+.glang button{padding:5px 12px;border-radius:999px;border:1px solid var(--line);background:none;font-size:11px;font-weight:800;letter-spacing:.08em;color:var(--muted)}
+.glang button[aria-pressed="true"]{color:#fff;border-color:var(--pink);background:rgba(255,47,126,.2)}
+
+/* ---------- LLAMAR AL MESERO ---------- */
+.callbtn,.admfab{position:fixed;left:14px;bottom:16px;z-index:60;display:inline-flex;align-items:center;gap:9px;height:48px;padding:0 18px 0 14px;border-radius:999px;
+  border:1px solid rgba(255,178,56,.7);background:rgba(20,16,10,.92);color:#fff;font-size:13px;font-weight:800;letter-spacing:.02em;
+  box-shadow:0 10px 30px -8px rgba(0,0,0,.8),0 0 26px -6px var(--gold);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);transition:transform .15s,box-shadow .25s,background .25s,border-color .25s}
+.callbtn[hidden],.admfab[hidden]{display:none}
+.callbtn svg,.admfab svg{width:20px;height:20px;flex:none;color:var(--gold)}
+.callbtn:active,.admfab:active{transform:scale(.96)}
+.callbtn.active{border-color:rgba(31,214,143,.75);box-shadow:0 10px 30px -8px rgba(0,0,0,.8),0 0 26px -6px #1fd68f;opacity:1}
+.callbtn.active svg{color:#1fd68f}
+.callbtn:disabled{filter:none;opacity:1;cursor:default}
+body.cart-open .callbtn,body.modal-open .callbtn,body.cart-open .admfab,body.modal-open .admfab{display:none}
+.admfab{padding:0 16px 0 12px;border-color:rgba(41,216,255,.6);box-shadow:0 10px 30px -8px rgba(0,0,0,.8),0 0 26px -6px var(--cyan)}
+.admfab svg{color:var(--cyan)}
+.admfab.on{border-color:var(--pink);box-shadow:0 10px 30px -8px rgba(0,0,0,.8),0 0 30px -2px var(--pink);animation:bump .9s ease-in-out infinite alternate}
+.admfab.on svg{color:var(--pink)}
+body.has-mesa .admfab{bottom:74px}
+
+/* ---------- ACCESO BARRA ---------- */
+.admlink{display:block;margin:22px auto 0;padding:10px;background:none;border:0;color:var(--muted);opacity:.38;transition:opacity .25s}
+.admlink:hover,.admlink:focus-visible{opacity:.9}
+.admlink.on{color:#1fd68f;opacity:.8}
+.admlink svg{width:18px;height:18px;display:block}
+.adm{position:fixed;inset:0;z-index:140;display:grid;place-items:center;padding:16px;background:rgba(4,4,8,.9);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
+.adm.show{opacity:1;visibility:visible}
+.adm-panel{position:relative;width:min(440px,100%);max-height:100%;overflow:auto;padding:22px;border-radius:22px;background:linear-gradient(180deg,rgba(22,20,30,.99),rgba(9,9,13,.99));border:1px solid rgba(255,255,255,.12);box-shadow:0 0 60px -20px var(--cyan)}
+.adm-panel h3{margin:0 44px 14px 0;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:32px;letter-spacing:.06em;color:#fff;text-shadow:0 0 16px rgba(41,216,255,.5)}
+.adm-panel form{display:grid;gap:10px}
+.adm-panel input[type=text],.adm-panel input[type=password]{width:100%;height:48px;padding:0 14px;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.05);color:var(--ink);font:inherit;font-size:16px}
+.adm-panel input:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 3px rgba(41,216,255,.12)}
+.adm-err{margin:0;min-height:18px;font-size:13px;color:var(--gold)}
+.adm-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 0;border-bottom:1px solid var(--line)}
+.adm-row b{display:block;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:34px;letter-spacing:.05em;line-height:1;color:var(--gold);text-shadow:0 0 14px rgba(255,178,56,.4)}
+.adm-row small{display:block;margin-top:3px;font-size:12.5px;color:var(--muted)}
+.adm-row .btn{padding:14px 20px}
+.adm-empty{padding:34px 8px;text-align:center;color:var(--muted);font-size:14px}
+.adm-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:16px;font-size:12.5px;color:var(--muted)}
+.adm-sound{display:inline-flex;align-items:center;gap:8px}
+.adm-sound input{width:18px;height:18px;accent-color:var(--cyan)}
 
 /* ---------- RESPONSIVE ---------- */
 @media(min-width:640px){.cartbtn .lbl{display:inline}.mesachip .ml{display:inline}}
@@ -611,6 +671,9 @@ noscript{display:block;padding:40px;text-align:center}
       <div class="credit" role="contentinfo">
         <div class="credit-row"><a id="creditL" href="https://sonetix.emanuelvillada10.workers.dev/" target="_blank" rel="noopener">© 2026 Sonetix. Páginas web a la medida.</a></div>
       </div>
+      <button class="admlink" id="admLink" type="button" aria-label="Acceso barra">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+      </button>
     </footer>
   </div>
 </div>
@@ -665,12 +728,60 @@ noscript{display:block;padding:40px;text-align:center}
     <h3 id="scanT" data-i18n="scanTitle">Escanea el QR de tu mesa</h3>
     <div class="scan-view"><video id="scanVid" playsinline muted></video><i class="scan-frame"></i></div>
     <p class="scan-msg" id="scanMsg" role="status" aria-live="polite"></p>
-    <form class="scan-form" id="scanForm" novalidate>
-      <label for="scanNum" data-i18n="scanManual">¿No abre la cámara? Escribe el número de tu mesa</label>
-      <div class="row"><input id="scanNum" type="number" inputmode="numeric" min="1" step="1" placeholder="#"><button class="btn primary" type="submit" data-i18n="scanGo">Listo</button></div>
-    </form>
   </div>
 </div>
+
+<!-- PANTALLA DE INICIO: tomar el pedido en la mesa / ver la carta -->
+<div class="gate" id="gate" role="dialog" aria-modal="true" aria-labelledby="gateT" aria-hidden="true">
+  <div class="gate-in">
+    <img class="gate-logo" src="img/logo-el-coctelazo.webp" alt="Coctelazo &amp; Perritos Gourmet" width="468" height="281">
+    <h2 id="gateT" data-i18n="gateTitle">¿Cómo quieres pedir?</h2>
+    <button class="gopt primary" id="gMesa" type="button">
+      <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3"/><rect x="8" y="8" width="3" height="3"/><rect x="13" y="8" width="3" height="3"/><rect x="8" y="13" width="3" height="3"/><path d="M13 13h3v3"/></svg></span>
+      <span><b data-i18n="gateMesa">Tomar el pedido en la mesa</b><small id="gMesaS" data-i18n="gateMesaS">Escanea el QR de tu mesa y manda tu pedido a la barra.</small></span>
+    </button>
+    <button class="gopt" id="gVer" type="button">
+      <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5M9 8h6M9 12h4"/></svg></span>
+      <span><b data-i18n="gateVer">Ver la carta</b><small data-i18n="gateVerS">Mira los productos. Si algo te gusta lo agregas y escaneas tu mesa al pedir.</small></span>
+    </button>
+    <div class="glang" role="group" aria-label="Idioma"><button type="button" data-l="es">ES</button><button type="button" data-l="en">EN</button></div>
+    <p class="gate-age" data-i18n="gateAge">Venta de licor solo a mayores de 18 años. El exceso de alcohol es perjudicial para la salud.</p>
+  </div>
+</div>
+
+<!-- ACCESO BARRA: inicio de sesión y llamados de mesa -->
+<div class="adm" id="adm" role="dialog" aria-modal="true" aria-labelledby="admT" aria-hidden="true">
+  <div class="adm-panel">
+    <button class="scan-x" id="admClose" type="button" aria-label="Cerrar">×</button>
+    <div id="admLogin">
+      <h3 id="admT">Acceso barra</h3>
+      <form id="admForm" autocomplete="on">
+        <input id="admUser" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="Usuario" required>
+        <input id="admPass" type="password" autocomplete="current-password" placeholder="Contraseña" required>
+        <p class="adm-err" id="admErr" role="alert"></p>
+        <button class="btn primary" id="admGo" type="submit">Entrar</button>
+      </form>
+    </div>
+    <div id="admMain" hidden>
+      <h3>Llamados de mesa <span id="admCount"></span></h3>
+      <div id="admList"></div>
+      <div class="adm-foot">
+        <label class="adm-sound"><input type="checkbox" id="admSound" checked> Sonido al llegar un llamado</label>
+        <button class="linkbtn" id="admOut" type="button">Cerrar sesión</button>
+      </div>
+    </div>
+  </div>
+</div>
+<button class="admfab" id="admFab" type="button" hidden aria-label="Llamados de mesa">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+  <b id="admFabN">0</b>
+</button>
+
+<!-- LLAMAR AL MESERO (solo con mesa confirmada) -->
+<button class="callbtn" id="callBtn" type="button" hidden>
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+  <span id="callL"></span>
+</button>
 
 <div class="toast" id="toast" role="status" aria-live="polite"><span id="toastMsg"></span><button type="button" id="toastBtn"></button></div>
 <button class="top" id="topBtn" type="button" aria-label="Volver arriba">↑</button>
@@ -689,7 +800,7 @@ noscript{display:block;padding:40px;text-align:center}
 const WHATSAPP_NUMBER = '573002456331';
 
 // Esta carta es solo para servicio en mesa (no hay domicilios en Provenza).
-const MESAS = 3;              // cantidad de mesas con QR (los QR llevan ?mesa=N). Subir este número al agregar mesas.
+// Cada QR de mesa es un enlace …/?m=3&k=LLAVE; la llave la firma el servidor (QR_SECRET), por eso no se puede inventar una mesa.
 const MESA_TTL = 5*60*60*1000;   // la mesa escaneada se recuerda 5 horas en el celular
 
 /* =========================================================
@@ -852,7 +963,9 @@ const UI = {
     emptyCart:'Tu pedido está vacío',emptyCartSub:'Toca el + de cualquier producto para armarlo aquí.',remove:'Quitar',add:'Agregar',addTo:'Agregar al pedido',added:'añadido',viewOrder:'Ver pedido',copied:'Pedido copiado',
     flavor:'Sabor',namePhD:'Tu nombre (opcional)',notePh:'Nota para la barra (ej: sin hielo)',whoD:'Nombre',noteL:'Nota',mesaW:'MESA',
     gateAge:'Venta de licor solo a mayores de 18 años. El exceso de alcohol es perjudicial para la salud.',heroMesa:n=>`Pidiendo desde la mesa ${n}`,scanOk:n=>`Mesa ${n} lista ✓`,scanErr:'Algo falló con la cámara',
-    scanTitle:'Escanea el QR de tu mesa',scanHelp:'Apunta la cámara al código que está en tu mesa.',scanManual:'¿No abre la cámara? Escribe el número de tu mesa',scanGo:'Listo',scanCam:'No pudimos abrir la cámara. Permite el acceso o escribe el número de tu mesa.',scanBad:'Ese QR no es de una mesa de Coctelazo & Perritos Gourmet.',scanNum:n=>`Escribe un número de mesa del 1 al ${n}.`,
+    scanTitle:'Escanea el QR de tu mesa',scanHelp:'Apunta la cámara al código que está en tu mesa.',scanCam:'No pudimos abrir la cámara. Permite el acceso, o abre la cámara normal de tu celular y apunta al QR de tu mesa.',scanBad:'Ese QR no es de una mesa de Coctelazo & Perritos Gourmet.',scanNet:'Sin conexión. Revisa tu internet e inténtalo otra vez.',
+    gateTitle:'¿Cómo quieres pedir?',gateMesa:'Tomar el pedido en la mesa',gateMesaS:'Escanea el QR de tu mesa y manda tu pedido a la barra.',gateMesaOk:n=>`Mesa ${n} lista · toca para pedir`,gateVer:'Ver la carta',gateVerS:'Mira los productos. Si algo te gusta lo agregas y escaneas tu mesa al pedir.',
+    callBtn:'Llamar al mesero',callWait:'Mesero avisado · ya va',callOk:'Listo, avisamos al mesero',callErr:'No pudimos avisar. Intenta de nuevo.',mesaBad:'Esa mesa ya no es válida. Escanea el QR de tu mesa otra vez.',
     mesaLbl:'Mesa',mesaScan:'Escanear mesa',mesaSet:n=>`Mesa ${n} lista ✓`,mesaOk:n=>`Pedido para la <b>mesa ${n}</b>`,mesaNo:'Para enviar tu pedido necesitamos saber tu mesa.',mesaChange:'Cambiar mesa',mesaScanBtn:'Escanear el QR de mi mesa',needMesa:'Escanea el QR de tu mesa para enviar el pedido',
     chooseProt:'Elige tu proteína',surpriseToast:'Hoy te toca',greet:'Pedido en mesa · Coctelazo & Perritos Gourmet',noteApprox:'Valores en pesos colombianos.',shareTitle:'Mi pedido en Coctelazo & Perritos Gourmet',
     openNow:'Abierto ahora · cierra 12:00 AM',opensAt:'Abrimos hoy a las 2:30 PM',openB:'Abierto',closedB:'Cerrado · abre 2:30 PM',
@@ -869,7 +982,9 @@ const UI = {
     emptyCart:'Your order is empty',emptyCartSub:'Tap the + on any product to build it here.',remove:'Remove',add:'Add',addTo:'Add to order',added:'added',viewOrder:'View order',copied:'Order copied',
     flavor:'Flavor',namePhD:'Your name (optional)',notePh:'Note for the bar (e.g. no ice)',whoD:'Name',noteL:'Note',mesaW:'TABLE',
     gateAge:'Liquor is sold to adults over 18 only. Excessive alcohol consumption is harmful to health.',heroMesa:n=>`Ordering from table ${n}`,scanOk:n=>`Table ${n} ready ✓`,scanErr:'Something went wrong with the camera',
-    scanTitle:'Scan your table’s QR',scanHelp:'Point the camera at the code on your table.',scanManual:'Camera won’t open? Type your table number',scanGo:'Done',scanCam:'We couldn’t open the camera. Allow access or type your table number.',scanBad:'That QR isn’t from a Coctelazo & Perritos Gourmet table.',scanNum:n=>`Type a table number from 1 to ${n}.`,
+    scanTitle:'Scan your table’s QR',scanHelp:'Point the camera at the code on your table.',scanCam:'We couldn’t open the camera. Allow access, or open your phone’s regular camera and point it at your table’s QR.',scanBad:'That QR isn’t from a Coctelazo & Perritos Gourmet table.',scanNet:'No connection. Check your internet and try again.',
+    gateTitle:'How would you like to order?',gateMesa:'Order at my table',gateMesaS:'Scan your table’s QR and send your order to the bar.',gateMesaOk:n=>`Table ${n} ready · tap to order`,gateVer:'See the menu',gateVerS:'Browse the products. If you like something, add it and scan your table when ordering.',
+    callBtn:'Call the waiter',callWait:'Waiter notified · on the way',callOk:'Done, we notified the waiter',callErr:'We couldn’t notify. Try again.',mesaBad:'That table is no longer valid. Scan your table’s QR again.',
     mesaLbl:'Table',mesaScan:'Scan table',mesaSet:n=>`Table ${n} ready ✓`,mesaOk:n=>`Order for <b>table ${n}</b>`,mesaNo:'To send your order we need to know your table.',mesaChange:'Change table',mesaScanBtn:'Scan my table’s QR',needMesa:'Scan your table’s QR to send the order',
     chooseProt:'Choose your protein',surpriseToast:'Tonight it’s',greet:'Table order · Coctelazo & Perritos Gourmet',noteApprox:'Prices in Colombian pesos.',shareTitle:'My order at Coctelazo & Perritos Gourmet',
     openNow:'Open now · closes 12:00 AM',opensAt:'We open today at 2:30 PM',openB:'Open',closedB:'Closed · opens 2:30 PM',
@@ -1035,7 +1150,7 @@ function applyI18n(){
   $$('[data-i18n]').forEach(el=>{ const v=t(el.dataset.i18n); if (typeof v==='string') el.textContent=v; });
   $$('[data-i18n-ph]').forEach(el=>{ el.placeholder=t(el.dataset.i18nPh); });
   $('#lang').dataset.lang = state.lang;
-  $$('#lang button').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.l===state.lang)));
+  $$('#lang button, .glang button').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.l===state.lang)));
   $('#scanClose').setAttribute('aria-label',t('close'));
   $('#creditL').textContent = t('creditL');
   $('#mClose').setAttribute('aria-label',t('close')); $('#dClose').setAttribute('aria-label',t('close'));
@@ -1120,27 +1235,38 @@ function renderCart(){
 }
 
 /* =========================================================
-   MESA — viene del QR (?mesa=N), del escáner o se escribe a mano
+   MESA — solo vale la del QR de la mesa: el servidor confirma la llave firmada (no se puede escribir un número)
    ========================================================= */
-function readMesa(){
+function readMesaGuardada(){
   try{
     const o = JSON.parse(store.get('coctelazo-mesa')||'null');
-    if (o && Number.isInteger(o.n) && o.n>=1 && o.n<=MESAS && Date.now()-o.t < MESA_TTL) return o.n;
+    if (o && Number.isInteger(o.n) && typeof o.k==='string' && Date.now()-o.t < MESA_TTL) return o;
   }catch(e){}
   return null;
 }
-function setMesa(n){
-  state.mesa = n;
-  store.set('coctelazo-mesa', JSON.stringify({n, t:Date.now()}));
-  renderMesa();
+// El servidor dice si la llave es de esa mesa: true / false / null (sin conexión)
+async function verifyMesa(m,k){
+  try{
+    const r = await fetch(`/api/mesa?m=${encodeURIComponent(m)}&k=${encodeURIComponent(k)}`, {cache:'no-store'});
+    return r.ok ? true : (r.status===403 ? false : null);
+  }catch(e){ return null; }
 }
-// Acepta el enlace del QR (…/?mesa=3) o un texto tipo «mesa 3». Devuelve el número o null.
-function parseMesa(txt){
-  let v = null;
-  try{ v = new URL(String(txt).trim()).searchParams.get('mesa'); }catch(e){}
-  if (v==null){ const m = /mesa\D{0,3}(\d{1,3})/i.exec(String(txt)); v = m ? m[1] : null; }
-  const n = /^\d{1,3}$/.test(String(v).trim()) ? parseInt(v,10) : NaN;
-  return n>=1 && n<=MESAS ? n : null;
+function setMesa(n,k){
+  state.mesa = n; state.mesaK = k;
+  store.set('coctelazo-mesa', JSON.stringify({n,k,t:Date.now()}));
+  renderMesa(); startCallPoll();
+}
+function clearMesa(){
+  state.mesa = null; state.mesaK = null; call.active = false; clearInterval(call.poll);
+  store.set('coctelazo-mesa','null'); renderMesa();
+}
+// El QR de la mesa es un enlace …/?m=3&k=LLAVE. Devuelve {m,k} o null.
+function parseQr(txt){
+  try{
+    const u = new URL(String(txt).trim()), m = u.searchParams.get('m'), k = u.searchParams.get('k');
+    if (/^\d{1,2}$/.test(m||'') && /^[A-Za-z0-9_-]{8,64}$/.test(k||'')) return {m:+m, k};
+  }catch(e){}
+  return null;
 }
 function renderMesa(){
   const n = state.mesa, has = !!n;
@@ -1156,6 +1282,9 @@ function renderMesa(){
   $('#bWa').textContent = has ? t('sendBar') : t('mesaScanBtn');
   $('#bWa').disabled = false;
   const hm = $('#heroMesa'); hm.hidden = !has; hm.textContent = has ? t('heroMesa')(n) : '';
+  $('#gMesaS').textContent = has ? t('gateMesaOk')(n) : t('gateMesaS');
+  document.body.classList.toggle('has-mesa', has);
+  renderCallBtn();
 }
 
 function orderText(){
@@ -1166,15 +1295,14 @@ function orderText(){
 }
 
 /* escáner: BarcodeDetector si el navegador lo trae; si no (iPhone), jsQR (jsQR.js, del mismo sitio, licencia Apache-2.0) */
-const scan = {on:false, stream:null, det:null, cv:null, timer:0, back:null};
+const scan = {on:false, stream:null, det:null, cv:null, timer:0, back:null, busy:false, bad:'', badT:0};
 function loadJsQR(){
   if (window.jsQR) return Promise.resolve();
   return new Promise((ok,ko)=>{ const s=document.createElement('script'); s.src='jsQR.js'; s.onload=ok; s.onerror=ko; document.head.appendChild(s); });
 }
 function scanMsg(msg, err){ const m=$('#scanMsg'); m.textContent=msg||''; m.classList.toggle('err',!!err); }
 async function openScan(back){
-  scan.back = back || null; scan.busy = false; scan.det = null;
-  $('#scanNum').max = MESAS; $('#scanNum').value = '';
+  scan.back = back || null; scan.busy = false; scan.det = null; scan.bad = '';
   $('.scan-view').hidden = false;
   $('#scan').classList.add('show'); $('#scan').setAttribute('aria-hidden','false'); document.body.classList.add('locked');
   scanMsg(t('scanHelp'));
@@ -1188,7 +1316,7 @@ async function openScan(back){
     scan.on = true; scanTick();
   }catch(e){
     const why = (e && (e.name || e.message || e.type)) || '?';   // se muestra el motivo para poder diagnosticar en el celular
-    stopScan(); $('.scan-view').hidden = true; scanMsg(`${t('scanCam')} (${why})`, true); setTimeout(()=>$('#scanNum').focus(),50);
+    stopScan(); $('.scan-view').hidden = true; scanMsg(`${t('scanCam')} (${why})`, true);
   }
 }
 function stopScan(){
@@ -1199,19 +1327,19 @@ function stopScan(){
 function closeScan(){
   stopScan(); clearTimeout(scan.closeT); scan.busy = false;
   $('#scan').classList.remove('show','done'); $('#scan').setAttribute('aria-hidden','true');
-  if (!$('#drawer').classList.contains('show')) document.body.classList.remove('locked');
+  if (!$('#drawer').classList.contains('show') && !$('#gate').classList.contains('show')) document.body.classList.remove('locked');
 }
-// Mesa leída: la cámara se apaga, se muestra la confirmación un instante y recién ahí se cierra el escáner.
-function gotMesa(n){
+// Mesa confirmada por el servidor: la cámara se apaga, se muestra la confirmación un instante y recién ahí se cierra el escáner.
+function gotMesa(n,k){
   if (scan.busy) return;
   scan.busy = true;
   const back = scan.back;
-  stopScan(); setMesa(n);
+  stopScan(); setMesa(n,k);
   try{ navigator.vibrate && navigator.vibrate(60); }catch(e){}
   $('#scan').classList.add('done'); scanMsg(t('scanOk')(n));
   scan.closeT = setTimeout(()=>{
-    closeScan();
-    if (back==='drawer' || state.cart.length) openDrawer(); else toast(t('mesaSet')(n));
+    closeScan(); closeGate();
+    if (back==='drawer' || (back!=='gate' && state.cart.length)) openDrawer(); else toast(t('mesaSet')(n));
   }, 1100);
 }
 async function scanTick(){
@@ -1228,10 +1356,156 @@ async function scanTick(){
         const d = x.getImageData(0,0,c.width,c.height); const r = jsQR(d.data,d.width,d.height,{inversionAttempts:'dontInvert'});
         if (r) txt = r.data;
       }
-      if (txt){ const n = parseMesa(txt); if (n){ gotMesa(n); return; } scanMsg(t('scanBad'), true); }
+      if (txt && !(txt===scan.bad && Date.now()-scan.badT<3000)){
+        const q = parseQr(txt);
+        const ok = q ? await verifyMesa(q.m, q.k) : false;
+        if (!scan.on) return;                       // lo cerraron mientras el servidor respondía
+        if (ok===true){ gotMesa(q.m, q.k); return; }
+        scan.bad = txt; scan.badT = Date.now();
+        scanMsg(ok===null ? t('scanNet') : t('scanBad'), true);
+      }
     }catch(e){}
   }
   if (scan.on) scan.timer = setTimeout(scanTick, 160);
+}
+
+/* pantalla de inicio: tomar el pedido en la mesa / ver la carta */
+const SS = {
+  get(k){try{return sessionStorage.getItem(k)}catch(e){return null}},
+  set(k,v){try{sessionStorage.setItem(k,v)}catch(e){}}
+};
+function openGate(){ $('#gate').classList.add('show'); $('#gate').setAttribute('aria-hidden','false'); document.body.classList.add('locked'); setTimeout(()=>$('#gMesa').focus(),60); }
+function closeGate(){
+  SS.set('coctelazo-gate','1');
+  $('#gate').classList.remove('show'); $('#gate').setAttribute('aria-hidden','true');
+  if (!$('#scan').classList.contains('show') && !$('#drawer').classList.contains('show')) document.body.classList.remove('locked');
+}
+
+/* =========================================================
+   LLAMAR AL MESERO — el aviso lo ve la barra; sigue activo hasta que lo atienden y entonces se puede volver a llamar
+   ========================================================= */
+const call = {active:false, busy:false, poll:0};
+function renderCallBtn(){
+  const b = $('#callBtn'); if (!b) return;
+  b.hidden = !state.mesa;
+  b.classList.toggle('active', call.active);
+  b.disabled = call.busy || call.active;
+  $('#callL').textContent = call.active ? t('callWait') : t('callBtn');
+}
+async function callStatus(){
+  if (!state.mesa) return;
+  try{
+    const r = await fetch(`/api/llamar?m=${state.mesa}&k=${encodeURIComponent(state.mesaK)}`, {cache:'no-store'});
+    if (r.status===403){ clearMesa(); toast(t('mesaBad')); return; }
+    const d = await r.json(); call.active = !!d.activo; renderCallBtn();
+  }catch(e){}
+}
+function startCallPoll(){
+  clearInterval(call.poll);
+  call.poll = setInterval(()=>{ if (!document.hidden) callStatus(); }, 6000);
+  callStatus();
+}
+async function doCall(){
+  if (call.busy || call.active || !state.mesa) return;
+  call.busy = true; renderCallBtn();
+  try{
+    const r = await fetch('/api/llamar', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({m:state.mesa, k:state.mesaK})});
+    if (r.ok){ call.active = true; try{ navigator.vibrate && navigator.vibrate(40); }catch(e){} toast(t('callOk')); }
+    else if (r.status===403){ clearMesa(); toast(t('mesaBad')); }
+    else toast(t('callErr'));
+  }catch(e){ toast(t('callErr')); }
+  call.busy = false; renderCallBtn();
+}
+document.addEventListener('visibilitychange', ()=>{ if (!document.hidden){ callStatus(); admRefresh(); } });
+
+/* =========================================================
+   ACCESO BARRA — el usuario y la contraseña los valida el servidor; la página no los contiene
+   ========================================================= */
+const adm = {token:null, exp:0, poll:0, calls:[], known:null, ctx:null, off:0};
+function admLoad(){
+  try{ const o = JSON.parse(store.get('coctelazo-adm')||'null'); if (o && o.token && o.exp>Date.now()){ adm.token=o.token; adm.exp=o.exp; } }catch(e){}
+}
+const admH = () => ({Authorization:'Bearer '+adm.token});
+function admAudio(){   // el sonido solo se permite tras un toque del usuario
+  try{ adm.ctx = adm.ctx || new (window.AudioContext||window.webkitAudioContext)(); if (adm.ctx.state==='suspended') adm.ctx.resume(); }catch(e){}
+}
+function admBeep(){
+  if (!$('#admSound').checked || !adm.ctx) return;
+  try{
+    [880,1175,880].forEach((f,i)=>{
+      const c=adm.ctx, o=c.createOscillator(), g=c.createGain(), t0=c.currentTime+i*.2;
+      o.frequency.value=f; o.connect(g); g.connect(c.destination);
+      g.gain.setValueAtTime(.0001,t0); g.gain.exponentialRampToValueAtTime(.35,t0+.03); g.gain.exponentialRampToValueAtTime(.0001,t0+.17);
+      o.start(t0); o.stop(t0+.18);
+    });
+  }catch(e){}
+  try{ navigator.vibrate && navigator.vibrate([200,100,200]); }catch(e){}
+}
+function admShow(view){
+  $('#admLogin').hidden = view!=='login'; $('#admMain').hidden = view!=='main';
+}
+function admOpen(){
+  $('#adm').classList.add('show'); $('#adm').setAttribute('aria-hidden','false'); document.body.classList.add('locked');
+  if (adm.token){ admShow('main'); admRefresh(); } else { admShow('login'); $('#admErr').textContent=''; setTimeout(()=>$('#admUser').focus(),60); }
+}
+function admClose(){
+  $('#adm').classList.remove('show'); $('#adm').setAttribute('aria-hidden','true');
+  if (!$('#drawer').classList.contains('show') && !$('#scan').classList.contains('show') && !$('#gate').classList.contains('show')) document.body.classList.remove('locked');
+}
+function admLogout(){
+  adm.token=null; adm.exp=0; adm.known=null; adm.calls=[]; clearInterval(adm.poll);
+  store.set('coctelazo-adm','null'); $('#admFab').hidden=true; $('#admLink').classList.remove('on'); admClose();
+}
+function admStart(){
+  if (!adm.token) return;
+  $('#admFab').hidden = false; $('#admLink').classList.add('on');
+  clearInterval(adm.poll); adm.poll = setInterval(()=>{ if (!document.hidden) admRefresh(); }, 4000);
+  admRefresh();
+}
+const admAgo = ms => { const m = Math.max(0, Math.round(ms/60000)); return m<1 ? 'ahora mismo' : m===1 ? 'hace 1 min' : `hace ${m} min`; };
+function admRender(ahora){
+  const n = adm.calls.length;
+  $('#admCount').textContent = n ? `(${n})` : '';
+  const fab = $('#admFab'); $('#admFabN').textContent = n; fab.classList.toggle('on', n>0);
+  $('#admList').innerHTML = n ? adm.calls.map(c=>`<div class="adm-row"><div><b>${t('mesaLbl')} ${c.mesa}</b><small>${admAgo(ahora-c.desde)}${c.veces>1?` · llamó ${c.veces} veces`:''}</small></div><button class="btn primary" type="button" data-act="atender" data-m="${c.mesa}">Atendido</button></div>`).join('')
+    : '<div class="adm-empty">Sin llamados por ahora</div>';
+}
+async function admRefresh(){
+  if (!adm.token) return;
+  try{
+    const r = await fetch('/api/llamados', {headers:admH(), cache:'no-store'});
+    if (r.status===401){ admLogout(); toast('La sesión de la barra venció. Vuelve a entrar.'); return; }
+    const d = await r.json();
+    adm.calls = d.llamados || [];
+    const ids = new Set(adm.calls.map(c=>c.mesa));
+    if (adm.known && adm.calls.some(c=>!adm.known.has(c.mesa))){
+      admBeep();
+      const nuevos = adm.calls.filter(c=>!adm.known.has(c.mesa)).map(c=>`${t('mesaLbl')} ${c.mesa}`).join(', ');
+      toast(`🔔 ${nuevos} llama al mesero`);
+    }
+    adm.known = ids;
+    admRender(d.ahora);
+  }catch(e){}
+}
+async function admAtender(m){
+  try{
+    const r = await fetch('/api/atender', {method:'POST', headers:{...admH(),'Content-Type':'application/json'}, body:JSON.stringify({mesa:+m})});
+    if (r.status===401){ admLogout(); return; }
+  }catch(e){ toast('No se pudo marcar. Intenta de nuevo.'); return; }
+  admRefresh();
+}
+async function admSubmit(e){
+  e.preventDefault(); admAudio();
+  const btn = $('#admGo'); btn.disabled = true; $('#admErr').textContent = '';
+  try{
+    const r = await fetch('/api/login', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({usuario:$('#admUser').value.trim(), clave:$('#admPass').value})});
+    const d = await r.json().catch(()=>({}));
+    if (r.ok && d.ok){
+      adm.token = d.token; adm.exp = d.exp; store.set('coctelazo-adm', JSON.stringify({token:d.token, exp:d.exp}));
+      $('#admPass').value = ''; admShow('main'); admStart();
+    } else $('#admErr').textContent = d.error || 'No se pudo iniciar sesión';
+  }catch(err){ $('#admErr').textContent = 'Sin conexión con el servidor'; }
+  btn.disabled = false;
 }
 
 /* =========================================================
@@ -1360,6 +1634,8 @@ document.addEventListener('keydown',e=>{
   if (e.key==='/' && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)){ e.preventDefault(); setView('menu',{scroll:false}); qIn.focus(); }
   if (e.key==='Escape'){
     if ($('#scan').classList.contains('show')) closeScan();
+    else if ($('#adm').classList.contains('show')) admClose();
+    else if ($('#gate').classList.contains('show')) return;
     else if (state.modal) closeModal(); else if ($('#drawer').classList.contains('show')) closeDrawer();
     else if (document.activeElement===qIn && qIn.value){ $('#qClear').click(); }
   }
@@ -1413,12 +1689,23 @@ $('#dMesaBtn').addEventListener('click',()=>{ closeDrawer(); openScan('drawer');
 $('#mesaChip').addEventListener('click',()=>{ closeDrawer(); openScan(state.cart.length?'drawer':'menu'); });
 $('#scanClose').addEventListener('click',closeScan);
 $('#scan').addEventListener('click',e=>{ if(e.target.id==='scan') closeScan(); });
-$('#scanForm').addEventListener('submit',e=>{
-  e.preventDefault();
-  const n = parseMesa('mesa '+$('#scanNum').value);
-  if (!n){ scanMsg(t('scanNum')(MESAS), true); return; }
-  gotMesa(n);
-});
+
+/* pantalla de inicio */
+$('#gMesa').addEventListener('click',()=>{ if (state.mesa) closeGate(); else openScan('gate'); });
+$('#gVer').addEventListener('click',closeGate);
+$$('.glang button').forEach(b=>b.addEventListener('click',()=>{ state.lang=b.dataset.l; store.set('coctelazo-language',state.lang); renderAll(); }));
+
+/* llamar al mesero */
+$('#callBtn').addEventListener('click',doCall);
+
+/* acceso barra */
+$('#admLink').addEventListener('click',()=>{ admAudio(); admOpen(); });
+$('#admFab').addEventListener('click',()=>{ admAudio(); admOpen(); });
+$('#admClose').addEventListener('click',admClose);
+$('#adm').addEventListener('click',e=>{ if(e.target.id==='adm') admClose(); });
+$('#admForm').addEventListener('submit',admSubmit);
+$('#admOut').addEventListener('click',admLogout);
+$('#admList').addEventListener('click',e=>{ const b=e.target.closest('[data-act=atender]'); if (b) admAtender(b.dataset.m); });
 
 /* volver arriba */
 const topBtn=$('#topBtn');
@@ -1505,20 +1792,28 @@ if (!REDUCED && window.DeviceOrientationEvent && typeof DeviceOrientationEvent.r
 /* =========================================================
    ARRANQUE
    ========================================================= */
-// La mesa llega por el QR (?mesa=N), se recuerda de una lectura anterior, o se pide en la pantalla de inicio.
-state.mesa = readMesa();
-let qrMesa = null;
-try{
-  const p = new URLSearchParams(location.search);
-  if (p.has('mesa')){
-    qrMesa = parseMesa('mesa '+p.get('mesa'));
-    history.replaceState(null,'',location.pathname+location.hash);   // quita ?mesa=N de la barra
-  }
-}catch(e){}
-if (qrMesa) setMesa(qrMesa);
 renderAll();
 route();
-if (qrMesa) toast(t('mesaSet')(qrMesa));
+admLoad(); admStart();
+if (!SS.get('coctelazo-gate')) openGate();
+
+// La mesa solo existe si el servidor confirma la llave: viene del enlace del QR (?m=3&k=…) o de una lectura anterior (5 h).
+(async ()=>{
+  let cand = null, viaQr = false;
+  try{
+    const p = new URLSearchParams(location.search);
+    if (p.has('m') || p.has('k')){
+      viaQr = true; cand = parseQr(location.href);
+      history.replaceState(null,'',location.pathname+location.hash);   // quita ?m=…&k=… de la barra
+    }
+  }catch(e){}
+  if (!cand && !viaQr){ const g = readMesaGuardada(); if (g) cand = {m:g.n, k:g.k}; }
+  if (!cand){ if (viaQr) toast(t('mesaBad')); return; }
+  const ok = await verifyMesa(cand.m, cand.k);
+  if (ok===true){ setMesa(cand.m, cand.k); if (viaQr) toast(t('mesaSet')(cand.m)); }
+  else if (ok===false){ clearMesa(); toast(t('mesaBad')); }
+  else if (viaQr) toast(t('scanNet'));
+})();
 })();
 </script>
 </body>

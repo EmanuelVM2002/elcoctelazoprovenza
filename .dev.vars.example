@@ -1,0 +1,6 @@
+# Copia este archivo como .dev.vars para probar en local (nunca se sube a GitHub).
+# En producción estos 4 valores se guardan como SECRETOS en Cloudflare.
+ADMIN_USER=BarraProvenza
+ADMIN_PASS=clave-de-prueba-local
+SESSION_SECRET=texto-largo-al-azar-1
+QR_SECRET=texto-largo-al-azar-2

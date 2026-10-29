@@ -1,0 +1,22 @@
+{
+  // Cloudflare Worker + archivos estáticos de la página.
+  // El nombre «elcoctelazoprovenza» da la dirección https://elcoctelazoprovenza.<tu-subdominio>.workers.dev
+  "name": "elcoctelazoprovenza",
+  "main": "worker/index.js",
+  "compatibility_date": "2025-09-01",
+
+  "assets": {
+    "directory": "./",              // lo que NO debe publicarse se excluye en .assetsignore
+    "binding": "ASSETS",
+    "run_worker_first": ["/api/*"]  // /api/* lo atiende el Worker; el resto son archivos estáticos
+  },
+
+  // Estado compartido de la barra (llamados al mesero). No hay que crear nada a mano: la migración lo crea al desplegar.
+  "durable_objects": {
+    "bindings": [{ "name": "BARRA", "class_name": "Barra" }]
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["Barra"] }]
+
+  // Secretos (tipo «Secreto» en el panel de Cloudflare, nunca en este archivo):
+  //   ADMIN_USER, ADMIN_PASS, SESSION_SECRET, QR_SECRET
+}

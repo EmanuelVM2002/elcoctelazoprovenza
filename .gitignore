@@ -1,0 +1,7 @@
+# Nunca subir claves ni datos locales
+.dev.vars
+.env
+node_modules/
+.wrangler/
+.claude/
+qr-mesas/
