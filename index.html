@@ -563,10 +563,69 @@ footer .tag{font-family:'Bebas Neue',sans-serif;font-size:30px;letter-spacing:.1
 .top:hover{background:var(--pink)}
 body.cart-open .top,body.modal-open .top{display:none}
 
+/* ---------- MESA: chip, pantalla de inicio y escáner ---------- */
+.mesachip{flex:none;display:inline-flex;align-items:center;gap:6px;height:40px;padding:0 12px;border-radius:999px;border:1px solid rgba(41,216,255,.5);background:rgba(41,216,255,.08);color:#fff;font-size:13px;font-weight:700;transition:box-shadow .25s,background .25s}
+.mesachip:hover{box-shadow:0 0 22px -2px var(--cyan);background:rgba(41,216,255,.16)}
+.mesachip svg{width:18px;height:18px;flex:none}
+.mesachip .mt{display:none}
+.mesachip.has .mt{display:inline}
+.mesachip.has{border-color:rgba(31,214,143,.6);background:rgba(31,214,143,.12)}
+.linkbtn{background:none;border:0;padding:0;color:var(--cyan);font-size:12px;text-decoration:underline;text-underline-offset:3px}
+.otherbanner{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:0 0 22px;padding:16px 18px;border-radius:18px;text-decoration:none;
+  border:1px solid rgba(41,216,255,.45);background:linear-gradient(120deg,rgba(41,216,255,.12),rgba(255,47,126,.08));box-shadow:0 0 36px -14px var(--cyan);transition:box-shadow .25s,transform .15s}
+.otherbanner:hover{box-shadow:0 0 44px -8px var(--cyan)}
+.otherbanner b{display:block;font-size:15px}
+.otherbanner small{display:block;color:var(--muted);font-size:12.5px;line-height:1.35}
+.otherbanner .go{flex:none;font-size:22px;color:var(--cyan)}
+.gate{position:fixed;inset:0;z-index:120;overflow:auto;display:grid;place-items:center;padding:24px 16px;
+  background:radial-gradient(circle at 50% 0%,rgba(255,47,126,.22),transparent 55%),radial-gradient(circle at 100% 100%,rgba(41,216,255,.14),transparent 50%),rgba(8,8,12,.98);
+  opacity:0;visibility:hidden;transition:opacity .35s,visibility .35s}
+.gate.show{opacity:1;visibility:visible}
+.gate-in{width:min(460px,100%);text-align:center}
+.gate-logo{width:min(250px,64%);height:auto;display:block;margin:0 auto 6px;filter:drop-shadow(0 10px 26px rgba(255,47,126,.4))}
+.gate h2{margin:4px 0 8px;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:36px;letter-spacing:.06em;text-shadow:0 0 18px rgba(255,47,126,.5)}
+.gopt{display:flex;align-items:center;gap:14px;width:100%;text-align:left;padding:15px 16px;margin-top:10px;border-radius:18px;border:1px solid var(--line);background:var(--glass);color:inherit;text-decoration:none;transition:transform .15s,box-shadow .25s,border-color .25s}
+.gopt:hover{border-color:rgba(41,216,255,.55);box-shadow:0 0 30px -10px var(--cyan)}
+.gopt:active{transform:scale(.98)}
+.gopt.primary{border-color:rgba(255,47,126,.65);background:linear-gradient(120deg,rgba(255,47,126,.28),rgba(255,47,126,.08));box-shadow:0 0 34px -10px var(--pink)}
+.gopt .ic{flex:none;width:48px;height:48px;border-radius:14px;display:grid;place-items:center;background:rgba(255,255,255,.08)}
+.gopt .ic svg{width:26px;height:26px}
+.gopt b{display:block;font-size:15.5px}
+.gopt small{display:block;color:var(--muted);font-size:12.5px;line-height:1.35;margin-top:2px}
+.gate-age{margin:18px 6px 0;font-size:11px;color:var(--muted)}
+.glang{display:inline-flex;gap:6px;margin-top:14px}
+.glang button{padding:5px 12px;border-radius:999px;border:1px solid var(--line);background:none;font-size:11px;font-weight:800;letter-spacing:.08em;color:var(--muted)}
+.glang button[aria-pressed="true"]{color:#fff;border-color:var(--pink);background:rgba(255,47,126,.2)}
+.scan{position:fixed;inset:0;z-index:110;display:grid;place-items:center;padding:16px;background:rgba(4,4,8,.9);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
+.scan.show{opacity:1;visibility:visible}
+.scan-panel{position:relative;width:min(420px,100%);max-height:100%;overflow:auto;padding:20px;border-radius:22px;background:linear-gradient(180deg,rgba(22,20,30,.99),rgba(9,9,13,.99));border:1px solid rgba(255,255,255,.12);box-shadow:0 0 60px -20px var(--pink)}
+.scan-panel h3{margin:0 40px 0 0;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:30px;letter-spacing:.06em;color:#fff;text-shadow:0 0 16px rgba(255,47,126,.5)}
+.scan-x{position:absolute;top:14px;right:14px;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:rgba(255,255,255,.05);font-size:20px;display:grid;place-items:center}
+.scan-x:hover{background:rgba(255,47,126,.4)}
+.scan-view{position:relative;aspect-ratio:1/1;margin:12px 0 8px;border-radius:16px;overflow:hidden;background:#000}
+.scan-view[hidden]{display:none}
+.scan-view video{width:100%;height:100%;object-fit:cover;display:block}
+.scan-frame{position:absolute;inset:16%;border:2px solid var(--cyan);border-radius:18px;box-shadow:0 0 0 999px rgba(0,0,0,.38),0 0 22px -2px var(--cyan);pointer-events:none}
+.scan-frame::after{content:"";position:absolute;left:6%;right:6%;top:8%;height:2px;border-radius:2px;background:linear-gradient(90deg,transparent,var(--pink),transparent);box-shadow:0 0 12px var(--pink);animation:scanline 2.2s ease-in-out infinite alternate}
+@keyframes scanline{to{top:90%}}
+.scan-msg{margin:0 0 12px;min-height:20px;font-size:13px;color:var(--muted);text-align:center}
+.scan-msg.err{color:var(--gold)}
+.scan-form label{display:block;font-size:12.5px;color:var(--muted);margin-bottom:8px}
+.scan-form .row{display:flex;gap:8px}
+.scan-form input{flex:1;min-width:0;height:44px;padding:0 14px;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.05);color:var(--ink);font:inherit;font-size:16px}
+.scan-form input:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 3px rgba(41,216,255,.12)}
+
 /* ---------- RESPONSIVE ---------- */
-@media(min-width:640px){.tb-brand{display:block}.cartbtn .lbl{display:inline}.mtabs{justify-content:center}}
+@media(min-width:640px){.tb-brand{display:block}.cartbtn .lbl{display:inline}.mtabs{justify-content:center}.mesachip .ml{display:inline}}
+@media(max-width:639px){
+  .mesachip .ml,.mesachip .mw{display:none}
+  .mesachip{width:38px;padding:0;justify-content:center}
+  .mesachip.has svg{display:none}
+  .tb{gap:6px}
+  .lang button,.lang i{width:30px}.lang[data-lang="en"] i{transform:translateX(30px)}
+}
 @media(max-width:480px){
-  .tb{gap:8px;padding:0 12px}.mtab{padding:0 12px;font-size:20px}
+  .tb{gap:6px;padding:0 10px}.mtab{padding:0 6px;font-size:18px;letter-spacing:.04em}.cartbtn{padding:0 11px}
   .sec-head h2{font-size:32px}
   .tools{flex-wrap:wrap}.surprise{width:100%}
   .sizes{gap:6px}.bprice .big{font-size:44px}
@@ -604,6 +663,10 @@ noscript{display:block;padding:40px;text-align:center}
         <button type="button" data-l="es" aria-pressed="true">ES</button>
         <button type="button" data-l="en" aria-pressed="false">EN</button>
       </div>
+      <button class="mesachip" id="mesaChip" type="button" aria-haspopup="dialog">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3"/><path d="M8 12h8"/></svg>
+        <span class="ml" id="mesaChipL"></span><span class="mt" id="mesaChipN"></span>
+      </button>
       <button class="cartbtn" id="cartBtn" type="button" aria-haspopup="dialog">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6h15l-1.6 8.2a2 2 0 0 1-2 1.6H8.4a2 2 0 0 1-2-1.6L4.2 3H2"/><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/></svg>
         <span class="lbl" data-i18n="myOrder">Mi pedido</span><span class="badge" id="cartCount" data-n="0">0</span>
@@ -624,6 +687,7 @@ noscript{display:block;padding:40px;text-align:center}
     <div class="hero-cta">
       <a class="btn primary" href="#granizados" id="ctaMenu" data-i18n="ctaMenu">Ver la carta</a>
       <a class="btn ghost" href="#informacion" id="ctaSedes" data-i18n="ctaSedes">Nuestras sedes</a>
+      <a class="btn ghost" data-official target="_blank" rel="noopener" href="#"><span data-i18n="otherShort">Demás sedes</span> ↗</a>
     </div>
   </section>
 
@@ -653,6 +717,10 @@ noscript{display:block;padding:40px;text-align:center}
   <div class="view" id="view-info" role="tabpanel" aria-labelledby="mtab-info">
     <div class="wrap">
       <div class="section">
+        <a class="otherbanner" data-official target="_blank" rel="noopener" href="#">
+          <span><b data-i18n="otherT">Visita nuestras demás sedes</b><small data-i18n="otherS">Domicilios y las demás sedes de El Coctelazo están en nuestra página oficial.</small></span>
+          <span class="go" aria-hidden="true">↗</span>
+        </a>
         <div class="sec-head"><h2 data-i18n="sedesTitle">Nuestras sedes</h2></div>
         <div class="locate">
           <button class="locate-btn" id="locateBtn" type="button">
@@ -671,6 +739,7 @@ noscript{display:block;padding:40px;text-align:center}
     <footer>
       <div class="tag">#SomosCultura</div>
       <div style="margin-top:6px">El Coctelazo — by Perritos Gourmet de la Uva</div>
+      <div style="margin-top:8px"><a data-official target="_blank" rel="noopener" href="#" data-i18n="otherT">Visita nuestras demás sedes</a> ↗</div>
       <div class="credit" role="contentinfo">
         <div class="credit-row"><a id="creditL" href="https://sonetix.emanuelvillada10.workers.dev/" target="_blank" rel="noopener">© 2026 Sonetix. Páginas web a la medida.</a></div>
       </div>
@@ -707,19 +776,55 @@ noscript{display:block;padding:40px;text-align:center}
   <div class="dlist" id="dList"></div>
   <div class="dfoot" id="dFoot">
     <div class="total"><span data-i18n="total">Total</span><b id="dTotal">$0</b></div>
-    <div class="dmin" id="dMin" aria-live="polite"><div class="t" id="dMinT"></div><div class="t" id="dMinS"></div><div class="bar"><i id="dMinBar"></i></div></div>
+    <div class="dmin" id="dMesa" aria-live="polite"><div class="t" id="dMesaT"></div><button class="linkbtn" id="dMesaBtn" type="button"></button></div>
     <div class="fld">
-      <input id="fName" class="wide" type="text" maxlength="40" autocomplete="name" data-i18n-ph="namePhD" placeholder="Tu nombre">
-      <input id="fAddr" class="wide" type="text" maxlength="120" autocomplete="street-address" data-i18n-ph="addrPh" placeholder="Dirección de entrega (barrio, torre, apto)">
+      <input id="fName" class="wide" type="text" maxlength="40" autocomplete="name" data-i18n-ph="namePhD" placeholder="Tu nombre (opcional)">
+      <input id="fNote" class="wide" type="text" maxlength="120" autocomplete="off" data-i18n-ph="notePh" placeholder="Nota para la barra (ej: sin hielo)">
     </div>
     <div class="dact">
-      <button class="btn wa full" id="bWa" type="button"><span data-i18n="sendWa">Enviar por WhatsApp</span></button>
+      <button class="btn wa full" id="bWa" type="button"></button>
       <button class="btn ghost" id="bCopy" type="button" data-i18n="copy">Copiar</button>
       <button class="btn ghost" id="bClear" type="button" data-i18n="clear">Vaciar</button>
     </div>
     <p class="dfine" data-i18n="fine">Muestra este pedido en la mesa o envíalo. El equipo lo confirma contigo.</p>
   </div>
 </aside>
+
+<!-- ESCÁNER DE MESA -->
+<div class="scan" id="scan" role="dialog" aria-modal="true" aria-labelledby="scanT" aria-hidden="true">
+  <div class="scan-panel">
+    <button class="scan-x" id="scanClose" type="button" aria-label="Cerrar">×</button>
+    <h3 id="scanT" data-i18n="scanTitle">Escanea el QR de tu mesa</h3>
+    <div class="scan-view"><video id="scanVid" playsinline muted></video><i class="scan-frame"></i></div>
+    <p class="scan-msg" id="scanMsg" role="status" aria-live="polite"></p>
+    <form class="scan-form" id="scanForm" novalidate>
+      <label for="scanNum" data-i18n="scanManual">¿No abre la cámara? Escribe el número de tu mesa</label>
+      <div class="row"><input id="scanNum" type="number" inputmode="numeric" min="1" step="1" placeholder="#"><button class="btn primary" type="submit" data-i18n="scanGo">Listo</button></div>
+    </form>
+  </div>
+</div>
+
+<!-- PANTALLA DE INICIO: ¿cómo quieres pedir? -->
+<div class="gate" id="gate" role="dialog" aria-modal="true" aria-labelledby="gateT" aria-hidden="true">
+  <div class="gate-in">
+    <img class="gate-logo" src="img/logo-el-coctelazo.webp" alt="El Coctelazo" width="468" height="281">
+    <h2 id="gateT" data-i18n="gateTitle">¿Cómo quieres pedir?</h2>
+    <button class="gopt primary" id="gMesa" type="button">
+      <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3"/><rect x="8" y="8" width="3" height="3"/><rect x="13" y="8" width="3" height="3"/><rect x="8" y="13" width="3" height="3"/><path d="M13 13h3v3"/></svg></span>
+      <span><b data-i18n="gateMesa">Pedir en mi mesa</b><small data-i18n="gateMesaS">Escanea el QR de tu mesa y manda tu pedido a la barra.</small></span>
+    </button>
+    <button class="gopt" id="gVer" type="button">
+      <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5M9 8h6M9 12h4"/></svg></span>
+      <span><b data-i18n="gateVer">Ver la carta</b><small data-i18n="gateVerS">Mira los productos. Si algo te gusta lo agregas y al final escaneas tu mesa.</small></span>
+    </button>
+    <a class="gopt" data-official target="_blank" rel="noopener" href="#">
+      <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.6"/></svg></span>
+      <span><b data-i18n="gateOther">Conoce nuestras otras sedes</b><small data-i18n="gateOtherS">Domicilios y demás sedes, en la página oficial de El Coctelazo ↗</small></span>
+    </a>
+    <div class="glang" role="group" aria-label="Idioma"><button type="button" data-l="es">ES</button><button type="button" data-l="en">EN</button></div>
+    <p class="gate-age" data-i18n="gateAge">Venta de licor solo a mayores de 18 años. El exceso de alcohol es perjudicial para la salud.</p>
+  </div>
+</div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"><span id="toastMsg"></span><button type="button" id="toastBtn"></button></div>
 <button class="top" id="topBtn" type="button" aria-label="Volver arriba">↑</button>
@@ -737,8 +842,10 @@ noscript{display:block;padding:40px;text-align:center}
 // el botón "Enviar por WhatsApp" abrirá directo ese chat. Vacío = el cliente elige el contacto.
 const WHATSAPP_NUMBER = '573002456331';
 
-const DELIVERY_MIN = 20000;   // pedido mínimo para domicilio (COP)
-const DELIVERY_SEDE = 'Belén La Nubia';   // los domicilios salen únicamente de esta sede (nombre igual al de SEDES)
+// Esta carta es solo para servicio en mesa (no hay domicilios en Provenza).
+const OFFICIAL_URL = 'https://cotelazo.emanuelvillada10.workers.dev/';   // página oficial de El Coctelazo (demás sedes y domicilios)
+const MESAS = 3;              // cantidad de mesas con QR (los QR llevan ?mesa=N). Subir este número al agregar mesas.
+const MESA_TTL = 5*60*60*1000;   // la mesa escaneada se recuerda 5 horas en el celular
 const HOURS ={open: 14*60+30, close: 24*60};   // 2:30 PM – 12:00 AM, todos los días
 const TZ = 'America/Bogota';
 
@@ -907,11 +1014,14 @@ const UI = {
     nearEyebrow:'Tu sede más cercana',nearOthers:'Otras sedes cerca de ti',straight:'en línea recta',nearFlag:'Más cercana',goThere:'Cómo llegar',seeMap:'Ver en el mapa',
     locDenied:'No pudimos acceder a tu ubicación. Activa el permiso de ubicación en tu navegador e inténtalo de nuevo, o elige una sede aquí abajo.',locFail:'No logramos obtener tu ubicación. Revisa tu conexión o el GPS e inténtalo otra vez.',locNo:'Tu navegador no permite compartir la ubicación. Elige una sede aquí abajo.',
     locPriv:'Tu ubicación solo se usa para calcular la distancia en tu dispositivo; no la guardamos.',locFar:km=>`Estás a unos ${km} km de la más cercana.`,
-    myOrder:'Mi pedido',orderHere:'Pedir a domicilio',total:'Total',sendWa:'Enviar por WhatsApp',copy:'Copiar',clear:'Vaciar',fine:'Envía tu pedido por WhatsApp. El equipo lo confirma contigo.',
+    myOrder:'Mi pedido',total:'Total',sendBar:'Enviar pedido a la barra',copy:'Copiar',clear:'Vaciar',fine:'Tu pedido le llega a la barra por WhatsApp con el número de tu mesa. El equipo te lo confirma.',
     emptyCart:'Tu pedido está vacío',emptyCartSub:'Toca el + de cualquier producto para armarlo aquí.',remove:'Quitar',add:'Agregar',addTo:'Agregar al pedido',added:'añadido',viewOrder:'Ver pedido',copied:'Pedido copiado',
-    flavor:'Sabor',deliveryM:'Domicilio',addrPh:'Dirección de entrega (barrio, torre, apto)',namePhD:'Tu nombre',
-    minNeed:(n,m)=>`Pedido mínimo para domicilio: <b>${m}</b>. Te faltan <b>${n}</b>.`,minOk:m=>`Domicilio disponible · mínimo ${m} ✓`,minToast:m=>`El domicilio requiere un pedido mínimo de ${m}`,needAddr:'Escribe la dirección de entrega',onlyFrom:s=>`Los domicilios salen únicamente de la sede ${s}.`,whoD:'Nombre',type:'Tipo',addr:'Dirección',
-    chooseProt:'Elige tu proteína',surpriseToast:'Hoy te toca',greet:'Hola El Coctelazo 👋 Quiero hacer este pedido',sede:'Sede',noteApprox:'Valores en pesos colombianos.',shareTitle:'Mi pedido en El Coctelazo',
+    flavor:'Sabor',namePhD:'Tu nombre (opcional)',notePh:'Nota para la barra (ej: sin hielo)',whoD:'Nombre',noteL:'Nota',mesaW:'MESA',
+    gateTitle:'¿Cómo quieres pedir?',gateMesa:'Pedir en mi mesa',gateMesaS:'Escanea el QR de tu mesa y manda tu pedido a la barra.',gateVer:'Ver la carta',gateVerS:'Mira los productos. Si algo te gusta lo agregas y al final escaneas tu mesa.',gateOther:'Conoce nuestras otras sedes',gateOtherS:'Domicilios y demás sedes, en la página oficial de El Coctelazo ↗',gateAge:'Venta de licor solo a mayores de 18 años. El exceso de alcohol es perjudicial para la salud.',
+    otherT:'Visita nuestras demás sedes',otherS:'Domicilios y las demás sedes de El Coctelazo están en nuestra página oficial.',otherShort:'Demás sedes',
+    scanTitle:'Escanea el QR de tu mesa',scanHelp:'Apunta la cámara al código que está en tu mesa.',scanManual:'¿No abre la cámara? Escribe el número de tu mesa',scanGo:'Listo',scanCam:'No pudimos abrir la cámara. Permite el acceso o escribe el número de tu mesa.',scanBad:'Ese QR no es de una mesa de El Coctelazo Provenza.',scanNum:n=>`Escribe un número de mesa del 1 al ${n}.`,
+    mesaLbl:'Mesa',mesaScan:'Escanear mesa',mesaSet:n=>`Mesa ${n} lista ✓`,mesaOk:n=>`Pedido para la <b>mesa ${n}</b>`,mesaNo:'Para enviar tu pedido necesitamos saber tu mesa.',mesaChange:'Cambiar mesa',mesaScanBtn:'Escanear el QR de mi mesa',needMesa:'Escanea el QR de tu mesa para enviar el pedido',
+    chooseProt:'Elige tu proteína',surpriseToast:'Hoy te toca',greet:'Pedido en mesa · El Coctelazo Provenza',noteApprox:'Valores en pesos colombianos.',shareTitle:'Mi pedido en El Coctelazo',
     openNow:'Abierto ahora · cierra 12:00 AM',opensAt:'Abrimos hoy a las 2:30 PM',openB:'Abierto',closedB:'Cerrado · abre 2:30 PM',
     results:(n,q)=>`${n} resultado${n===1?'':'s'} para «${q}»`,noRes:'Nada por aquí',noResSub:'Prueba con otra palabra: margarita, mango, ceviche…',
     sizesAlt:'Tamaños de granizados',build:'Granizado a tu medida',buildLede:'Elige el estilo y el tamaño. El precio se calcula solo.',tip:'Elige 3 toppings a tu gusto',
@@ -922,11 +1032,14 @@ const UI = {
     nearEyebrow:'Your nearest location',nearOthers:'Other locations near you',straight:'straight line',nearFlag:'Nearest',goThere:'Get directions',seeMap:'See on map',
     locDenied:'We couldn’t access your location. Allow location access in your browser and try again, or pick a location below.',locFail:'We couldn’t get your location. Check your connection or GPS and try again.',locNo:'Your browser can’t share your location. Pick a location below.',
     locPriv:'Your location is only used to calculate distance on your device; we don’t store it.',locFar:km=>`You’re about ${km} km from the nearest one.`,
-    myOrder:'My order',orderHere:'Order delivery',total:'Total',sendWa:'Send via WhatsApp',copy:'Copy',clear:'Clear',fine:'Send your order via WhatsApp. The team will confirm it with you.',
+    myOrder:'My order',total:'Total',sendBar:'Send order to the bar',copy:'Copy',clear:'Clear',fine:'Your order reaches the bar on WhatsApp with your table number. The team will confirm it.',
     emptyCart:'Your order is empty',emptyCartSub:'Tap the + on any product to build it here.',remove:'Remove',add:'Add',addTo:'Add to order',added:'added',viewOrder:'View order',copied:'Order copied',
-    flavor:'Flavor',deliveryM:'Delivery',addrPh:'Delivery address (area, building, apt)',namePhD:'Your name',
-    minNeed:(n,m)=>`Minimum order for delivery: <b>${m}</b>. You need <b>${n}</b> more.`,minOk:m=>`Delivery available · minimum ${m} ✓`,minToast:m=>`Delivery requires a minimum order of ${m}`,needAddr:'Enter the delivery address',onlyFrom:s=>`Deliveries leave only from the ${s} location.`,whoD:'Name',type:'Type',addr:'Address',
-    chooseProt:'Choose your protein',surpriseToast:'Tonight it’s',greet:'Hi El Coctelazo 👋 I’d like to order this',sede:'Location',noteApprox:'Prices in Colombian pesos.',shareTitle:'My order at El Coctelazo',
+    flavor:'Flavor',namePhD:'Your name (optional)',notePh:'Note for the bar (e.g. no ice)',whoD:'Name',noteL:'Note',mesaW:'TABLE',
+    gateTitle:'How would you like to order?',gateMesa:'Order at my table',gateMesaS:'Scan your table’s QR and send your order to the bar.',gateVer:'See the menu',gateVerS:'Browse the products. If you like something, add it and scan your table at the end.',gateOther:'Discover our other locations',gateOtherS:'Delivery and other locations, on the official El Coctelazo site ↗',gateAge:'Liquor is sold to adults over 18 only. Excessive alcohol consumption is harmful to health.',
+    otherT:'Visit our other locations',otherS:'Delivery and the other El Coctelazo locations are on our official site.',otherShort:'Other locations',
+    scanTitle:'Scan your table’s QR',scanHelp:'Point the camera at the code on your table.',scanManual:'Camera won’t open? Type your table number',scanGo:'Done',scanCam:'We couldn’t open the camera. Allow access or type your table number.',scanBad:'That QR isn’t from an El Coctelazo Provenza table.',scanNum:n=>`Type a table number from 1 to ${n}.`,
+    mesaLbl:'Table',mesaScan:'Scan table',mesaSet:n=>`Table ${n} ready ✓`,mesaOk:n=>`Order for <b>table ${n}</b>`,mesaNo:'To send your order we need to know your table.',mesaChange:'Change table',mesaScanBtn:'Scan my table’s QR',needMesa:'Scan your table’s QR to send the order',
+    chooseProt:'Choose your protein',surpriseToast:'Tonight it’s',greet:'Table order · El Coctelazo Provenza',noteApprox:'Prices in Colombian pesos.',shareTitle:'My order at El Coctelazo',
     openNow:'Open now · closes 12:00 AM',opensAt:'We open today at 2:30 PM',openB:'Open',closedB:'Closed · opens 2:30 PM',
     results:(n,q)=>`${n} result${n===1?'':'s'} for “${q}”`,noRes:'Nothing here',noResSub:'Try another word: margarita, mango, ceviche…',
     sizesAlt:'Slush sizes',build:'Build your slush',buildLede:'Pick the style and the size. The price updates by itself.',tip:'Choose 3 toppings of your liking',
@@ -948,7 +1061,7 @@ const store = {
   set(k,v){try{localStorage.setItem(k,v)}catch(e){}}
 };
 
-const state = {lang: store.get('coctelazo-language')==='en'?'en':'es', view:'menu', cat:'granizados', q:'', cart:[], gb:{type:0,size:1,flavor:0}, modal:null};
+const state = {lang: store.get('coctelazo-language')==='en'?'en':'es', mesa:null, view:'menu', cat:'granizados', q:'', cart:[], gb:{type:0,size:1,flavor:0}, modal:null};
 try{ state.cart = JSON.parse(store.get('coctelazo-cart-v2')||'[]').filter(l=>l&&(BY_ID[l.id]||String(l.id).startsWith('gran-'))); }catch(e){ state.cart=[]; }
 
 const t = k => UI[state.lang][k];
@@ -1116,7 +1229,6 @@ function renderSedes(){
       <div class="sede-actions">
         <a class="btn ${isNear?'primary':'ghost'}" target="_blank" rel="noopener" href="${dirsUrl(i)}">${t('how')} →</a>
         <button class="btn ghost" type="button" data-act="map" data-i="${i}">${t('map')}</button>
-        ${s.n===DELIVERY_SEDE?`<button class="btn primary" type="button" data-act="sede" data-i="${i}">${t('orderHere')}</button>`:''}
       </div>
       <div class="mapbox" id="map-${i}" data-q="${q}"></div></article>`;
   }).join('');
@@ -1189,7 +1301,8 @@ function applyI18n(){
   $$('[data-i18n]').forEach(el=>{ const v=t(el.dataset.i18n); if (typeof v==='string') el.textContent=v; });
   $$('[data-i18n-ph]').forEach(el=>{ el.placeholder=t(el.dataset.i18nPh); });
   $('#lang').dataset.lang = state.lang;
-  $$('#lang button').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.l===state.lang)));
+  $$('#lang button, .glang button').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.l===state.lang)));
+  $('#scanClose').setAttribute('aria-label',t('close'));
   $('#creditL').textContent = t('creditL');
   $('#mClose').setAttribute('aria-label',t('close')); $('#dClose').setAttribute('aria-label',t('close'));
   $('#topBtn').setAttribute('aria-label',t('top')); $('#topBtn').title=t('top');
@@ -1274,27 +1387,124 @@ function renderCart(){
   }
   $('#dTotal').textContent = money(cartTotal());
   $('#dFoot').style.display = state.cart.length ? '' : 'none';
-  renderDelivery();
+  renderMesa();
 }
 
-/* domicilio: único tipo de pedido, solo desde DELIVERY_SEDE */
-const deliveryShort = () => Math.max(0, DELIVERY_MIN - cartTotal());
-function renderDelivery(){
-  const tot = cartTotal(), short = deliveryShort();
-  $('#dMin').classList.toggle('ok', short===0);
-  $('#dMinS').textContent = t('onlyFrom')(DELIVERY_SEDE);
-  $('#dMinT').innerHTML = short ? t('minNeed')(money(short), money(DELIVERY_MIN)) : t('minOk')(money(DELIVERY_MIN));
-  $('#dMinBar').style.width = Math.min(100, tot/DELIVERY_MIN*100)+'%';
-  $('#bWa').disabled = short>0;
-  $('#bCopy').disabled = short>0;
+/* =========================================================
+   MESA — viene del QR (?mesa=N), del escáner o se escribe a mano
+   ========================================================= */
+const SS = {
+  get(k){try{return sessionStorage.getItem(k)}catch(e){return null}},
+  set(k,v){try{sessionStorage.setItem(k,v)}catch(e){}}
+};
+function readMesa(){
+  try{
+    const o = JSON.parse(store.get('coctelazo-mesa')||'null');
+    if (o && Number.isInteger(o.n) && o.n>=1 && o.n<=MESAS && Date.now()-o.t < MESA_TTL) return o.n;
+  }catch(e){}
+  return null;
+}
+function setMesa(n){
+  state.mesa = n;
+  store.set('coctelazo-mesa', JSON.stringify({n, t:Date.now()}));
+  renderMesa();
+}
+// Acepta el enlace del QR (…/?mesa=3) o un texto tipo «mesa 3». Devuelve el número o null.
+function parseMesa(txt){
+  let v = null;
+  try{ v = new URL(String(txt).trim()).searchParams.get('mesa'); }catch(e){}
+  if (v==null){ const m = /mesa\D{0,3}(\d{1,3})/i.exec(String(txt)); v = m ? m[1] : null; }
+  const n = /^\d{1,3}$/.test(String(v).trim()) ? parseInt(v,10) : NaN;
+  return n>=1 && n<=MESAS ? n : null;
+}
+function renderMesa(){
+  const n = state.mesa, has = !!n;
+  const chip = $('#mesaChip');
+  chip.classList.toggle('has', has);
+  $('#mesaChipL').textContent = has ? '' : t('mesaScan');
+  $('#mesaChipN').innerHTML = has ? `<span class="mw">${t('mesaLbl')} </span>${n}` : '';
+  chip.setAttribute('aria-label', has ? `${t('mesaLbl')} ${n} · ${t('mesaChange')}` : t('mesaScan'));
+  $('#dMesa').classList.toggle('ok', has);
+  $('#dMesaT').innerHTML = has ? t('mesaOk')(n) : t('mesaNo');
+  $('#dMesaBtn').textContent = has ? t('mesaChange') : '';
+  $('#dMesaBtn').hidden = !has;
+  $('#bWa').textContent = has ? t('sendBar') : t('mesaScanBtn');
+  $('#bWa').disabled = false;
 }
 
 function orderText(){
   const lines = state.cart.map(l=>`• ${l.qty}× ${l.name[state.lang]}${l.variant?` (${l.variant[state.lang]})`:''} — ${money(l.price*l.qty)}`);
   const who = $('#fName').value.trim();
-  const addr = $('#fAddr').value.trim();
-  return [`${t('greet')}:`, '', ...lines, '', `${t('total')}: ${money(cartTotal())}`, `${t('type')}: ${t('deliveryM')}`, `${t('sede')}: ${DELIVERY_SEDE}`, ...(addr?[`${t('addr')}: ${addr}`]:[]), ...(who?[`${t('whoD')}: ${who}`]:[]), `(${t('noteApprox')})`].filter((x,i,a)=>x!==''||a[i-1]!=='').join('\n');
+  const note = $('#fNote').value.trim();
+  return [`🪑 ${t('mesaW')} ${state.mesa}`, `${t('greet')}`, '', ...lines, '', `${t('total')}: ${money(cartTotal())}`, ...(note?[`${t('noteL')}: ${note}`]:[]), ...(who?[`${t('whoD')}: ${who}`]:[]), `(${t('noteApprox')})`].filter((x,i,a)=>x!==''||a[i-1]!=='').join('\n');
 }
+
+/* escáner: BarcodeDetector si el navegador lo trae; si no (iPhone), jsQR desde cdnjs */
+const scan = {on:false, stream:null, det:null, cv:null, timer:0, back:null};
+function loadJsQR(){
+  if (window.jsQR) return Promise.resolve();
+  return new Promise((ok,ko)=>{ const s=document.createElement('script'); s.src='https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.min.js'; s.onload=ok; s.onerror=ko; document.head.appendChild(s); });
+}
+function scanMsg(msg, err){ const m=$('#scanMsg'); m.textContent=msg||''; m.classList.toggle('err',!!err); }
+async function openScan(back){
+  scan.back = back || null;
+  $('#scanNum').max = MESAS; $('#scanNum').value = '';
+  $('.scan-view').hidden = false;
+  $('#scan').classList.add('show'); $('#scan').setAttribute('aria-hidden','false'); document.body.classList.add('locked');
+  scanMsg(t('scanHelp'));
+  try{
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) throw new Error('nocam');
+    scan.stream = await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'}}, audio:false});
+    if (!$('#scan').classList.contains('show')){ stopScan(); return; }   // lo cerraron mientras pedía permiso
+    const v = $('#scanVid'); v.srcObject = scan.stream; await v.play();
+    if ('BarcodeDetector' in window){ try{ scan.det = new BarcodeDetector({formats:['qr_code']}); }catch(e){ scan.det=null; } }
+    if (!scan.det) await loadJsQR();
+    scan.on = true; scanTick();
+  }catch(e){
+    stopScan(); $('.scan-view').hidden = true; scanMsg(t('scanCam'), true); setTimeout(()=>$('#scanNum').focus(),50);
+  }
+}
+function stopScan(){
+  scan.on = false; clearTimeout(scan.timer);
+  if (scan.stream){ scan.stream.getTracks().forEach(tr=>tr.stop()); scan.stream=null; }
+  const v=$('#scanVid'); v.srcObject=null;
+}
+function closeScan(){
+  stopScan();
+  $('#scan').classList.remove('show'); $('#scan').setAttribute('aria-hidden','true');
+  if (!$('#drawer').classList.contains('show') && !$('#gate').classList.contains('show')) document.body.classList.remove('locked');
+}
+function gotMesa(n){
+  const back = scan.back;
+  closeScan(); setMesa(n);
+  try{ navigator.vibrate && navigator.vibrate(60); }catch(e){}
+  toast(t('mesaSet')(n));
+  closeGate();
+  if (back==='drawer' || (back!=='menu' && state.cart.length)) openDrawer();
+}
+async function scanTick(){
+  if (!scan.on) return;
+  const v = $('#scanVid');
+  if (v.readyState>=2 && v.videoWidth){
+    try{
+      let txt = null;
+      if (scan.det){ const r = await scan.det.detect(v); if (r[0]) txt = r[0].rawValue; }
+      else if (window.jsQR){
+        const c = scan.cv || (scan.cv = document.createElement('canvas'));
+        const k = Math.min(1, 640/v.videoWidth); c.width = Math.round(v.videoWidth*k); c.height = Math.round(v.videoHeight*k);
+        const x = c.getContext('2d',{willReadFrequently:true}); x.drawImage(v,0,0,c.width,c.height);
+        const d = x.getImageData(0,0,c.width,c.height); const r = jsQR(d.data,d.width,d.height,{inversionAttempts:'dontInvert'});
+        if (r) txt = r.data;
+      }
+      if (txt){ const n = parseMesa(txt); if (n){ gotMesa(n); return; } scanMsg(t('scanBad'), true); }
+    }catch(e){}
+  }
+  if (scan.on) scan.timer = setTimeout(scanTick, 160);
+}
+
+/* pantalla de inicio: pedir en mesa / ver la carta / otras sedes */
+function openGate(){ $('#gate').classList.add('show'); $('#gate').setAttribute('aria-hidden','false'); document.body.classList.add('locked'); setTimeout(()=>$('#gMesa').focus(),60); }
+function closeGate(){ SS.set('coctelazo-gate','1'); $('#gate').classList.remove('show'); $('#gate').setAttribute('aria-hidden','true'); if (!$('#scan').classList.contains('show') && !$('#drawer').classList.contains('show')) document.body.classList.remove('locked'); }
 
 /* =========================================================
    MODAL DE PRODUCTO
@@ -1376,7 +1586,6 @@ document.addEventListener('click', e=>{
   if (act==='dec'){ state.cart[i].qty--; if (state.cart[i].qty<=0) state.cart.splice(i,1); saveCart(); renderCart(); return; }
   if (act==='rm'){ state.cart.splice(i,1); saveCart(); renderCart(); return; }
   if (act==='map'){ toggleMap(i,el); return; }
-  if (act==='sede'){ openDrawer(); return; }
   if (act==='gosede'){ goSede(i, !!el.dataset.map); return; }
 });
 function flash(btn){ btn.classList.add('done'); setTimeout(()=>btn.classList.remove('done'),700); }
@@ -1439,7 +1648,8 @@ $('#qClear').addEventListener('click',()=>{ qIn.value=''; state.q=''; $('#search
 document.addEventListener('keydown',e=>{
   if (e.key==='/' && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)){ e.preventDefault(); setView('menu',{scroll:false}); qIn.focus(); }
   if (e.key==='Escape'){
-    if (state.modal) closeModal(); else if ($('#drawer').classList.contains('show')) closeDrawer();
+    if ($('#scan').classList.contains('show')) closeScan(); else if ($('#gate').classList.contains('show')) return;
+    else if (state.modal) closeModal(); else if ($('#drawer').classList.contains('show')) closeDrawer();
     else if (document.activeElement===qIn && qIn.value){ $('#qClear').click(); }
   }
   if (e.key==='Tab'){ trap(e); }
@@ -1479,13 +1689,28 @@ $('#bCopy').addEventListener('click',async()=>{
   catch(e){ const ta=document.createElement('textarea'); ta.value=txt; document.body.appendChild(ta); ta.select(); try{document.execCommand('copy')}catch(_){} ta.remove(); }
   toast(t('copied'));
 });
-$('#fAddr').value = store.get('coctelazo-addr') || '';
-$('#fAddr').addEventListener('input',e=>store.set('coctelazo-addr',e.target.value));
+$('#fName').value = store.get('coctelazo-name') || '';
+$('#fName').addEventListener('input',e=>store.set('coctelazo-name',e.target.value));
 $('#bWa').addEventListener('click',()=>{
-  if (deliveryShort()>0){ toast(t('minToast')(money(DELIVERY_MIN))); return; }
-  if (!$('#fAddr').value.trim()){ toast(t('needAddr')); $('#fAddr').focus(); return; }
+  if (!state.mesa){ closeDrawer(); openScan('drawer'); return; }
   const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(orderText())}`;
   window.open(url,'_blank','noopener');
+});
+$('#dMesaBtn').addEventListener('click',()=>{ closeDrawer(); openScan('drawer'); });
+
+/* mesa: chip de la barra, pantalla de inicio y escáner */
+$$('[data-official]').forEach(a=>{ a.href = OFFICIAL_URL; });
+$('#mesaChip').addEventListener('click',()=>{ closeDrawer(); openScan(state.cart.length?'drawer':'menu'); });
+$('#gMesa').addEventListener('click',()=>{ openScan('menu'); });
+$('#gVer').addEventListener('click',closeGate);
+$$('.glang button').forEach(b=>{ b.addEventListener('click',()=>{ state.lang=b.dataset.l; store.set('coctelazo-language',state.lang); renderAll(); }); });
+$('#scanClose').addEventListener('click',closeScan);
+$('#scan').addEventListener('click',e=>{ if(e.target.id==='scan') closeScan(); });
+$('#scanForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  const n = parseMesa('mesa '+$('#scanNum').value);
+  if (!n){ scanMsg(t('scanNum')(MESAS), true); return; }
+  gotMesa(n);
 });
 
 $('#locateBtn').addEventListener('click',locate);
@@ -1575,9 +1800,22 @@ if (!REDUCED && window.DeviceOrientationEvent && typeof DeviceOrientationEvent.r
 /* =========================================================
    ARRANQUE
    ========================================================= */
+// La mesa llega por el QR (?mesa=N), se recuerda de una lectura anterior, o se pide en la pantalla de inicio.
+state.mesa = readMesa();
+let qrMesa = null;
+try{
+  const p = new URLSearchParams(location.search);
+  if (p.has('mesa')){
+    qrMesa = parseMesa('mesa '+p.get('mesa'));
+    history.replaceState(null,'',location.pathname+location.hash);   // quita ?mesa=N de la barra
+  }
+}catch(e){}
+if (qrMesa) setMesa(qrMesa);
 renderAll();
 route();
 setInterval(()=>{ renderStatus(); },60000);
+if (qrMesa){ closeGate(); toast(t('mesaSet')(qrMesa)); }
+else if (!SS.get('coctelazo-gate') && !state.mesa) openGate();
 })();
 </script>
 </body>
