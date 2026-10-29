@@ -7,8 +7,12 @@ Cloudflare → *Workers y Pages* → *Crear* → *Importar un repositorio* → `
 El nombre del Worker debe ser `elcoctelazoprovenza` (es el que dice `wrangler.jsonc`). Cada `git push` a `main` vuelve a publicar solo.
 No hay que crear ninguna base de datos: el estado de la barra vive en un Durable Object que crea la migración del primer despliegue.
 
-## 2. Guardar los 4 secretos (tipo **Secreto**, nunca en el repositorio)
-*Worker → Configuración → Variables y secretos → Agregar*
+## 2. Secretos (por ahora NO hace falta nada)
+**Por ahora** el usuario, la contraseña y las dos llaves van de **ejemplo dentro de `worker/index.js`** (constante `EJEMPLO`), así que la página funciona apenas se conecta el repositorio, sin configurar nada. Mientras estén ahí, cualquiera que vea el repositorio los conoce.
+
+**Más adelante** se pasan a Cloudflare como secretos (tienen prioridad sobre el ejemplo) y se borran de `EJEMPLO`. Para no reimprimir los QR, `QR_SECRET` debe llevar el **mismo valor** que hoy tiene `EJEMPLO.QR_SECRET`.
+
+*Worker → Configuración → Variables y secretos → Agregar* (tipo **Secreto**)
 
 | Nombre | Qué es |
 |---|---|
@@ -17,8 +21,7 @@ No hay que crear ninguna base de datos: el estado de la barra vive en un Durable
 | `SESSION_SECRET` | texto largo al azar (firma las sesiones de la barra) |
 | `QR_SECRET` | texto largo al azar (firma los QR de las mesas) |
 
-Sin estos secretos nadie puede entrar a la barra y ningún QR es válido (falla cerrado).
-Los valores reales están en `qr-mesas/SECRETOS-CLOUDFLARE.txt` (carpeta local, excluida de git).
+Si un secreto no está en Cloudflare se usa el valor de `EJEMPLO`. Los valores están también en `qr-mesas/SECRETOS-CLOUDFLARE.txt` (carpeta local, excluida de git).
 
 ## 3. Los QR
 Cada QR lleva `…/?m=3&k=LLAVE`. La llave es un HMAC de `QR_SECRET` + el número de mesa: **no se puede adivinar ni escribir un número de mesa**. Si cambias `QR_SECRET` hay que regenerar e imprimir los QR otra vez. Para más mesas se generan nuevos QR con el mismo `QR_SECRET` (no hay que tocar el código).

@@ -17,6 +17,6 @@
   },
   "migrations": [{ "tag": "v1", "new_sqlite_classes": ["Barra"] }]
 
-  // Secretos (tipo «Secreto» en el panel de Cloudflare, nunca en este archivo):
-  //   ADMIN_USER, ADMIN_PASS, SESSION_SECRET, QR_SECRET
+  // Secretos (tipo «Secreto» en el panel de Cloudflare, nunca en este archivo): ADMIN_USER, ADMIN_PASS, SESSION_SECRET, QR_SECRET.
+  // POR AHORA son opcionales: si faltan, el Worker usa los valores de ejemplo de la constante EJEMPLO (worker/index.js).
 }
