@@ -39,6 +39,8 @@
   --fb:'Montserrat',system-ui,-apple-system,'Segoe UI',sans-serif;
   --topbar-h:58px;
   --gut:30px;
+  --humo-gate:radial-gradient(60% 40% at 25% 25%,rgba(176,182,198,.17),transparent 70%),radial-gradient(55% 40% at 80% 75%,rgba(150,158,182,.13),transparent 70%),#050506;
+  --humo-panel:radial-gradient(70% 55% at 20% 15%,rgba(176,182,198,.12),transparent 70%),#0d0c0f;
   --ease:cubic-bezier(.2,.8,.2,1);
 }
 *{box-sizing:border-box}
@@ -57,9 +59,23 @@ img{-webkit-user-drag:none}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
 /* fondo de mármol (el de la carta) y marco rosa fijo, como las páginas del PDF */
-.marble{position:fixed;inset:0;z-index:0;pointer-events:none;background:var(--negro) url(img/fondo-marmol.webp) center/cover no-repeat}
-.frame{position:fixed;inset:8px;z-index:70;pointer-events:none;border:1px solid rgba(232,25,95,.85);border-radius:26px}
-@media(min-width:900px){.frame{inset:14px;border-radius:32px}}
+.marble{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;background:#050506}
+.marble::before,.marble::after{
+  content:"";position:absolute;inset:-25%;filter:blur(36px);
+  background:
+    radial-gradient(38% 32% at 22% 28%,rgba(176,182,198,.27),transparent 70%),
+    radial-gradient(34% 28% at 80% 20%,rgba(142,152,178,.21),transparent 70%),
+    radial-gradient(44% 34% at 62% 82%,rgba(190,192,204,.18),transparent 70%);
+  animation:humo1 30s ease-in-out infinite alternate;
+}
+.marble::after{
+  background:
+    radial-gradient(36% 30% at 70% 45%,rgba(160,168,190,.20),transparent 70%),
+    radial-gradient(40% 32% at 18% 78%,rgba(176,176,190,.17),transparent 70%);
+  animation:humo2 42s ease-in-out infinite alternate;
+}
+@keyframes humo1{to{transform:translate3d(7%,5%,0) scale(1.12) rotate(4deg)}}
+@keyframes humo2{to{transform:translate3d(-8%,-6%,0) scale(1.08) rotate(-5deg)}}
 .page{position:relative;z-index:2}
 .wrap{max-width:1120px;margin:0 auto;padding:0 var(--gut)}
 
@@ -139,8 +155,7 @@ img{-webkit-user-drag:none}
 
 /* ---------- PORTADA ---------- */
 .hero{text-align:center;padding:30px var(--gut) 10px}
-.hero-logo{display:block;width:min(72%,340px);height:auto;margin:0 auto;animation:rise .9s var(--ease) both}
-@keyframes rise{from{opacity:0;transform:translateY(10px)}}
+.hero-logo{display:block;width:min(72%,340px);height:auto;margin:0 auto}
 .orn{display:flex;align-items:center;gap:14px;max-width:340px;margin:16px auto 12px;color:var(--rosa);font-size:13px}
 .orn i{flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.28),transparent)}
 .hero-kicker{margin:0 0 16px;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--gris)}
@@ -306,7 +321,7 @@ footer .tag::before,footer .tag::after{content:"\2726";font-size:.4em;color:var(
 .modal.show{visibility:visible;pointer-events:auto}
 .mpanel{
   position:relative;width:min(560px,100%);max-height:92dvh;max-height:92vh;overflow:auto;
-  background:var(--negro2) url(img/fondo-marmol.webp) center/cover;border:1px solid rgba(232,25,95,.65);border-bottom:0;border-radius:30px 30px 0 0;
+  background:var(--humo-panel);border:1px solid rgba(232,25,95,.65);border-bottom:0;border-radius:30px 30px 0 0;
   opacity:0;transform:translateY(46px);transition:opacity .35s var(--ease),transform .45s var(--ease);
 }
 .modal.show .mpanel{opacity:1;transform:none}
@@ -392,7 +407,7 @@ footer .tag::before,footer .tag::after{content:"\2726";font-size:.4em;color:var(
 .scan.show,.adm.show{opacity:1;visibility:visible}
 .scan-panel,.adm-panel{
   position:relative;width:min(430px,100%);max-height:100%;overflow:auto;padding:22px;border-radius:26px;
-  background:var(--negro2) url(img/fondo-marmol.webp) center/cover;border:1px solid rgba(232,25,95,.7);
+  background:var(--humo-panel);border:1px solid rgba(232,25,95,.7);
 }
 .scan-panel h3,.adm-panel h3{margin:0 46px 12px 0;font-family:var(--fd);font-weight:400;font-size:32px;line-height:1.05;letter-spacing:.06em;text-transform:uppercase}
 .scan-x{position:absolute;top:14px;right:14px;width:38px;height:38px;border-radius:50%;border:1px solid var(--ln);background:rgba(10,9,11,.6);color:var(--hueso);font-size:22px;line-height:1;display:grid;place-items:center}
@@ -408,9 +423,8 @@ footer .tag::before,footer .tag::after{content:"\2726";font-size:.4em;color:var(
 .scan.done .scan-msg{color:var(--verde);font-family:var(--fd);font-size:30px;letter-spacing:.08em;text-transform:uppercase;margin:6px 0 4px}
 .gate{
   position:fixed;inset:0;z-index:120;overflow:auto;display:grid;place-items:center;padding:36px 30px;
-  background:var(--negro) url(img/fondo-marmol.webp) center/cover;opacity:0;visibility:hidden;transition:opacity .35s,visibility .35s;
+  background:var(--humo-gate);opacity:0;visibility:hidden;transition:opacity .35s,visibility .35s;
 }
-.gate::before{content:"";position:fixed;inset:8px;border:1px solid var(--rosa);border-radius:26px;pointer-events:none}
 .gate.show{opacity:1;visibility:visible}
 .gate-in{width:min(440px,100%);text-align:center}
 .gate-logo{display:block;width:min(290px,74%);height:auto;margin:0 auto 6px}
@@ -478,7 +492,6 @@ footer .tag::before,footer .tag::after{content:"\2726";font-size:.4em;color:var(
 <body>
 
 <div class="marble" aria-hidden="true"></div>
-<div class="frame" aria-hidden="true"></div>
 
 <div class="page">
 
