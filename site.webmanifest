@@ -1,10 +1,10 @@
-{
+﻿{
   "name": "Coctelazo & Perritos Gourmet",
   "short_name": "Coctelazo",
   "start_url": ".",
   "display": "standalone",
-  "background_color": "#08080c",
-  "theme_color": "#08080c",
+  "background_color": "#0a090b",
+  "theme_color": "#0a090b",
   "icons": [
     {
       "src": "icon-192.png",
