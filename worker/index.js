@@ -4,6 +4,9 @@
 // Qué hace:
 //  · Valida la llave del QR de cada mesa (HMAC): la mesa NO se puede inventar escribiendo un número.
 //  · Guarda los llamados al mesero (uno por mesa, activo hasta que la barra lo atiende).
+//  · Una sola sesión por mesa: el primer dispositivo que escanea el QR queda como dueño de la mesa (cada celular manda
+//    un identificador propio). Un segundo dispositivo es rechazado (409) hasta que el dueño deje de dar señales
+//    (SESION_MS) o la barra libere la mesa; el dispositivo liberado queda bloqueado hasta que vuelva a escanear el QR.
 //  · Inicia sesión del personal de la barra. Usuario y contraseña viven SOLO como secretos del Worker
 //    (nunca en la página ni en el repositorio).
 //
@@ -35,6 +38,10 @@ const MAX_MESA = 99;
 const SESSION_MS = 12 * 60 * 60 * 1000;      // la sesión de la barra dura 12 h
 const CALL_MS = 3 * 60 * 60 * 1000;          // un llamado olvidado se limpia solo a las 3 h
 const LOGIN_MAX_FAILS = 5, LOGIN_WINDOW_MS = 10 * 60 * 1000;
+const SESION_MS = 30 * 60 * 1000;            // el dispositivo de una mesa sigue siendo el dueño mientras dé señales (cada ~6 s con la página abierta)
+const EXPULSADO_MS = 12 * 60 * 60 * 1000;    // un dispositivo liberado por la barra queda bloqueado para esa mesa hasta que escanee otra vez
+const DEV_RE = /^[A-Za-z0-9_-]{8,64}$/;
+const devOk = d => typeof d === 'string' && DEV_RE.test(d);
 
 /* ---------- criptografía ---------- */
 const b64url = buf => btoa(String.fromCharCode(...new Uint8Array(buf))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
@@ -90,25 +97,32 @@ export default {
     const to = (route, data) => barra.fetch(new Request('http://barra' + route, { method: 'POST', body: JSON.stringify(data || {}) }));
 
     try {
-      // La mesa del QR es válida (la página lo consulta al escanear)
+      // La mesa del QR es válida y este dispositivo pasa a ser su dueño (la página lo consulta al escanear)
       if (path === '/api/mesa' && request.method === 'GET') {
         const n = await mesaValida(cfg, url.searchParams.get('m'), url.searchParams.get('k'));
-        return n ? json({ ok: true, mesa: n }) : json({ ok: false }, 403);
+        if (!n) return json({ ok: false }, 403);
+        const d = url.searchParams.get('d');
+        if (!devOk(d)) return json({ ok: false, error: 'Falta el dispositivo' }, 400);
+        const r = await (await to('/reclamar', { mesa: n, d })).json();
+        return r.estado === 'ok' ? json({ ok: true, mesa: n }) : json({ ok: false, ocupada: true }, 409);
       }
 
-      // Cliente: estado de su llamado
+      // Cliente: estado de su llamado (también es la señal de vida del dispositivo dueño de la mesa)
       if (path === '/api/llamar' && request.method === 'GET') {
         const n = await mesaValida(cfg, url.searchParams.get('m'), url.searchParams.get('k'));
         if (!n) return json({ ok: false }, 403);
-        return barra.fetch(new Request('http://barra/estado?mesa=' + n));
+        const d = url.searchParams.get('d');
+        if (!devOk(d)) return json({ ok: false, error: 'Falta el dispositivo' }, 400);
+        return barra.fetch(new Request('http://barra/estado?mesa=' + n + '&d=' + d));
       }
 
-      // Cliente: llama al mesero
+      // Cliente: llama al mesero (solo el dispositivo dueño de la mesa)
       if (path === '/api/llamar' && request.method === 'POST') {
         const b = await bodyOf(request);
         const n = await mesaValida(cfg, b.m, b.k);
         if (!n) return json({ ok: false }, 403);
-        return to('/llamar', { mesa: n });
+        if (!devOk(b.d)) return json({ ok: false, error: 'Falta el dispositivo' }, 400);
+        return to('/llamar', { mesa: n, d: b.d });
       }
 
       // Barra: iniciar sesión
@@ -139,6 +153,12 @@ export default {
         const b = await bodyOf(request);
         return to('/atender', { mesa: Number(b.mesa) });
       }
+      // Barra (con sesión): liberar una mesa, o sea tumbar el dispositivo que la tiene asignada
+      if (path === '/api/liberar' && request.method === 'POST') {
+        if (!(await sessionOk(cfg, request))) return json({ ok: false }, 401);
+        const b = await bodyOf(request);
+        return to('/liberar', { mesa: Number(b.mesa) });
+      }
     } catch (e) {
       return json({ ok: false, error: 'Error del servidor' }, 500);
     }
@@ -158,12 +178,57 @@ export class Barra {
     return todos;
   }
 
+  // Sesiones de mesa: { [mesa]: { d: dispositivo, desde, visto } }. Una sin señales por SESION_MS se da por abandonada.
+  async sesiones() {
+    const s = (await this.state.storage.get('sesiones')) || {};
+    const ahora = Date.now(); let cambio = false;
+    for (const m of Object.keys(s)) if (ahora - s[m].visto > SESION_MS) { delete s[m]; cambio = true; }
+    if (cambio) await this.state.storage.put('sesiones', s);
+    return s;
+  }
+  async expulsados() {
+    const e = (await this.state.storage.get('expulsados')) || {};
+    const ahora = Date.now(); let cambio = false;
+    for (const k of Object.keys(e)) if (ahora - e[k] > EXPULSADO_MS) { delete e[k]; cambio = true; }
+    if (cambio) await this.state.storage.put('expulsados', e);
+    return e;
+  }
+  // 'ok' = este dispositivo es (o pasa a ser) el dueño · 'otro' = la mesa la tiene otro dispositivo · 'expulsado' = la barra lo liberó.
+  // explicito = el cliente escaneó el QR a propósito: levanta un bloqueo anterior. Las señales automáticas no lo levantan.
+  async tomar(mesa, d, explicito) {
+    const ses = await this.sesiones(), exp = await this.expulsados();
+    const key = mesa + ':' + d, ahora = Date.now();
+    if (exp[key]) {
+      if (!explicito) return 'expulsado';
+      delete exp[key]; await this.state.storage.put('expulsados', exp);
+    }
+    const cur = ses[mesa];
+    if (cur && cur.d !== d) return 'otro';
+    ses[mesa] = { d, desde: cur ? cur.desde : ahora, visto: ahora };
+    await this.state.storage.put('sesiones', ses);
+    return 'ok';
+  }
+
   async fetch(request) {
     const url = new URL(request.url);
     const b = request.method === 'POST' ? await bodyOf(request) : {};
     const ahora = Date.now();
 
+    if (url.pathname === '/reclamar') {
+      const estado = await this.tomar(b.mesa, b.d, true);
+      return json({ ok: estado === 'ok', estado });
+    }
+    if (url.pathname === '/liberar') {
+      const ses = await this.sesiones(), exp = await this.expulsados();
+      const cur = ses[b.mesa];
+      if (cur) { exp[b.mesa + ':' + cur.d] = ahora; delete ses[b.mesa]; await this.state.storage.put('sesiones', ses); await this.state.storage.put('expulsados', exp); }
+      const todos = await this.llamados(); delete todos[b.mesa]; await this.state.storage.put('llamados', todos);   // la mesa queda limpia para quien llegue
+      return json({ ok: true, liberada: !!cur });
+    }
+
     if (url.pathname === '/llamar') {
+      const estado = await this.tomar(b.mesa, b.d, false);
+      if (estado !== 'ok') return json({ ok: false, sesion: estado }, 409);
       const todos = await this.llamados();
       const cur = todos[b.mesa];
       if (!cur) todos[b.mesa] = { desde: ahora, veces: 1 };
@@ -172,13 +237,16 @@ export class Barra {
       return json({ ok: true, activo: true, desde: todos[b.mesa].desde, ahora });
     }
     if (url.pathname === '/estado') {
+      const estado = await this.tomar(url.searchParams.get('mesa'), url.searchParams.get('d'), false);   // también es la señal de vida
+      if (estado !== 'ok') return json({ ok: false, sesion: estado }, 409);
       const todos = await this.llamados(); const c = todos[url.searchParams.get('mesa')];
-      return json({ ok: true, activo: !!c, desde: c ? c.desde : null, ahora });
+      return json({ ok: true, sesion: 'ok', activo: !!c, desde: c ? c.desde : null, ahora });
     }
     if (url.pathname === '/lista') {
-      const todos = await this.llamados();
+      const todos = await this.llamados(), ses = await this.sesiones();
       const lista = Object.entries(todos).map(([mesa, c]) => ({ mesa: Number(mesa), desde: c.desde, veces: c.veces })).sort((x, y) => x.desde - y.desde);
-      return json({ ok: true, ahora, llamados: lista });
+      const mesas = Object.entries(ses).map(([mesa, s]) => ({ mesa: Number(mesa), desde: s.desde, visto: s.visto })).sort((x, y) => x.mesa - y.mesa);   // nunca se envía el identificador del dispositivo
+      return json({ ok: true, ahora, llamados: lista, mesas });
     }
     if (url.pathname === '/atender') {
       const todos = await this.llamados();

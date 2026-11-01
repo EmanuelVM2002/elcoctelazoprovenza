@@ -304,18 +304,88 @@ img{-webkit-user-drag:none}
 .banner figcaption{position:absolute;left:0;right:0;bottom:0;padding:38px 20px 14px;background:linear-gradient(rgba(8,7,9,0),rgba(8,7,9,.9));font-family:var(--fd);font-size:16px;letter-spacing:-.01em}
 @media(min-width:760px){.banner{aspect-ratio:auto;height:320px}.banner img{object-position:50% 56%}}
 
-/* comidas: papel de mármol claro, como la página de comidas de la carta */
-.section.stone{
-  --fg:var(--tinta);--fg2:#55504a;--ln:rgba(23,21,26,.24);--pane:rgba(255,255,255,.5);
-  margin:30px 0 10px;padding:28px 24px 12px;color:var(--fg);border-radius:28px;
-  background:#cfcbb8 url(img/fondo-piedra.webp) center/cover;box-shadow:inset 0 0 0 1px rgba(255,255,255,.35);
+/* ---------- VISTAS Y NAVEGACIÓN PRINCIPAL ---------- */
+.view{display:none}
+.view.active{display:block;animation:viewIn .45s var(--ease)}
+@keyframes viewIn{from{opacity:0;transform:translateY(8px)}}
+.mainnav{
+  position:fixed;z-index:60;left:0;right:0;bottom:0;display:flex;gap:4px;padding:8px 14px calc(8px + env(safe-area-inset-bottom,0px));
+  background:rgba(8,6,8,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--ln);
 }
-.stone .it-pic{background:radial-gradient(circle at 50% 40%,rgba(255,255,255,.7),rgba(255,255,255,.18) 75%)}
-.stone .add{border-color:var(--tinta);color:var(--tinta)}
-.stone .add:hover,.stone .add.done{background:var(--rosa);border-color:var(--rosa);color:#fff}
-.stone .it:hover h3{color:#b3114a}
-.stone .sub em{color:var(--fg2)}
-.stone .pb small{color:#b3114a}
+.mainnav a{
+  flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:7px 4px 6px;border-radius:16px;text-decoration:none;
+  color:var(--gris);font-size:11.5px;font-weight:700;transition:color .2s,background .2s;
+}
+.mainnav svg{width:22px;height:22px}
+.mainnav a:hover{color:var(--hueso)}
+.mainnav a[aria-current="page"]{color:var(--hueso);background:rgba(232,25,95,.16)}
+.mainnav a[aria-current="page"] svg{color:var(--rosa2)}
+@media(min-width:1000px){
+  .mainnav{top:0;bottom:auto;left:50%;right:auto;transform:translateX(-50%);height:var(--topbar-h);padding:0;gap:6px;align-items:center;background:none;border:0;backdrop-filter:none;-webkit-backdrop-filter:none;z-index:55}
+  .mainnav a{flex:none;flex-direction:row;gap:8px;height:40px;padding:0 18px;border-radius:999px;font-size:14.5px}
+  .mainnav svg{width:18px;height:18px}
+}
+@media(max-width:999px){
+  .callbtn,.admfab{bottom:84px}
+  .top{bottom:84px}
+  .toast{bottom:146px}
+  footer{margin-bottom:120px}
+}
+
+/* ---------- RECOMENDADOS (solo en el Home) ---------- */
+.reco{padding-top:44px;padding-bottom:6px}
+.reco-sub{margin:12px 0 0;max-width:52ch;color:var(--fg2);font-size:14.5px}
+.plan-tabs{display:flex;gap:8px;margin:18px 0 14px}
+.plan-tabs button{padding:10px 18px;border-radius:999px;border:1px solid var(--ln);background:transparent;color:var(--gris);font:700 14px var(--fb);transition:background .2s,color .2s,border-color .2s}
+.plan-tabs button[aria-pressed="true"]{background:var(--rosa);border-color:var(--rosa);color:#fff}
+.plans{display:grid;gap:16px;margin-top:6px}
+.plan{
+  display:none;flex-direction:column;padding:24px;border-radius:30px;border:1px solid var(--ln);
+  background:radial-gradient(120% 70% at 0% 0%,rgba(232,25,95,.16),transparent 60%),rgba(255,255,255,.03);
+}
+.plan.on{display:flex}
+.plan-for{font-size:11.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--rosa2)}
+.plan h3{margin:4px 0 6px;font-family:var(--fd);font-weight:800;font-size:34px;line-height:1;letter-spacing:-.03em}
+.plan-note{margin:0;font-size:13px;color:var(--fg2)}
+.plan-items{margin:16px 0 8px;flex:1}
+.pl-row{display:grid;grid-template-columns:52px 1fr auto;gap:12px;align-items:center;padding:10px 0;border-top:1px solid var(--ln);cursor:pointer;-webkit-tap-highlight-color:transparent}
+.pl-pic{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;overflow:hidden;background:radial-gradient(circle at 50% 38%,rgba(255,255,255,.14),rgba(255,255,255,.02) 72%);border:1px solid var(--ln);color:var(--rosa)}
+.pl-pic img{width:88%;height:88%;object-fit:contain}
+.pl-pic img.cover{width:100%;height:100%;object-fit:cover}
+.pl-txt b{display:block;font-family:var(--fd);font-weight:700;font-size:16px;line-height:1.15;letter-spacing:-.01em}
+.pl-txt small{display:block;margin-top:2px;font-size:12px;color:var(--fg2)}
+.pl-row .price{font-size:14px}
+.plan-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:10px;padding-top:16px;border-top:1px solid var(--ln)}
+.plan-total small{display:block;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--fg2)}
+.plan-total b{font-family:var(--fd);font-weight:800;font-size:28px;letter-spacing:-.03em}
+@media(min-width:860px){
+  .plans{grid-template-columns:repeat(3,1fr);gap:20px}
+  .plan{display:flex}
+  .plan-tabs{display:none}
+}
+
+/* ---------- SEDES ---------- */
+.sedes-grp{margin-top:34px}
+.sedes-grp:first-child{margin-top:28px}
+.sedes-grp>h3{display:flex;align-items:baseline;flex-wrap:wrap;gap:6px 12px;margin:0 0 4px;font-family:var(--fd);font-weight:800;font-size:clamp(26px,7vw,36px);letter-spacing:-.03em}
+.sedes-grp>h3 small{font:600 12px var(--fb);letter-spacing:.04em;color:var(--fg2)}
+.sedes-list{display:grid;gap:14px;margin-top:14px}
+@media(min-width:760px){.sedes-list{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1060px){.sedes-list{grid-template-columns:repeat(3,1fr)}}
+.sede{padding:20px;border-radius:26px;border:1px solid var(--ln);background:rgba(255,255,255,.035)}
+.sede.here{border-color:rgba(232,25,95,.7);background:radial-gradient(120% 90% at 0% 0%,rgba(232,25,95,.2),transparent 62%),rgba(255,255,255,.035)}
+.sede-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.sede h4{margin:0;font-family:var(--fd);font-weight:700;font-size:21px;letter-spacing:-.02em}
+.sede-flag{padding:3px 10px;border-radius:999px;background:var(--rosa);color:#fff;font-size:11px;font-weight:700}
+.sede p{margin:6px 0 14px;font-size:14px;color:#d3ccd6}
+.sede-act{display:flex;flex-wrap:wrap;gap:8px}
+.sede-act .btn{height:42px;padding:0 18px;font-size:14px}
+.sede-map{margin-top:14px;border-radius:18px;overflow:hidden;border:1px solid var(--ln)}
+.sede-map[hidden]{display:none}
+.sede-map iframe{display:block;width:100%;height:240px;border:0;filter:grayscale(.4) invert(.92) hue-rotate(180deg) contrast(.9)}
+.sede-soon{padding:22px;border-radius:26px;border:1px dashed rgba(232,25,95,.6);background:rgba(232,25,95,.06)}
+.sede-soon b{display:block;font-family:var(--fd);font-weight:800;font-size:22px;letter-spacing:-.02em}
+.sede-soon p{margin:6px 0 0;max-width:46ch;font-size:14px;color:#d3ccd6}
 
 .results-head{margin:22px 0 0;font-size:13px;color:var(--fg2)}
 .results-head b{font-weight:600;color:var(--hueso)}
@@ -348,14 +418,33 @@ footer .tag::before{content:"\2726";font-size:.4em;color:var(--rosa);margin-righ
   .modal{align-items:center;padding:20px}
   .mpanel{border-bottom:1px solid rgba(232,25,95,.65);border-radius:30px}
 }
-.mmedia{position:relative;height:clamp(190px,30vh,270px);border-radius:29px 29px 0 0;overflow:hidden}
-.mstage{position:absolute;inset:0}
-.mstage .pic{width:100%;height:100%;display:grid;place-items:center;background:radial-gradient(circle at 50% 46%,rgba(255,255,255,.14),transparent 68%)}
-.mstage .pic img{max-width:78%;max-height:86%;object-fit:contain}
-.mstage .pic img.photo{max-width:none;max-height:none;width:100%;height:100%;object-fit:cover;object-position:50% 16%}
-.mstar{font-size:34px;color:var(--rosa)}
+.mmedia{position:relative;height:clamp(230px,38vh,330px);border-radius:29px 29px 0 0;overflow:hidden}
+/* escena 3D: la foto siempre cabe entera (inset fijo + object-fit) y gira con el dedo o el puntero */
+.mstage{position:absolute;inset:0;perspective:760px;cursor:grab;touch-action:pan-y;-webkit-tap-highlight-color:transparent}
+.mstage:active{cursor:grabbing}
+.mstage::before{content:"";position:absolute;inset:0;background:radial-gradient(60% 55% at 50% 48%,rgba(232,25,95,.30),transparent 72%)}
+.mstage .floor{position:absolute;left:50%;bottom:11%;width:44%;height:18px;transform:translateX(-50%);border-radius:50%;background:radial-gradient(ellipse at center,rgba(0,0,0,.75),transparent 72%);filter:blur(5px)}
+.mstage .pic{position:absolute;inset:0;transform-style:preserve-3d}
+.mstage .obj{
+  position:absolute;inset:22px 22px 34px;transform-style:preserve-3d;
+  transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .45s var(--ease);
+}
+.mstage .obj img{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none;user-select:none;
+  filter:drop-shadow(0 22px 20px rgba(0,0,0,.55)) drop-shadow(0 0 22px rgba(232,25,95,.22));
+  animation:sway 7s ease-in-out infinite;transform-origin:50% 60%;
+}
+@keyframes sway{0%,100%{transform:rotateY(-13deg) translateY(2px)}50%{transform:rotateY(13deg) translateY(-7px)}}
+.mstage.drag .obj{transition:none}
+.mstage.drag .obj img{animation-play-state:paused}
+.mstage .pic img.photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 16%;filter:none;animation:none}
+.mstage.photo{cursor:default;perspective:none}
+.mstage.photo .floor,.mstage.photo::before{display:none}
+.mhint{position:absolute;left:0;right:0;bottom:10px;text-align:center;font-size:11px;font-weight:600;letter-spacing:.08em;color:rgba(255,255,255,.55);pointer-events:none}
+.mstar{position:absolute;inset:0;display:grid;place-items:center;font-size:34px;color:var(--rosa)}
 .mpanel.nomedia .mmedia{height:84px}
-.mpanel.nomedia .mstage .pic{background:none}
+.mpanel.nomedia .mstage::before{display:none}
+.mpanel.nomedia .mhint,.mpanel.nomedia .floor{display:none}
 .mclose{position:absolute;top:14px;right:14px;z-index:3;width:40px;height:40px;border-radius:50%;border:1px solid var(--ln);background:rgba(10,9,11,.72);color:var(--hueso);font-size:22px;line-height:1;display:grid;place-items:center}
 .mclose:hover{border-color:var(--rosa)}
 .mbody{padding:20px 24px 26px}
@@ -472,7 +561,10 @@ footer .tag::before{content:"\2726";font-size:.4em;color:var(--rosa);margin-righ
 .adm-empty{padding:26px 0;text-align:center;color:var(--gris);font-size:13px}
 .adm-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:14px;font-size:12.5px;color:var(--gris)}
 .adm-sound{display:inline-flex;align-items:center;gap:8px}
-#admCount{color:var(--rosa2)}
+#admCount,#admMCount{color:var(--rosa2)}
+.adm-sub{margin:22px 0 0;font-family:var(--fd);font-weight:800;font-size:20px;letter-spacing:-.02em}
+.adm-help{margin:4px 0 4px;font-size:12.5px;color:var(--gris)}
+.btn.warn{background:var(--rosa);border-color:var(--rosa);color:#fff}
 
 /* ---------- BOTONES FLOTANTES ---------- */
 .callbtn,.admfab{
@@ -532,6 +624,9 @@ footer .tag::before{content:"\2726";font-size:.4em;color:var(--rosa);margin-righ
     </div>
   </header>
 
+  <main>
+  <!-- ====== HOME ====== -->
+  <div class="view active" id="view-home">
   <section class="hero">
     <div class="hero-grid">
       <div class="hero-copy">
@@ -539,7 +634,7 @@ footer .tag::before{content:"\2726";font-size:.4em;color:var(--rosa);margin-righ
         <h1 class="hero-title"><span class="h-a">El Coctelazo</span><span class="h-b"><i>&times;</i>Perritos Gourmet</span></h1>
         <p class="hero-lede" data-i18n="heroLede">Granizados, cócteles y chupitos del Coctelazo, junto a la comida gourmet de Perritos Gourmet de la Uva. Pide desde tu mesa.</p>
         <div class="hero-actions">
-          <a class="btn primary" href="#combos" id="ctaMenu" data-i18n="ctaMenu">Ver la carta</a>
+          <a class="btn primary" href="#carta" id="ctaMenu" data-i18n="ctaMenu">Ver la carta</a>
           <a class="btn ghost" href="#comidas" id="ctaFood" data-i18n="ctaFood">Comida gourmet</a>
         </div>
         <span class="status open" id="heroMesa" role="status" hidden></span>
@@ -550,10 +645,15 @@ footer .tag::before{content:"\2726";font-size:.4em;color:var(--rosa);margin-righ
       </button>
     </div>
   </section>
+  <section class="wrap reco" id="reco" aria-labelledby="recoT">
+    <div class="sec-head"><h2 id="recoT" data-i18n="recoTitle">Recomendados</h2></div>
+    <p class="reco-sub" data-i18n="recoSub">Planes armados desde nuestra carta, listos para agregar a tu pedido.</p>
+    <div id="recoRoot"></div>
+  </section>
+  </div>
 
-  <!-- ====== MENÚ ====== -->
-  <main>
-  <div class="view active" id="view-menu">
+  <!-- ====== CARTA ====== -->
+  <div class="view" id="view-carta">
     <div class="wrap">
       <div class="tools">
         <label class="search" id="searchBox">
@@ -571,6 +671,11 @@ footer .tag::before{content:"\2726";font-size:.4em;color:var(--rosa);margin-righ
       <div id="menuRoot"></div>
     </div>
   </div>
+
+  <!-- ====== SEDES ====== -->
+  <div class="view" id="view-sedes">
+    <div class="wrap" id="sedesRoot"></div>
+  </div>
   </main>
 
   <div class="wrap">
@@ -586,13 +691,20 @@ footer .tag::before{content:"\2726";font-size:.4em;color:var(--rosa);margin-righ
   </div>
 </div>
 
+<!-- NAVEGACIÓN PRINCIPAL: barra inferior en celular y tablet, centrada en la barra superior en escritorio -->
+<nav class="mainnav" id="mainnav" aria-label="Principal">
+  <a href="#home" data-view="home" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v10h13V10"/><path d="M10 20v-5h4v5"/></svg><span data-i18n="navHome">Home</span></a>
+  <a href="#carta" data-view="carta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3h11a3 3 0 0 1 3 3v15H8a3 3 0 0 1-3-3z"/><path d="M5 18a3 3 0 0 1 3-3h11M9 7h6M9 10.5h4"/></svg><span data-i18n="navCarta">Carta</span></a>
+  <a href="#sedes" data-view="sedes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg><span data-i18n="navSedes">Sedes</span></a>
+</nav>
+
 <!-- FICHA DEL PRODUCTO -->
 <div class="scrim" id="scrim"></div>
 <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle" aria-hidden="true">
   <div class="mpanel" id="mpanel">
     <div class="mmedia">
       <button class="mclose" id="mClose" type="button" aria-label="Cerrar">×</button>
-      <div class="mstage" id="mStage"><div class="pic" id="mPic"></div></div>
+      <div class="mstage" id="mStage"><div class="floor" aria-hidden="true"></div><div class="pic" id="mPic"></div><span class="mhint" id="mHint" aria-hidden="true"></span></div>
     </div>
     <div class="mbody">
       <div class="mhead"><h3 id="mTitle"></h3><div class="price" id="mPrice"></div></div>
@@ -670,6 +782,9 @@ footer .tag::before{content:"\2726";font-size:.4em;color:var(--rosa);margin-righ
     <div id="admMain" hidden>
       <h3>Llamados de mesa <span id="admCount"></span></h3>
       <div id="admList"></div>
+      <h4 class="adm-sub">Mesas con dispositivo <span id="admMCount"></span></h4>
+      <p class="adm-help">Cada mesa solo se puede usar desde un celular. Libérala si el cliente se fue o si otro celular la necesita.</p>
+      <div id="admMesas"></div>
       <div class="adm-foot">
         <label class="adm-sound"><input type="checkbox" id="admSound" checked> Sonido al llegar un llamado</label>
         <button class="linkbtn" id="admOut" type="button">Cerrar sesión</button>
@@ -712,16 +827,39 @@ const MESA_TTL = 5*60*60*1000;   // la mesa escaneada se recuerda 5 horas en el 
    DATOS — la carta de octubre (PDF) es la fuente
    layout: list = renglones · liq = tabla de precios con botones · feat = tarjeta con foto
    ========================================================= */
+// Orden de la carta: primero los licores, luego lo que se toma, al final la comida y los combos
 const CATS = [
-  {id:'combos',     es:'Combos',      en:'Combos'},
-  {id:'granizados', es:'Granizados',  en:'Slushies'},
-  {id:'casa',       es:'De la casa',  en:'House specials'},
-  {id:'chupitos',   es:'Chupitos',    en:'Shots'},
-  {id:'malteadas',  es:'Malteadas',   en:'Milkshakes'},
   {id:'licores',    es:'Licores',     en:'Spirits'},
   {id:'micheladas', es:'Cervezas y micheladas', en:'Beer & micheladas'},
-  {id:'comidas',    es:'Comidas',     en:'Food', stone:true}
+  {id:'casa',       es:'De la casa',  en:'House specials'},
+  {id:'chupitos',   es:'Chupitos',    en:'Shots'},
+  {id:'granizados', es:'Granizados',  en:'Slushies'},
+  {id:'malteadas',  es:'Malteadas',   en:'Milkshakes'},
+  {id:'comidas',    es:'Comidas',     en:'Food'},
+  {id:'combos',     es:'Combos',      en:'Combos'}
 ];
+
+// Recomendados del Home: planes armados solo con productos de la carta (vi = índice de tamaño en las tablas de precios)
+const PLANS = [
+  {id:'parejas', es:'Parejas', en:'Couples', forEs:'Para 2', forEn:'For 2',
+   noteEs:'Para compartir sin afán: margaritas, un ceviche y baos.', noteEn:'To share, no rush: margaritas, a ceviche and baos.',
+   items:[{id:'gem'},{id:'fuku'},{id:'bao1'}]},
+  {id:'amigos', es:'Amigos', en:'Friends', forEs:'Para 4 a 6', forEn:'For 4 to 6',
+   noteEs:'La mesa de la noche: cantarito, chupitos y algo para picar.', noteEn:'The night’s table: cantarito, shots and something to nibble.',
+   items:[{id:'cant'},{id:'ana'},{id:'palm'},{id:'bao3'}]},
+  {id:'familia', es:'Familia', en:'Family', forEs:'Para 3 o 4 · sin licor', forEn:'For 3 or 4 · alcohol-free',
+   noteEs:'Sin licor: combo de baos, entrada, granizado y malteada.', noteEn:'Alcohol-free: baos combo, starter, slush and milkshake.',
+   items:[{id:'combo-baos'},{id:'palm'},{id:'gt-sin',vi:0},{id:'milo'}]}
+];
+
+// Sedes. Las de Perritos Gourmet quedan pendientes hasta tener sus ubicaciones.
+const SEDES_COC = [
+  {n:'Provenza',a:'Cra. 35 #8a 11',here:true},{n:'Campo Valdés',a:'Cra 48a #76-59'},
+  {n:'Belén La Nubia',a:'Carrera 83 #15a-21'},{n:'Belén Rincón',a:'Carrera 79 #1a-42'},
+  {n:'Manrique',a:'Carrera 47 #69-5'},{n:'San Javier',a:'Calle 39b #108-76'},
+  {n:'Castilla',a:'Carrera 68 #93-83'}
+];
+const SEDES_PER = [];   // {n:'…',a:'dirección'} — pendiente
 
 const VL3 = [['Trago','Shot'],['Media','Half'],['Botella','Bottle']];
 const VL2 = [['Yarda','Yard'],['16 oz','16 oz']];
@@ -860,7 +998,11 @@ const BY_ID = Object.fromEntries(ITEMS.map(i => [i.id,i]));
    TEXTOS DE LA INTERFAZ
    ========================================================= */
 const UI = {
-  es:{ctaMenu:'Ver la carta',ctaFood:'Comida gourmet',houseTag:'De la casa',heroLede:'Granizados, cócteles y chupitos del Coctelazo, junto a la comida gourmet de Perritos Gourmet de la Uva. Pide desde tu mesa.',searchLabel:'Buscar en la carta',searchPh:'Busca en la carta…',surprise:'Sorpréndeme',
+  es:{ctaMenu:'Ver la carta',ctaFood:'Comida gourmet',houseTag:'De la casa',
+    navHome:'Home',navCarta:'Carta',navSedes:'Sedes',recoTitle:'Recomendados',recoSub:'Planes armados desde nuestra carta, listos para agregar a tu pedido.',planAdd:'Agregar plan',planAdded:'Plan agregado a tu pedido',planTotal:'Total del plan',
+    sedesTitle:'Sedes',sedesCoc:'El Coctelazo',sedesCocS:'Medellín',sedesPer:'Perritos Gourmet',sedesPerS:'de la Uva',sedeHere:'Estás aquí',sedeHow:'Cómo llegar',sedeMap:'Ver mapa',sedeHide:'Ocultar mapa',
+    soonT:'Muy pronto',soonS:'Estamos organizando las ubicaciones de Perritos Gourmet. Pronto las verás aquí.',dragHint:'Arrastra para girar',
+    mesaBusy:'Esta mesa ya se está usando en otro dispositivo. Pídele al mesero que la libere.',mesaFreed:'El mesero liberó tu mesa. Escanea el QR otra vez para volver a pedir.',mesaMoved:'Esta mesa pasó a otro dispositivo. Escanea el QR otra vez si quieres retomarla.',heroLede:'Granizados, cócteles y chupitos del Coctelazo, junto a la comida gourmet de Perritos Gourmet de la Uva. Pide desde tu mesa.',searchLabel:'Buscar en la carta',searchPh:'Busca en la carta…',surprise:'Sorpréndeme',
     creditL:'© 2026 Sonetix. Páginas web a la medida.',
     myOrder:'Mi pedido',total:'Total',sendBar:'Enviar pedido a la barra',copy:'Copiar',clear:'Vaciar',fine:'Tu pedido le llega a la barra por WhatsApp con el número de tu mesa. El equipo te lo confirma.',
     emptyCart:'Tu pedido está vacío',emptyCartSub:'Toca el + de cualquier producto para armarlo aquí.',remove:'Quitar',add:'Agregar',addTo:'Agregar al pedido',added:'añadido',viewOrder:'Ver pedido',copied:'Pedido copiado',
@@ -875,7 +1017,11 @@ const UI = {
     tip:'Elige 3 toppings a tu gusto',topsLabel:'Sabor y toppings del granizado',topsPh:'Sabor y toppings (opcional)',
     yarda:'Yarda',yardaS:'16 onzas',oz16:'16 onzas',volqueta:'Volqueta de granizado',askWaiter:'Pregúntale a tu mesero',
     close:'Cerrar',top:'Volver arriba',newb:'NUEVO',comboTag:'Combo especial'},
-  en:{ctaMenu:'See the menu',ctaFood:'Gourmet food',houseTag:'House special',heroLede:'Slushies, cocktails and shots from El Coctelazo, with the gourmet food of Perritos Gourmet de la Uva. Order from your table.',searchLabel:'Search the menu',searchPh:'Search the menu…',surprise:'Surprise me',
+  en:{ctaMenu:'See the menu',ctaFood:'Gourmet food',houseTag:'House special',
+    navHome:'Home',navCarta:'Menu',navSedes:'Locations',recoTitle:'Recommended',recoSub:'Plans built from our menu, ready to add to your order.',planAdd:'Add plan',planAdded:'Plan added to your order',planTotal:'Plan total',
+    sedesTitle:'Locations',sedesCoc:'El Coctelazo',sedesCocS:'Medellín',sedesPer:'Perritos Gourmet',sedesPerS:'de la Uva',sedeHere:'You are here',sedeHow:'Get directions',sedeMap:'Show map',sedeHide:'Hide map',
+    soonT:'Coming soon',soonS:'We are organizing the Perritos Gourmet locations. You will see them here soon.',dragHint:'Drag to rotate',
+    mesaBusy:'This table is already in use on another device. Ask the waiter to release it.',mesaFreed:'The waiter released your table. Scan the QR again to keep ordering.',mesaMoved:'This table moved to another device. Scan the QR again if you want it back.',heroLede:'Slushies, cocktails and shots from El Coctelazo, with the gourmet food of Perritos Gourmet de la Uva. Order from your table.',searchLabel:'Search the menu',searchPh:'Search the menu…',surprise:'Surprise me',
     creditL:'© 2026 Sonetix. Websites made to measure.',
     myOrder:'My order',total:'Total',sendBar:'Send order to the bar',copy:'Copy',clear:'Clear',fine:'Your order reaches the bar on WhatsApp with your table number. The team will confirm it.',
     emptyCart:'Your order is empty',emptyCartSub:'Tap the + on any product to build it here.',remove:'Remove',add:'Add',addTo:'Add to order',added:'added',viewOrder:'View order',copied:'Order copied',
@@ -906,7 +1052,7 @@ const store = {
   set(k,v){try{localStorage.setItem(k,v)}catch(e){}}
 };
 
-const state = {lang: store.get('coctelazo-language')==='en'?'en':'es', mesa:null, view:'menu', cat:'combos', q:'', cart:[], gtop:'', modal:null};
+const state = {lang: store.get('coctelazo-language')==='en'?'en':'es', mesa:null, view:'home', cat:'licores', plan:'parejas', q:'', cart:[], gtop:'', modal:null};
 try{ state.cart = JSON.parse(store.get('coctelazo-cart-v3')||'[]').filter(l=>l&&BY_ID[l.id]); }catch(e){ state.cart=[]; }
 
 const t = k => UI[state.lang][k];
@@ -969,8 +1115,7 @@ function subBlock(sub, items, extras){
 
 function sectionHTML(cat){
   const subs = SUBS.filter(s=>s.cat===cat.id);
-  let html = `<div class="section${cat.stone?' stone':''}" id="sec-${cat.id}"><div class="sec-head"><h2>${esc(pick(cat))}</h2></div>`;
-  if (cat.banner) html += `<figure class="banner rv"><img src="img/${cat.banner.img}.webp" alt="" loading="lazy" decoding="async"><figcaption>${esc(pick(cat.banner))}</figcaption></figure>`;
+  let html = `<div class="section" id="sec-${cat.id}"><div class="sec-head"><h2>${esc(pick(cat))}</h2></div>`;
   subs.forEach(s=>{ html += subBlock(s, ITEMS.filter(i=>i.sub===s.id), true); });
   return html + '</div>';
 }
@@ -1032,24 +1177,73 @@ function applyI18n(){
   $('#cartBtn').setAttribute('aria-label', t('myOrder'));
 }
 
+/* Recomendados (Home): cada plan suma los precios de sus productos y se agrega al pedido de una vez */
+const planPrice = p => { const it = BY_ID[p.id]; return it.prices ? it.prices[p.vi||0] : it.price; };
+function planHTML(pl){
+  const total = pl.items.reduce((n,p)=>n+planPrice(p),0);
+  const rows = pl.items.map(p=>{
+    const it = BY_ID[p.id];
+    const pic = it.img ? `<img src="${it.img}" alt="" decoding="async">` : it.photo ? `<img class="cover" src="img/${it.photo}.webp" alt="" decoding="async">` : '&#10022;';
+    const vr = it.vl ? `<small>${esc(lbl(it.vl[p.vi||0]))}</small>` : '';
+    const nmx = it.cn||it.ce ? (state.lang==='en'?it.cn:it.ce) : nm(it);
+    return `<div class="pl-row"${it.prices?'':` data-act="open" data-id="${it.id}"`}><div class="pl-pic">${pic}</div><div class="pl-txt"><b>${esc(nmx)}</b>${vr}</div><span class="price">${money(planPrice(p))}</span></div>`;
+  }).join('');
+  return `<article class="plan${state.plan===pl.id?' on':''}" data-plan="${pl.id}">
+    <span class="plan-for">${esc(state.lang==='en'?pl.forEn:pl.forEs)}</span><h3>${esc(pick(pl))}</h3><p class="plan-note">${esc(state.lang==='en'?pl.noteEn:pl.noteEs)}</p>
+    <div class="plan-items">${rows}</div>
+    <div class="plan-foot"><div class="plan-total"><small>${t('planTotal')}</small><b>${money(total)}</b></div><button class="btn primary" type="button" data-act="plan" data-id="${pl.id}">${t('planAdd')}</button></div></article>`;
+}
+function renderHome(){
+  $('#recoRoot').innerHTML = `<div class="plan-tabs" role="group" aria-label="${esc(t('recoTitle'))}">${PLANS.map(p=>`<button type="button" data-act="plantab" data-id="${p.id}" aria-pressed="${state.plan===p.id}">${esc(pick(p))}</button>`).join('')}</div><div class="plans">${PLANS.map(planHTML).join('')}</div>`;
+}
+function addPlan(id){
+  const pl = PLANS.find(p=>p.id===id); if (!pl) return;
+  muteToast = true;
+  pl.items.forEach(p=>{ const it = BY_ID[p.id]; if (it.prices) addLiq(p.id, p.vi||0); else addItem(p.id); });
+  muteToast = false;
+  toast(`${pick(pl)} — ${t('planAdded')}`);
+}
+
+/* Sedes: las de El Coctelazo y las de Perritos Gourmet (pendientes) */
+function sedeHTML(s){
+  const q = encodeURIComponent(`${s.a}, Medellín, Antioquia, Colombia`);
+  return `<article class="sede${s.here?' here':''}"><div class="sede-top"><h4>${esc(s.n)}</h4>${s.here?`<span class="sede-flag">${t('sedeHere')}</span>`:''}</div>
+    <p>${esc(s.a)} · Medellín</p>
+    <div class="sede-act"><a class="btn ghost" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=${q}">${t('sedeHow')}</a><button class="btn ghost" type="button" data-act="map" data-q="${q}">${t('sedeMap')}</button></div>
+    <div class="sede-map" hidden></div></article>`;
+}
+function renderSedes(){
+  const per = SEDES_PER.length ? `<div class="sedes-list">${SEDES_PER.map(sedeHTML).join('')}</div>` : `<div class="sede-soon" style="margin-top:14px"><b>${t('soonT')}</b><p>${t('soonS')}</p></div>`;
+  $('#sedesRoot').innerHTML = `<div class="section"><div class="sec-head"><h2>${esc(t('sedesTitle'))}</h2></div>
+    <div class="sedes-grp"><h3>${esc(t('sedesCoc'))} <small>${esc(t('sedesCocS'))}</small></h3><div class="sedes-list">${SEDES_COC.map(sedeHTML).join('')}</div></div>
+    <div class="sedes-grp"><h3>${esc(t('sedesPer'))} <small>${esc(t('sedesPerS'))}</small></h3>${per}</div></div>`;
+}
+
 function renderAll(){
-  applyI18n(); renderCatNav(); renderMenu(); renderCart();
+  applyI18n(); renderCatNav(); renderMenu(); renderHome(); renderSedes(); renderCart();
   if (state.modal) openModal(state.modal.id, {keep:true});
 }
 
 /* =========================================================
-   VISTAS Y RUTAS
+   VISTAS Y RUTAS — Home · Carta · Sedes
    ========================================================= */
-function setView(name, {scroll=true}={}){
-  if (scroll) scrollToContent();
+const VIEWS = ['home','carta','sedes'];
+function setView(name, {scroll=true,hash=true}={}){
+  if (!VIEWS.includes(name)) name = 'home';
+  state.view = name;
+  $$('.view').forEach(v=>v.classList.toggle('active', v.id==='view-'+name));
+  $$('#mainnav a').forEach(a=>{ if (a.dataset.view===name) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); });
+  if (hash) history.replaceState(null,'','#'+(name==='carta'?state.cat:name));
+  if (scroll) window.scrollTo({top:0,behavior:'instant'});
 }
 function scrollToContent(){
-  const hero = $('.hero'); const y = hero.offsetTop + hero.offsetHeight - 10;
+  const v = $('#view-carta'); const y = v.getBoundingClientRect().top + scrollY - 8;
   if (window.scrollY > y) window.scrollTo({top:y,behavior:'instant'});
 }
 function setCat(id, {scroll=true,hash=true}={}){
-  if (!CATS.some(c=>c.id===id)) id='combos';
+  if (!CATS.some(c=>c.id===id)) id='licores';
   state.cat = id;
+  if (state.view!=='carta') setView('carta',{scroll:false,hash:false});
   if (state.q){ state.q=''; $('#q').value=''; $('#searchBox').classList.remove('has'); }
   renderCatNav(); renderMenu();
   if (hash) history.replaceState(null,'','#'+id);
@@ -1057,8 +1251,8 @@ function setCat(id, {scroll=true,hash=true}={}){
 }
 function route(){
   const h = location.hash.slice(1);
-  setView('menu',{scroll:false});
-  if (CATS.some(c=>c.id===h)) setCat(h,{scroll:false,hash:false});
+  if (CATS.some(c=>c.id===h)){ setCat(h,{scroll:false,hash:false}); return; }
+  setView(VIEWS.includes(h)?h:'home',{scroll:false,hash:false});
 }
 
 /* =========================================================
@@ -1069,13 +1263,14 @@ function saveCart(){ store.set('coctelazo-cart-v3', JSON.stringify(state.cart));
 function cartCount(){ return state.cart.reduce((n,l)=>n+l.qty,0); }
 function cartTotal(){ return state.cart.reduce((n,l)=>n+l.qty*l.price,0); }
 
+let muteToast = false;   // al agregar un plan completo solo se avisa una vez
 function addLine({id,name,variant=null,price,qty=1}){
   const key = lineKey(id, variant?variant.es:'');
   const ex = state.cart.find(l=>l.key===key);
   if (ex) ex.qty += qty; else state.cart.push({key,id,name,variant,price,qty});
   saveCart(); renderCart();
   const b = $('#cartBtn'); b.classList.remove('bump'); void b.offsetWidth; b.classList.add('bump');
-  toast(`${name[state.lang]}${variant?' · '+variant[state.lang]:''} — ${t('added')}`);
+  if (!muteToast) toast(`${name[state.lang]}${variant?' · '+variant[state.lang]:''} — ${t('added')}`);
 }
 function addItem(id, qty=1, optIdx=null){
   const it = BY_ID[id]; if (!it) return;
@@ -1116,13 +1311,27 @@ function readMesaGuardada(){
   }catch(e){}
   return null;
 }
-// El servidor dice si la llave es de esa mesa: true / false / null (sin conexión)
+// Identificador propio de este celular: el servidor deja UN solo dispositivo por mesa
+const DEV = (() => {
+  const ok = v => typeof v==='string' && /^[A-Za-z0-9_-]{8,64}$/.test(v);
+  let v = store.get('coctelazo-dev');
+  if (!ok(v)){ try{ v = sessionStorage.getItem('coctelazo-dev'); }catch(e){ v = null; } }
+  if (!ok(v)){
+    const a = crypto.getRandomValues(new Uint8Array(16));
+    v = btoa(String.fromCharCode(...a)).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+  }
+  store.set('coctelazo-dev', v); try{ sessionStorage.setItem('coctelazo-dev', v); }catch(e){}
+  return v;
+})();
+// El servidor dice si la llave es de esa mesa y si este dispositivo puede usarla: true / false / 'busy' (la tiene otro dispositivo) / null (sin conexión)
 async function verifyMesa(m,k){
   try{
-    const r = await fetch(`/api/mesa?m=${encodeURIComponent(m)}&k=${encodeURIComponent(k)}`, {cache:'no-store'});
-    return r.ok ? true : (r.status===403 ? false : null);
+    const r = await fetch(`/api/mesa?m=${encodeURIComponent(m)}&k=${encodeURIComponent(k)}&d=${DEV}`, {cache:'no-store'});
+    return r.ok ? true : (r.status===403 ? false : r.status===409 ? 'busy' : null);
   }catch(e){ return null; }
 }
+// La mesa dejó de ser de este dispositivo (la barra la liberó o la tomó otro celular)
+function mesaLost(why){ clearMesa(); toast(t(why==='expulsado' ? 'mesaFreed' : 'mesaMoved'), 7000); }
 function setMesa(n,k){
   state.mesa = n; state.mesaK = k;
   store.set('coctelazo-mesa', JSON.stringify({n,k,t:Date.now()}));
@@ -1234,7 +1443,7 @@ async function scanTick(){
         if (!scan.on) return;                       // lo cerraron mientras el servidor respondía
         if (ok===true){ gotMesa(q.m, q.k); return; }
         scan.bad = txt; scan.badT = Date.now();
-        scanMsg(ok===null ? t('scanNet') : t('scanBad'), true);
+        scanMsg(ok==='busy' ? t('mesaBusy') : ok===null ? t('scanNet') : t('scanBad'), true);
       }
     }catch(e){}
   }
@@ -1267,8 +1476,9 @@ function renderCallBtn(){
 async function callStatus(){
   if (!state.mesa) return;
   try{
-    const r = await fetch(`/api/llamar?m=${state.mesa}&k=${encodeURIComponent(state.mesaK)}`, {cache:'no-store'});
+    const r = await fetch(`/api/llamar?m=${state.mesa}&k=${encodeURIComponent(state.mesaK)}&d=${DEV}`, {cache:'no-store'});
     if (r.status===403){ clearMesa(); toast(t('mesaBad')); return; }
+    if (r.status===409){ const d = await r.json().catch(()=>({})); mesaLost(d.sesion); return; }
     const d = await r.json(); call.active = !!d.activo; renderCallBtn();
   }catch(e){}
 }
@@ -1281,9 +1491,10 @@ async function doCall(){
   if (call.busy || call.active || !state.mesa) return;
   call.busy = true; renderCallBtn();
   try{
-    const r = await fetch('/api/llamar', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({m:state.mesa, k:state.mesaK})});
+    const r = await fetch('/api/llamar', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({m:state.mesa, k:state.mesaK, d:DEV})});
     if (r.ok){ call.active = true; try{ navigator.vibrate && navigator.vibrate(40); }catch(e){} toast(t('callOk')); }
     else if (r.status===403){ clearMesa(); toast(t('mesaBad')); }
+    else if (r.status===409){ const d = await r.json().catch(()=>({})); mesaLost(d.sesion); }
     else toast(t('callErr'));
   }catch(e){ toast(t('callErr')); }
   call.busy = false; renderCallBtn();
@@ -1293,7 +1504,7 @@ document.addEventListener('visibilitychange', ()=>{ if (!document.hidden){ callS
 /* =========================================================
    ACCESO BARRA — el usuario y la contraseña los valida el servidor; la página no los contiene
    ========================================================= */
-const adm = {token:null, exp:0, poll:0, calls:[], known:null, ctx:null, off:0};
+const adm = {token:null, exp:0, poll:0, calls:[], mesas:[], sure:null, known:null, ctx:null, off:0};
 function admLoad(){
   try{ const o = JSON.parse(store.get('coctelazo-adm')||'null'); if (o && o.token && o.exp>Date.now()){ adm.token=o.token; adm.exp=o.exp; } }catch(e){}
 }
@@ -1325,7 +1536,7 @@ function admClose(){
   if (!$('#drawer').classList.contains('show') && !$('#scan').classList.contains('show') && !$('#gate').classList.contains('show')) document.body.classList.remove('locked');
 }
 function admLogout(){
-  adm.token=null; adm.exp=0; adm.known=null; adm.calls=[]; clearInterval(adm.poll);
+  adm.token=null; adm.exp=0; adm.known=null; adm.calls=[]; adm.mesas=[]; adm.sure=null; clearInterval(adm.poll);
   store.set('coctelazo-adm','null'); $('#admFab').hidden=true; $('#admLink').classList.remove('on'); admClose();
 }
 function admStart(){
@@ -1341,6 +1552,22 @@ function admRender(ahora){
   const fab = $('#admFab'); $('#admFabN').textContent = n; fab.classList.toggle('on', n>0);
   $('#admList').innerHTML = n ? adm.calls.map(c=>`<div class="adm-row"><div><b>${t('mesaLbl')} ${c.mesa}</b><small>${admAgo(ahora-c.desde)}${c.veces>1?` · llamó ${c.veces} veces`:''}</small></div><button class="btn primary" type="button" data-act="atender" data-m="${c.mesa}">Atendido</button></div>`).join('')
     : '<div class="adm-empty">Sin llamados por ahora</div>';
+  // mesas con un dispositivo asignado: «Liberar» lo tumba (pide confirmar con un segundo toque)
+  const nm2 = adm.mesas.length;
+  $('#admMCount').textContent = nm2 ? `(${nm2})` : '';
+  $('#admMesas').innerHTML = nm2 ? adm.mesas.map(c=>{
+    const sure = adm.sure===c.mesa;
+    return `<div class="adm-row"><div><b>${t('mesaLbl')} ${c.mesa}</b><small>Entró ${admAgo(ahora-c.desde)} · señal ${admAgo(ahora-c.visto)}</small></div><button class="btn ${sure?'warn':'ghost'}" type="button" data-act="liberar" data-m="${c.mesa}">${sure?'¿Seguro?':'Liberar'}</button></div>`;
+  }).join('') : '<div class="adm-empty">Ninguna mesa tiene dispositivo ahora</div>';
+}
+async function admLiberar(m){
+  adm.sure = null;
+  try{
+    const r = await fetch('/api/liberar', {method:'POST', headers:{...admH(),'Content-Type':'application/json'}, body:JSON.stringify({mesa:+m})});
+    if (r.status===401){ admLogout(); return; }
+    toast(`${t('mesaLbl')} ${m} liberada`);
+  }catch(e){ toast('No se pudo liberar. Intenta de nuevo.'); }
+  admRefresh();
 }
 async function admRefresh(){
   if (!adm.token) return;
@@ -1349,6 +1576,7 @@ async function admRefresh(){
     if (r.status===401){ admLogout(); toast('La sesión de la barra venció. Vuelve a entrar.'); return; }
     const d = await r.json();
     adm.calls = d.llamados || [];
+    adm.mesas = d.mesas || []; adm.ahora = d.ahora;
     const ids = new Set(adm.calls.map(c=>c.mesa));
     if (adm.known && adm.calls.some(c=>!adm.known.has(c.mesa))){
       admBeep();
@@ -1397,8 +1625,11 @@ function openModal(id, {keep=false}={}){
   const pic = $('#mPic');
   const hasMedia = !!(it.photo || it.img);
   $('#mpanel').classList.toggle('nomedia', !hasMedia);
+  $('#mStage').classList.toggle('photo', !!it.photo);
+  stageReset();
+  $('#mHint').textContent = it.img && !it.photo ? t('dragHint') : '';
   if (it.photo) pic.innerHTML = `<img class="photo" src="img/${it.photo}.webp" alt="${esc(nm(it))}">`;
-  else if (it.img) pic.innerHTML = `<img src="${it.img}" alt="${esc(nm(it))}">`;
+  else if (it.img) pic.innerHTML = `<div class="obj"><img src="${it.img}" alt="${esc(nm(it))}" draggable="false"></div>`;
   else pic.innerHTML = '<span class="mstar" aria-hidden="true">&#10022;</span>';
   const opts = $('#mOpts');
   if (it.opts){
@@ -1412,6 +1643,25 @@ function openModal(id, {keep=false}={}){
   document.body.classList.add('locked','modal-open');
   if (!keep) setTimeout(()=>$('#mClose').focus(),60);
 }
+/* 3D de la ficha: el producto gira con el puntero o con el dedo; sin interacción se mece solo */
+const stage = {drag:false, x:0, ry:0};
+function stageReset(){ const o = $('#mStage .obj'); stage.drag=false; stage.ry=0; $('#mStage').classList.remove('drag'); if (o){ o.style.setProperty('--rx','0deg'); o.style.setProperty('--ry','0deg'); } }
+function stageTilt(e){
+  const o = $('#mStage .obj'); if (!o || REDUCED) return;
+  const r = $('#mStage').getBoundingClientRect();
+  const px = Math.max(0,Math.min(1,(e.clientX-r.left)/r.width)), py = Math.max(0,Math.min(1,(e.clientY-r.top)/r.height));
+  if (stage.drag){ stage.ry += (e.clientX-stage.x)*.6; stage.x = e.clientX; o.style.setProperty('--ry', stage.ry.toFixed(1)+'deg'); }
+  else if (e.pointerType==='mouse'){ o.style.setProperty('--ry', ((px-.5)*2*26).toFixed(1)+'deg'); }
+  o.style.setProperty('--rx', (-(py-.5)*2*12).toFixed(1)+'deg');
+}
+(() => {
+  const s = $('#mStage');
+  s.addEventListener('pointerdown', e=>{ if (!$('.obj',s)) return; stage.drag=true; stage.x=e.clientX; s.classList.add('drag'); try{ s.setPointerCapture(e.pointerId); }catch(_){} });
+  s.addEventListener('pointermove', stageTilt);
+  const end = () => { if (!stage.drag) return; stage.drag=false; s.classList.remove('drag'); const o=$('.obj',s); if(o){ o.style.setProperty('--ry','0deg'); o.style.setProperty('--rx','0deg'); stage.ry=0; } };
+  s.addEventListener('pointerup', end); s.addEventListener('pointercancel', end);
+  s.addEventListener('pointerleave', e=>{ if (!stage.drag) stageReset(); });
+})();
 function closeModal(){
   state.modal=null;
   $('#modal').classList.remove('show'); $('#modal').setAttribute('aria-hidden','true');
@@ -1435,10 +1685,10 @@ function closeDrawer(){
    TOAST
    ========================================================= */
 let toastT;
-function toast(msg){
+function toast(msg, ms=2600){
   $('#toastMsg').textContent = msg;
   const el=$('#toast'); el.classList.add('show');
-  clearTimeout(toastT); toastT=setTimeout(()=>el.classList.remove('show'),2600);
+  clearTimeout(toastT); toastT=setTimeout(()=>el.classList.remove('show'),ms);
 }
 
 /* =========================================================
@@ -1450,6 +1700,14 @@ document.addEventListener('click', e=>{
   if (act==='add'){ e.stopPropagation(); addItem(id); flash(el); return; }
   if (act==='open'){ openModal(id); return; }
   if (act==='addv'){ addLiq(id,+el.dataset.v); return; }
+  if (act==='plan'){ addPlan(id); flash(el); return; }
+  if (act==='plantab'){ state.plan=id; $$('.plan-tabs button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.id===id))); $$('.plan').forEach(p=>p.classList.toggle('on',p.dataset.plan===id)); return; }
+  if (act==='map'){
+    const box = el.parentElement.nextElementSibling;
+    if (box.hidden){ if (!box.firstChild) box.innerHTML = `<iframe loading="lazy" title="Mapa" referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?q=${el.dataset.q}&output=embed"></iframe>`; box.hidden=false; el.textContent=t('sedeHide'); }
+    else { box.hidden=true; el.textContent=t('sedeMap'); }
+    return;
+  }
   if (act==='opt'){
     mOpt=i; $$('#mOpts .chip').forEach((c,k)=>{c.classList.toggle('on',k===i);c.setAttribute('aria-checked',String(k===i));});
     const o = state.modal && state.modal.opts && state.modal.opts[i], d = $('#oDesc');
@@ -1473,10 +1731,10 @@ $('#catnav').addEventListener('keydown', e=>{
   const s=e.key==='ArrowRight'?1:e.key==='ArrowLeft'?-1:0; if(!s) return;
   const all=$$('#catnav .chip'); const k=all.indexOf(document.activeElement); if(k<0) return; e.preventDefault(); const n=all[(k+s+all.length)%all.length]; n.focus(); n.click(); n.focus();
 });
-const goMenu = () => { setView('menu',{scroll:false}); const y=$('#view-menu').getBoundingClientRect().top+scrollY-10; scrollTo({top:y,behavior:'smooth'}); };
-$('#ctaMenu').addEventListener('click',e=>{ e.preventDefault(); goMenu(); });
-$('#ctaFood').addEventListener('click',e=>{ e.preventDefault(); setCat('comidas',{scroll:false}); requestAnimationFrame(goMenu); });
-$('#brandLink').addEventListener('click',e=>{ e.preventDefault(); scrollTo({top:0,behavior:'smooth'}); });
+$('#ctaMenu').addEventListener('click',e=>{ e.preventDefault(); setView('carta'); });
+$('#ctaFood').addEventListener('click',e=>{ e.preventDefault(); setCat('comidas',{scroll:false}); window.scrollTo({top:0,behavior:'instant'}); });
+$('#brandLink').addEventListener('click',e=>{ e.preventDefault(); setView('home'); });
+$('#mainnav').addEventListener('click',e=>{ const a=e.target.closest('a[data-view]'); if(!a) return; e.preventDefault(); setView(a.dataset.view); });
 window.addEventListener('hashchange', route);
 
 /* idioma */
@@ -1491,7 +1749,7 @@ qIn.addEventListener('input',()=>{
 });
 $('#qClear').addEventListener('click',()=>{ qIn.value=''; state.q=''; $('#searchBox').classList.remove('has'); renderCatNav(); renderMenu(); qIn.focus(); });
 document.addEventListener('keydown',e=>{
-  if (e.key==='/' && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)){ e.preventDefault(); setView('menu',{scroll:false}); qIn.focus(); }
+  if (e.key==='/' && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)){ e.preventDefault(); setView('carta',{scroll:false}); qIn.focus(); }
   if (e.key==='Escape'){
     if ($('#scan').classList.contains('show')) closeScan();
     else if ($('#adm').classList.contains('show')) admClose();
@@ -1566,6 +1824,12 @@ $('#adm').addEventListener('click',e=>{ if(e.target.id==='adm') admClose(); });
 $('#admForm').addEventListener('submit',admSubmit);
 $('#admOut').addEventListener('click',admLogout);
 $('#admList').addEventListener('click',e=>{ const b=e.target.closest('[data-act=atender]'); if (b) admAtender(b.dataset.m); });
+$('#admMesas').addEventListener('click',e=>{
+  const b = e.target.closest('[data-act=liberar]'); if (!b) return;
+  const m = +b.dataset.m;
+  if (adm.sure !== m){ adm.sure = m; admRender(adm.ahora||Date.now()); setTimeout(()=>{ if (adm.sure===m){ adm.sure=null; admRender(adm.ahora||Date.now()); } }, 4000); return; }
+  admLiberar(m);
+});
 
 /* volver arriba */
 const topBtn=$('#topBtn');
@@ -1595,6 +1859,7 @@ if (!SS.get('coctelazo-gate')) openGate();
   const ok = await verifyMesa(cand.m, cand.k);
   if (ok===true){ setMesa(cand.m, cand.k); if (viaQr) toast(t('mesaSet')(cand.m)); }
   else if (ok===false){ clearMesa(); toast(t('mesaBad')); }
+  else if (ok==='busy'){ clearMesa(); toast(t('mesaBusy'), 7000); }
   else if (viaQr) toast(t('scanNet'));
 })();
 })();

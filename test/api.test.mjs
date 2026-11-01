@@ -3,8 +3,13 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { makeEnv, worker, mesaToken } from './fake-do.mjs';
 
-const call = (env, method, path, body, headers = {}) =>
-  worker.fetch(new Request('http://sitio' + path, { method, headers: { 'Content-Type': 'application/json', ...headers }, body: body ? JSON.stringify(body) : undefined }), env);
+// Dispositivos de prueba. Si una llamada de cliente no dice cuál es, se asume el primero (D1).
+const D1 = 'dispositivo-uno-1', D2 = 'dispositivo-dos-2';
+const call = (env, method, path, body, headers = {}) => {
+  if (/^\/api\/(mesa|llamar)\?/.test(path) && !/[?&]d=/.test(path)) path += '&d=' + D1;
+  if (method === 'POST' && path === '/api/llamar' && body && body.d === undefined) body = { ...body, d: D1 };
+  return worker.fetch(new Request('http://sitio' + path, { method, headers: { 'Content-Type': 'application/json', ...headers }, body: body ? JSON.stringify(body) : undefined }), env);
+};
 const login = async env => (await (await call(env, 'POST', '/api/login', { usuario: 'BarraProvenza', clave: 'clave-de-prueba-local' })).json());
 
 test('la mesa solo es válida con la llave de su QR', async () => {
@@ -125,6 +130,71 @@ test('un llamado olvidado se limpia solo a las 3 horas', async () => {
   try {
     const st = await (await call(env, 'GET', `/api/llamar?m=1&k=${k1}`)).json();
     assert.equal(st.activo, false);
+  } finally { Date.now = real; }
+});
+
+test('una sola sesión por mesa: el segundo dispositivo es rechazado', async () => {
+  const env = makeEnv();
+  const k4 = await mesaToken(env.QR_SECRET, 4), k6 = await mesaToken(env.QR_SECRET, 6);
+  assert.equal((await call(env, 'GET', `/api/mesa?m=4&k=${k4}&d=${D1}`)).status, 200, 'el primero entra');
+  assert.equal((await call(env, 'GET', `/api/mesa?m=4&k=${k4}&d=${D1}`)).status, 200, 'el mismo dispositivo puede volver a escanear');
+  const r = await call(env, 'GET', `/api/mesa?m=4&k=${k4}&d=${D2}`);
+  assert.equal(r.status, 409, 'el segundo no entra');
+  assert.equal((await r.json()).ocupada, true);
+  assert.equal((await call(env, 'GET', `/api/mesa?m=6&k=${k6}&d=${D2}`)).status, 200, 'otra mesa sí está libre');
+  // el que no es dueño ni puede ver el estado ni llamar al mesero
+  assert.equal((await call(env, 'GET', `/api/llamar?m=4&k=${k4}&d=${D2}`)).status, 409);
+  assert.equal((await call(env, 'POST', '/api/llamar', { m: 4, k: k4, d: D2 })).status, 409);
+  assert.equal((await call(env, 'GET', `/api/llamar?m=4&k=${k4}&d=${D1}`)).status, 200, 'el dueño sigue bien');
+  // el identificador es obligatorio y debe tener forma válida
+  assert.equal((await worker.fetch(new Request(`http://sitio/api/mesa?m=4&k=${k4}`), env)).status, 400);
+  assert.equal((await worker.fetch(new Request(`http://sitio/api/mesa?m=4&k=${k4}&d=corto`), env)).status, 400);
+});
+
+test('la barra libera una mesa: el dispositivo cae y otro puede entrar', async () => {
+  const env = makeEnv();
+  const k2 = await mesaToken(env.QR_SECRET, 2);
+  await call(env, 'GET', `/api/mesa?m=2&k=${k2}&d=${D1}`);
+  await call(env, 'POST', '/api/llamar', { m: 2, k: k2, d: D1 });
+  const { token } = await login(env);
+  const h = { Authorization: 'Bearer ' + token };
+
+  let lista = await (await call(env, 'GET', '/api/llamados', null, h)).json();
+  assert.deepEqual(lista.mesas.map(m => m.mesa), [2], 'la barra ve la mesa con dispositivo');
+  assert.ok(!JSON.stringify(lista).includes(D1), 'nunca se envía el identificador del dispositivo');
+
+  assert.equal((await call(env, 'POST', '/api/liberar', { mesa: 2 })).status, 401, 'liberar exige sesión de la barra');
+  const lib = await (await call(env, 'POST', '/api/liberar', { mesa: 2 }, h)).json();
+  assert.equal(lib.liberada, true);
+  lista = await (await call(env, 'GET', '/api/llamados', null, h)).json();
+  assert.deepEqual(lista.mesas, [], 'la mesa queda libre');
+  assert.deepEqual(lista.llamados, [], 'y sin llamados pendientes');
+
+  const st = await call(env, 'GET', `/api/llamar?m=2&k=${k2}&d=${D1}`);
+  assert.equal(st.status, 409, 'el dispositivo liberado se entera en su siguiente señal');
+  assert.equal((await st.json()).sesion, 'expulsado');
+  assert.equal((await call(env, 'POST', '/api/llamar', { m: 2, k: k2, d: D1 })).status, 409, 'y no puede llamar');
+
+  assert.equal((await call(env, 'GET', `/api/mesa?m=2&k=${k2}&d=${D2}`)).status, 200, 'otro dispositivo entra');
+  assert.equal((await call(env, 'GET', `/api/mesa?m=2&k=${k2}&d=${D1}`)).status, 409, 'el liberado ya no puede volver mientras D2 la tenga');
+  await call(env, 'POST', '/api/liberar', { mesa: 2 }, h);
+  assert.equal((await call(env, 'GET', `/api/mesa?m=2&k=${k2}&d=${D1}`)).status, 200, 'volviendo a escanear a propósito sí puede entrar');
+  assert.equal((await (await call(env, 'POST', '/api/liberar', { mesa: 9 }, h)).json()).liberada, false, 'liberar una mesa vacía no falla');
+});
+
+test('si el dueño deja de dar señales, la mesa se libera sola', async () => {
+  const env = makeEnv();
+  const k5 = await mesaToken(env.QR_SECRET, 5);
+  await call(env, 'GET', `/api/mesa?m=5&k=${k5}&d=${D1}`);
+  const real = Date.now;
+  Date.now = () => real() + 10 * 60 * 1000;
+  try {
+    await call(env, 'GET', `/api/llamar?m=5&k=${k5}&d=${D1}`);   // señal a los 10 min: renueva
+    Date.now = () => real() + 35 * 60 * 1000;
+    assert.equal((await call(env, 'GET', `/api/mesa?m=5&k=${k5}&d=${D2}`)).status, 409, 'a los 25 min de la última señal sigue ocupada');
+    Date.now = () => real() + 45 * 60 * 1000;
+    assert.equal((await call(env, 'GET', `/api/mesa?m=5&k=${k5}&d=${D2}`)).status, 200, 'a los 35 min sin señales queda libre');
+    assert.equal((await call(env, 'GET', `/api/llamar?m=5&k=${k5}&d=${D1}`)).status, 409, 'y el dueño anterior ya no es el dueño');
   } finally { Date.now = real; }
 });
 
