@@ -31,6 +31,7 @@
   --gris:#aaa4ad;
   --tinta:#17151a;
   --verde:#36c98d;
+  --radio:#9dff2e;
   --fg:var(--hueso);
   --fg2:var(--gris);
   --ln:rgba(255,255,255,.15);
@@ -208,6 +209,8 @@ img{-webkit-user-drag:none}
 }
 .catnav .chip:hover{color:var(--hueso)}
 .catnav .chip.on{color:var(--hueso)}
+.catnav .chip.reco-link{color:var(--rosa2)}
+.catnav .chip.reco-link::before{content:"\2726";margin-right:6px;font-size:12px}
 .catnav .chip.on::after{content:"\2726";position:absolute;left:50%;bottom:-2px;transform:translateX(-50%);font-size:11px;color:var(--rosa)}
 
 /* ---------- SECCIONES ---------- */
@@ -237,7 +240,9 @@ img{-webkit-user-drag:none}
   grid-row:1/3;width:86px;height:86px;border-radius:20px;display:grid;place-items:center;overflow:hidden;
   background:radial-gradient(circle at 50% 38%,rgba(255,255,255,.13),rgba(255,255,255,.02) 72%);border:1px solid var(--ln);
 }
-.it-pic img{width:88%;height:88%;object-fit:contain;transition:transform .5s var(--ease)}
+.it-pic img{width:100%;height:100%;object-fit:contain;transition:transform .5s var(--ease)}
+.it-pic.ph{color:rgba(232,25,95,.55);font-size:24px}
+.it .until{display:inline-block;margin-top:3px;font-style:normal;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--radio)}
 .it:hover .it-pic img{transform:scale(1.08) rotate(-2deg)}
 .it h3{margin:0;font-family:var(--fd);font-weight:700;font-size:18px;line-height:1.08;letter-spacing:-.01em;text-wrap:balance;transition:color .2s}
 .it:hover h3{color:var(--rosa2)}
@@ -333,7 +338,45 @@ img{-webkit-user-drag:none}
 }
 
 /* ---------- RECOMENDADOS (solo en el Home) ---------- */
-.reco{padding-top:44px;padding-bottom:6px}
+.reco{padding-top:44px;padding-bottom:6px;scroll-margin-top:76px}
+.seas{padding-top:40px;padding-bottom:6px}
+.seas[hidden]{display:none}
+
+/* hablador principal del Home: la promoción vigente (verde radiactivo, como el vaso del combo) */
+#hablador{padding-top:18px}
+#hablador[hidden]{display:none}
+.hab{
+  --radio:#9dff2e;position:relative;display:grid;grid-template-columns:1fr;gap:6px;align-items:center;padding:24px 22px 8px;overflow:hidden;cursor:pointer;
+  border-radius:32px;border:1px solid rgba(157,255,46,.5);-webkit-tap-highlight-color:transparent;
+  background:radial-gradient(70% 90% at 88% 55%,rgba(157,255,46,.30),transparent 62%),radial-gradient(60% 80% at 0% 0%,rgba(130,60,255,.38),transparent 62%),#07060a;
+  box-shadow:0 0 0 1px rgba(157,255,46,.12),0 28px 70px -34px rgba(157,255,46,.55);
+}
+.hab-tag{display:inline-block;padding:5px 12px;border-radius:999px;border:1px solid rgba(157,255,46,.55);background:rgba(157,255,46,.1);color:var(--radio);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+.hab h2{margin:12px 0 6px;font-family:var(--fd);font-weight:800;font-size:clamp(40px,12vw,76px);line-height:.92;letter-spacing:-.04em;color:var(--radio);text-shadow:0 0 28px rgba(157,255,46,.45)}
+.hab p{margin:0;max-width:34ch;font-size:15px;color:#e6e0ea}
+.hab-meta{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;margin:16px 0 18px}
+.hab-price{font-family:var(--fd);font-weight:800;font-size:clamp(34px,9vw,52px);letter-spacing:-.03em;line-height:1}
+.hab-until{font-size:12.5px;font-weight:600;color:#e6e0ea}
+.hab-until i{display:block;margin-top:1px;font-style:normal;color:var(--radio);font-weight:700}
+.hab-btn{background:var(--radio);border-color:var(--radio);color:#07110a;font-weight:800}
+.hab-btn:hover{background:#c3ff6a;border-color:#c3ff6a}
+.hab-img{display:block;width:min(100%,520px);height:auto;margin:6px auto 0;justify-self:center;filter:drop-shadow(0 24px 30px rgba(0,0,0,.6));transition:transform .6s var(--ease)}
+.hab:hover .hab-img{transform:scale(1.03) rotate(-1deg)}
+@media(min-width:860px){
+  .hab{grid-template-columns:1fr 1fr;gap:20px;padding:30px 36px}
+  .hab-img{margin:0;width:100%}
+}
+
+/* nuevos productos: fila que se desliza */
+.nv-row{display:flex;gap:12px;overflow-x:auto;margin:18px calc(-1*var(--gut)) 0;padding:6px var(--gut) 14px;scroll-snap-type:x proximity;scrollbar-width:none}
+.nv-row::-webkit-scrollbar{display:none}
+.nv{position:relative;flex:none;width:168px;padding:14px 14px 12px;border-radius:24px;border:1px solid var(--ln);background:rgba(255,255,255,.04);scroll-snap-align:start;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:border-color .2s}
+.nv:hover{border-color:var(--rosa)}
+.nv-badge{position:absolute;top:12px;left:12px;z-index:1;padding:2px 9px;border-radius:999px;background:var(--rosa);color:#fff;font-size:10.5px;font-weight:700;letter-spacing:.1em}
+.nv-pic{width:100%;aspect-ratio:1;border-radius:18px;display:grid;place-items:center;background:radial-gradient(circle at 50% 38%,rgba(255,255,255,.13),rgba(255,255,255,.02) 72%);border:1px solid var(--ln)}
+.nv-pic img{width:100%;height:100%;object-fit:contain}
+.nv h3{margin:10px 0 0;min-height:2.3em;font-family:var(--fd);font-weight:700;font-size:16px;line-height:1.15;letter-spacing:-.01em}
+.nv-foot{display:flex;align-items:center;justify-content:space-between;margin-top:6px}
 .reco-sub{margin:12px 0 0;max-width:52ch;color:var(--fg2);font-size:14.5px}
 .plan-tabs{display:flex;gap:8px;margin:18px 0 14px}
 .plan-tabs button{padding:10px 18px;border-radius:999px;border:1px solid var(--ln);background:transparent;color:var(--gris);font:700 14px var(--fb);transition:background .2s,color .2s,border-color .2s}
@@ -348,9 +391,14 @@ img{-webkit-user-drag:none}
 .plan h3{margin:4px 0 6px;font-family:var(--fd);font-weight:800;font-size:34px;line-height:1;letter-spacing:-.03em}
 .plan-note{margin:0;font-size:13px;color:var(--fg2)}
 .plan-items{margin:16px 0 8px;flex:1}
-.pl-row{display:grid;grid-template-columns:52px 1fr auto;gap:12px;align-items:center;padding:10px 0;border-top:1px solid var(--ln);cursor:pointer;-webkit-tap-highlight-color:transparent}
+.pl-row{display:grid;grid-template-columns:52px minmax(0,1fr) auto;gap:12px;align-items:center;padding:10px 0;border-top:1px solid var(--ln);cursor:pointer;-webkit-tap-highlight-color:transparent}
 .pl-pic{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;overflow:hidden;background:radial-gradient(circle at 50% 38%,rgba(255,255,255,.14),rgba(255,255,255,.02) 72%);border:1px solid var(--ln);color:var(--rosa)}
-.pl-pic img{width:88%;height:88%;object-fit:contain}
+.pl-pic img{width:100%;height:100%;object-fit:contain}
+.pl-sel{display:block;margin-top:6px;width:100%;min-width:0;max-width:100%;height:34px;text-overflow:ellipsis;padding:0 30px 0 12px;border-radius:999px;border:1px solid var(--ln);color:var(--hueso);font:600 12.5px var(--fb);cursor:pointer;
+  background:rgba(255,255,255,.06) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ff4f8f' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 10px center/12px;appearance:none;-webkit-appearance:none}
+.pl-sel:focus-visible{outline:2px solid var(--rosa2);outline-offset:2px}
+.pl-sel option{background:#140d11;color:#fff}
+.pl-pic[data-act]{cursor:pointer}
 .pl-pic img.cover{width:100%;height:100%;object-fit:cover}
 .pl-txt b{display:block;font-family:var(--fd);font-weight:700;font-size:16px;line-height:1.15;letter-spacing:-.01em}
 .pl-txt small{display:block;margin-top:2px;font-size:12px;color:var(--fg2)}
@@ -627,6 +675,7 @@ footer .tag::before{content:"\2726";font-size:.4em;color:var(--rosa);margin-righ
   <main>
   <!-- ====== HOME ====== -->
   <div class="view active" id="view-home">
+  <div class="wrap" id="hablador" hidden></div>
   <section class="hero">
     <div class="hero-grid">
       <div class="hero-copy">
@@ -649,6 +698,16 @@ footer .tag::before{content:"\2726";font-size:.4em;color:var(--rosa);margin-righ
     <div class="sec-head"><h2 id="recoT" data-i18n="recoTitle">Recomendados</h2></div>
     <p class="reco-sub" data-i18n="recoSub">Planes armados desde nuestra carta, listos para agregar a tu pedido.</p>
     <div id="recoRoot"></div>
+  </section>
+  <section class="wrap seas" id="temporada" aria-labelledby="tempT" hidden>
+    <div class="sec-head"><h2 id="tempT" data-i18n="tempTitle">De temporada</h2></div>
+    <p class="reco-sub" data-i18n="tempSub">Solo por unos días: cuando termina la fecha, desaparece de la carta.</p>
+    <div id="tempRoot"></div>
+  </section>
+  <section class="wrap seas" id="nuevos" aria-labelledby="nuevosT" hidden>
+    <div class="sec-head"><h2 id="nuevosT" data-i18n="nuevosTitle">Nuevos productos</h2></div>
+    <p class="reco-sub" data-i18n="nuevosSub">Lo último que llegó a la carta.</p>
+    <div id="nuevosRoot"></div>
   </section>
   </div>
 
@@ -827,46 +886,64 @@ const MESA_TTL = 5*60*60*1000;   // la mesa escaneada se recuerda 5 horas en el 
    DATOS — la carta de octubre (PDF) es la fuente
    layout: list = renglones · liq = tabla de precios con botones · feat = tarjeta con foto
    ========================================================= */
-// Orden de la carta: primero los licores, luego lo que se toma, al final la comida y los combos
+// Orden de la barra de la carta. «Recomendados» va primero en la barra pero vive en el Home (ver renderCatNav).
 const CATS = [
   {id:'licores',    es:'Licores',     en:'Spirits'},
-  {id:'micheladas', es:'Cervezas y micheladas', en:'Beer & micheladas'},
+  {id:'comidas',    es:'Comida',      en:'Food'},
+  {id:'granizados', es:'Granizados',  en:'Slushies'},
   {id:'casa',       es:'De la casa',  en:'House specials'},
   {id:'chupitos',   es:'Chupitos',    en:'Shots'},
-  {id:'granizados', es:'Granizados',  en:'Slushies'},
   {id:'malteadas',  es:'Malteadas',   en:'Milkshakes'},
-  {id:'comidas',    es:'Comidas',     en:'Food'},
-  {id:'combos',     es:'Combos',      en:'Combos'}
+  {id:'micheladas', es:'Cerveza y micheladas', en:'Beer & micheladas'}
 ];
 
-// Recomendados del Home: planes armados solo con productos de la carta (vi = índice de tamaño en las tablas de precios)
+// Recomendados del Home: planes armados solo con productos de la carta.
+//  vi = tamaño en las tablas de precios · opts del producto (proteína) o alts (otro producto equivalente) = lo que el cliente elige en el plan
 const PLANS = [
   {id:'parejas', es:'Parejas', en:'Couples', forEs:'Para 2', forEn:'For 2',
-   noteEs:'Para compartir sin afán: margaritas, un ceviche y baos.', noteEn:'To share, no rush: margaritas, a ceviche and baos.',
-   items:[{id:'gem'},{id:'fuku'},{id:'bao1'}]},
-  {id:'amigos', es:'Amigos', en:'Friends', forEs:'Para 4 a 6', forEn:'For 4 to 6',
-   noteEs:'La mesa de la noche: cantarito, chupitos y algo para picar.', noteEn:'The night’s table: cantarito, shots and something to nibble.',
-   items:[{id:'cant'},{id:'ana'},{id:'palm'},{id:'bao3'}]},
-  {id:'familia', es:'Familia', en:'Family', forEs:'Para 3 o 4 · sin licor', forEn:'For 3 or 4 · alcohol-free',
-   noteEs:'Sin licor: combo de baos, entrada, granizado y malteada.', noteEn:'Alcohol-free: baos combo, starter, slush and milkshake.',
-   items:[{id:'combo-baos'},{id:'palm'},{id:'gt-sin',vi:0},{id:'milo'}]}
+   noteEs:'Un perrito y una hamburguesa gourmet para compartir de a dos.', noteEn:'A gourmet hot dog and burger to share between two.',
+   items:[{id:'perr'},{id:'ham'}]},
+  {id:'amigos', es:'Amigos', en:'Friends', forEs:'Para 2 a 4', forEn:'For 2 to 4',
+   noteEs:'Las Gemelas del Perreo y unos baos para la mesa.', noteEn:'The Perreo Twins and some baos for the table.',
+   items:[{id:'gem'},{id:'bao1',alts:['bao3'],titleEs:'Baos x2',titleEn:'Baos x2'}]},
+  {id:'familia', es:'Familia', en:'Family', forEs:'Para 2 o 3 · sin licor', forEn:'For 2 or 3 · alcohol-free',
+   noteEs:'Un granizado tradicional sin licor y el ceviche de la casa.', noteEn:'An alcohol-free traditional slush and the house ceviche.',
+   items:[{id:'gt-sin',vi:0},{id:'fuku'}]}
 ];
 
-// Sedes. Las de Perritos Gourmet quedan pendientes hasta tener sus ubicaciones.
+// Home: nuevos productos (los que la carta marca como NUEVO) y productos de temporada (con fecha de vencimiento propia)
+const NUEVOS = ['ana','yog','fer','hey','ghe','chi'];
+const TEMPORADA = ['combo-terror'];
+
+// Habladores del Home. Solo se muestran los vigentes (hasta = último día, hora de Colombia); al vencer desaparecen solos.
+// Para cambiar de hablador: agrega uno nuevo aquí con su fecha y su producto.
+const HABLADORES = [
+  {id:'terror', item:'combo-terror', hasta:'2026-11-14',
+   tagEs:'Edición limitada · Halloween', tagEn:'Limited edition · Halloween',
+   titleEs:'Combo del Terror', titleEn:'Terror Combo',
+   subEs:'Granizado Halloween Radioactivo + perrito', subEn:'Halloween Radioactivo slush + hot dog'}
+];
+
+// Sedes de El Coctelazo y de Perritos Gourmet de la Uva (city = ciudad para el mapa; por defecto Medellín)
 const SEDES_COC = [
   {n:'Provenza',a:'Cra. 35 #8a 11',here:true},{n:'Campo Valdés',a:'Cra 48a #76-59'},
   {n:'Belén La Nubia',a:'Carrera 83 #15a-21'},{n:'Belén Rincón',a:'Carrera 79 #1a-42'},
   {n:'Manrique',a:'Carrera 47 #69-5'},{n:'San Javier',a:'Calle 39b #108-76'},
   {n:'Castilla',a:'Carrera 68 #93-83'}
 ];
-const SEDES_PER = [];   // {n:'…',a:'dirección'} — pendiente
+const SEDES_PER = [
+  {n:'UVA Poblado',a:'Calle 3B Sur'},
+  {n:'Sabaneta',a:'Calle 67 Sur #44-36',city:'Sabaneta'},
+  {n:'Provenza',a:'Carrera 35 #8A-11',here:true}
+];
 
 const VL3 = [['Trago','Shot'],['Media','Half'],['Botella','Bottle']];
 const VL2 = [['Yarda','Yard'],['16 oz','16 oz']];
 
 const S = (id,cat,es,en,layout,x={}) => ({id,cat,es,en,layout,...x});
 const SUBS = [
-  S('f-combo','combos','Combos','Combos','feat',{nohead:true}),
+  S('f-combo','comidas','Combos','Combos','feat'),
+  S('f-temp','temporada','De temporada','Seasonal','list'),
   S('g-tipos','granizados','Granizado tradicional','Traditional slush','liq',{cols:VL2,after:'formats'}),
   S('g-adl','granizados','Adiciones de licores','Liquor add-ons','list'),
   S('g-add','granizados','Adiciones de dulces','Candy add-ons','list'),
@@ -985,13 +1062,21 @@ const HAMB_ING = [
 const withIng = ing => PROT.map((p,i) => [p[0],p[1],ing[i][0],ing[i][1]]);
 X('f-rap','perr',['Perritos','Hot dogs'],PROT_DESC,11000,'perritos',{opts:withIng(PERRO_ING)});
 X('f-rap','ham',['Hamburguesas','Burgers'],PROT_DESC,13000,'hamburguesas',{opts:withIng(HAMB_ING)});
+// De temporada: el perrito del combo se elige igual que en los perritos de la carta (mismas proteínas e ingredientes)
+X('f-temp','combo-terror',['Combo del Terror','Terror combo'],['Granizado Halloween Radioactivo + perrito a tu elección. Edición limitada.','Halloween Radioactivo slush + a hot dog of your choice. Limited edition.'],32900,'combo-terror',{opts:withIng(PERRO_ING),hasta:'2026-11-14'});
 X('f-cev','fuku',['Ceviche Fukuoka','Fukuoka ceviche'],['Chicharrón crocante con cebolla morada, mango, aguacate, maíz tierno, cilantro y tomate cherry. Bañado en salsa pique y acevichada, con ajonjolí negro y crocante japonés.','Crispy pork with red onion, mango, avocado, sweet corn, cilantro and cherry tomato. Covered in chili and ceviche sauce, with black sesame and Japanese crunch.'],39000,'ceviche-fukuoka');
 X('f-ent','palm',['Palmito apanado','Breaded palmito'],['Palmito apanado en queso parmesano, relleno de queso crema, bañado en salsa teriyaki y blanca de la casa, coronado con cebolla puerro crocante caramelizada.','Parmesan-breaded palmito filled with cream cheese, covered in teriyaki and house white sauce, topped with caramelized crispy leek.'],25000,'palmito');
 const BAO = ['Queso crema, cebolla dulce, salsa pique y teriyaki de la casa. Terminado con coco crocante caramelizado y brotes.','Cream cheese, sweet onion, house chili sauce and teriyaki. Finished with caramelized crispy coconut and sprouts.'];
-X('f-bao','bao1',['Chicharrón crocante','Crispy pork'],BAO,27000,'baos',{unit:'x2'});
-X('f-bao','bao3',['Camarón apanado','Breaded shrimp'],BAO,27000,'baos',{unit:'x2'});
+X('f-bao','bao1',['Chicharrón crocante','Crispy pork'],BAO,27000,'baos',{unit:'x2',ce:'Baos x2 · Chicharrón crocante',cn:'Baos x2 · Crispy pork'});
+X('f-bao','bao3',['Camarón apanado','Breaded shrimp'],BAO,27000,'baos',{unit:'x2',ce:'Baos x2 · Camarón apanado',cn:'Baos x2 · Breaded shrimp'});
 
 const BY_ID = Object.fromEntries(ITEMS.map(i => [i.id,i]));
+
+// Vigencia: una fecha «hasta» vale hasta el final de ese día en Colombia. Los productos vencidos no se muestran ni se buscan.
+const finDe = d => new Date(d + 'T23:59:59-05:00').getTime();
+const vigente = d => !d || Date.now() <= finDe(d);
+const diasQuedan = d => Math.max(0, Math.ceil((finDe(d) - Date.now()) / 864e5));
+const thumb = s => s.replace('img/','img/mini/');   // miniatura cuadrada 240×240 de cada producto (la foto grande queda para la ficha)
 
 // Granizado: la carta no trae sabores, solo «elige 3 toppings»; el cliente los escribe y viajan en la línea del pedido
 /* =========================================================
@@ -999,6 +1084,8 @@ const BY_ID = Object.fromEntries(ITEMS.map(i => [i.id,i]));
    ========================================================= */
 const UI = {
   es:{ctaMenu:'Ver la carta',ctaFood:'Comida gourmet',houseTag:'De la casa',
+    navReco:'Recomendados',chooseOne:'Elige uno',untilDay:f=>`Hasta el ${f}`,daysLeft:n=>`Quedan ${n} días`,lastDay:'¡Último día!',habCta:'Pedir el combo',
+    tempTitle:'De temporada',tempSub:'Solo por unos días: cuando termina la fecha, desaparece de la carta.',nuevosTitle:'Nuevos productos',nuevosSub:'Lo último que llegó a la carta.',
     navHome:'Home',navCarta:'Carta',navSedes:'Sedes',recoTitle:'Recomendados',recoSub:'Planes armados desde nuestra carta, listos para agregar a tu pedido.',planAdd:'Agregar plan',planAdded:'Plan agregado a tu pedido',planTotal:'Total del plan',
     sedesTitle:'Sedes',sedesCoc:'El Coctelazo',sedesCocS:'Medellín',sedesPer:'Perritos Gourmet',sedesPerS:'de la Uva',sedeHere:'Estás aquí',sedeHow:'Cómo llegar',sedeMap:'Ver mapa',sedeHide:'Ocultar mapa',
     soonT:'Muy pronto',soonS:'Estamos organizando las ubicaciones de Perritos Gourmet. Pronto las verás aquí.',dragHint:'Arrastra para girar',
@@ -1018,6 +1105,8 @@ const UI = {
     yarda:'Yarda',yardaS:'16 onzas',oz16:'16 onzas',volqueta:'Volqueta de granizado',askWaiter:'Pregúntale a tu mesero',
     close:'Cerrar',top:'Volver arriba',newb:'NUEVO',comboTag:'Combo especial'},
   en:{ctaMenu:'See the menu',ctaFood:'Gourmet food',houseTag:'House special',
+    navReco:'Recommended',chooseOne:'Choose one',untilDay:f=>`Until ${f}`,daysLeft:n=>`${n} days left`,lastDay:'Last day!',habCta:'Order the combo',
+    tempTitle:'Seasonal',tempSub:'Only for a few days: when the date ends, it leaves the menu.',nuevosTitle:'New products',nuevosSub:'The latest on the menu.',
     navHome:'Home',navCarta:'Menu',navSedes:'Locations',recoTitle:'Recommended',recoSub:'Plans built from our menu, ready to add to your order.',planAdd:'Add plan',planAdded:'Plan added to your order',planTotal:'Plan total',
     sedesTitle:'Locations',sedesCoc:'El Coctelazo',sedesCocS:'Medellín',sedesPer:'Perritos Gourmet',sedesPerS:'de la Uva',sedeHere:'You are here',sedeHow:'Get directions',sedeMap:'Show map',sedeHide:'Hide map',
     soonT:'Coming soon',soonS:'We are organizing the Perritos Gourmet locations. You will see them here soon.',dragHint:'Drag to rotate',
@@ -1052,8 +1141,8 @@ const store = {
   set(k,v){try{localStorage.setItem(k,v)}catch(e){}}
 };
 
-const state = {lang: store.get('coctelazo-language')==='en'?'en':'es', mesa:null, view:'home', cat:'licores', plan:'parejas', q:'', cart:[], gtop:'', modal:null};
-try{ state.cart = JSON.parse(store.get('coctelazo-cart-v3')||'[]').filter(l=>l&&BY_ID[l.id]); }catch(e){ state.cart=[]; }
+const state = {lang: store.get('coctelazo-language')==='en'?'en':'es', mesa:null, view:'home', cat:'licores', plan:'parejas', pc:{}, q:'', cart:[], gtop:'', modal:null};
+try{ state.cart = JSON.parse(store.get('coctelazo-cart-v3')||'[]').filter(l=>l&&BY_ID[l.id]&&vigente(BY_ID[l.id].hasta)); }catch(e){ state.cart=[]; }
 
 const t = k => UI[state.lang][k];
 const nm = i => i[state.lang];
@@ -1068,12 +1157,16 @@ const ICON = {
   plus:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>'
 };
 
-function itemHTML(it){
+const fechaCorta = d => new Intl.DateTimeFormat(state.lang==='en'?'en-US':'es-CO',{day:'numeric',month:'long',timeZone:'America/Bogota'}).format(new Date(d+'T12:00:00-05:00'));
+
+// pic: 'si' miniatura · 'ph' casilla de relleno (la fila no tiene foto pero sus vecinas sí, así todas miden igual) · '' sin casilla
+function itemHTML(it, pic=''){
   const price = money(it.price) + (it.unit?` <small>${it.unit}</small>`:'');
   const act = it.opts ? 'open' : 'add';
-  const pic = it.img ? `<div class="it-pic"><img src="${it.img}" alt="" loading="lazy" decoding="async"></div>` : '';
-  return `<article class="it rv${it.img?' has-pic':''}" data-act="open" data-id="${it.id}" tabindex="0" role="button" aria-label="${esc(nm(it))}">${pic}
-    <div class="it-txt"><h3>${esc(nm(it))}</h3>${ds(it)?`<p>${esc(ds(it))}</p>`:''}</div>
+  const box = it.img ? `<div class="it-pic"><img src="${thumb(it.img)}" alt="" loading="lazy" decoding="async"></div>` : pic==='ph' ? '<div class="it-pic ph" aria-hidden="true">&#10022;</div>' : '';
+  const until = it.hasta ? `<em class="until">${t('untilDay')(fechaCorta(it.hasta))}</em>` : '';
+  return `<article class="it rv${box?' has-pic':''}" data-act="open" data-id="${it.id}" tabindex="0" role="button" aria-label="${esc(nm(it))}">${box}
+    <div class="it-txt"><h3>${esc(nm(it))}</h3>${until}${ds(it)?`<p>${esc(ds(it))}</p>`:''}</div>
     <div class="it-end"><span class="price">${price}</span><button class="add" type="button" data-act="${act}" data-id="${it.id}" aria-label="${esc(it.opts?t('chooseProt'):t('add'))}: ${esc(nm(it))}">${ICON.plus}</button></div></article>`;
 }
 
@@ -1109,7 +1202,7 @@ function subBlock(sub, items, extras){
   let body;
   if (sub.layout==='feat') body = `<div class="feats">${items.map(featHTML).join('')}</div>`;
   else if (sub.layout==='liq') body = `<div class="liqs" style="--n:${(sub.cols||VL3).length}">${liqHead(sub)}${items.map(liqHTML).join('')}</div>`;
-  else body = `<div class="list">${items.map(itemHTML).join('')}</div>`;
+  else { const anyPic = items.some(i=>i.img); body = `<div class="list">${items.map(i=>itemHTML(i, anyPic?'ph':'')).join('')}</div>`; }
   return head + body + (extras && sub.after==='formats' ? formatsHTML() : '');
 }
 
@@ -1122,7 +1215,7 @@ function sectionHTML(cat){
 
 function searchHTML(q){
   const nq = norm(q);
-  const found = ITEMS.filter(i => norm([i.es,i.en,i.dEs,i.dEn,i.ce||'',i.cn||'',pick(SUB[i.sub]),SUB[i.sub].en,pick(CATS.find(c=>c.id===i.cat)),(i.opts||[]).map(o=>o.join(' ')).join(' ')].join(' ')).includes(nq));
+  const found = ITEMS.filter(i => vigente(i.hasta) && norm([i.es,i.en,i.dEs,i.dEn,i.ce||'',i.cn||'',pick(SUB[i.sub]),SUB[i.sub].en,pick(CATS.find(c=>c.id===i.cat)||{es:'',en:''}),(i.opts||[]).map(o=>o.join(' ')).join(' ')].join(' ')).includes(nq));
   if (!found.length) return `<div class="empty"><div class="big">${t('noRes')}</div><p>${t('noResSub')}</p></div>`;
   let html = `<p class="results-head"><b>${esc(t('results')(found.length,q))}</b></p>`;
   SUBS.forEach(s=>{ const its = found.filter(i=>i.sub===s.id); if (its.length) html += subBlock(s, its, false); });
@@ -1137,7 +1230,8 @@ let io;
 
 function renderCatNav(){
   const nav = $('#catnav');
-  nav.innerHTML = CATS.map(c=>`<a class="chip${!state.q&&c.id===state.cat?' on':''}" role="tab" href="#${c.id}" data-cat="${c.id}" aria-selected="${!state.q&&c.id===state.cat}">${esc(pick(c))}</a>`).join('');
+  // «Recomendados» va primero en la barra y lleva al Home, donde viven los planes
+  nav.innerHTML = `<a class="chip reco-link" href="#recomendados" data-go="reco">${esc(t('navReco'))}</a>` + CATS.map(c=>`<a class="chip${!state.q&&c.id===state.cat?' on':''}" role="tab" href="#${c.id}" data-cat="${c.id}" aria-selected="${!state.q&&c.id===state.cat}">${esc(pick(c))}</a>`).join('');
   centerChip();
 }
 function centerChip(){
@@ -1152,7 +1246,7 @@ function renderMenu(){
 }
 
 function observe(){
-  const els = $$('.rv',menuRoot);
+  const els = $$('.rv:not(.in)');   // la Carta y también las filas del Home (De temporada)
   if (!('IntersectionObserver' in window) || REDUCED){ els.forEach(c=>c.classList.add('in')); return; }
   if (io) io.disconnect();
   io = new IntersectionObserver((es)=>{
@@ -1177,38 +1271,77 @@ function applyI18n(){
   $('#cartBtn').setAttribute('aria-label', t('myOrder'));
 }
 
-/* Recomendados (Home): cada plan suma los precios de sus productos y se agrega al pedido de una vez */
-const planPrice = p => { const it = BY_ID[p.id]; return it.prices ? it.prices[p.vi||0] : it.price; };
+/* Recomendados (Home): cada plan suma los precios de sus productos y se agrega al pedido de una vez.
+   Si un producto del plan pide elegir (la proteína del perrito o la hamburguesa, o el tipo de bao) el cliente lo elige ahí mismo. */
+const planKey = (pl,i) => pl.id+':'+i;
+// lo que el plan agregaría hoy para el renglón i: el producto elegido y, si aplica, la proteína
+function planPick(pl, i){
+  const p = pl.items[i], sel = state.pc[planKey(pl,i)] || 0;
+  if (p.alts) return {id:[p.id,...p.alts][sel] || p.id, vi:p.vi, opt:null};
+  return {id:p.id, vi:p.vi, opt:BY_ID[p.id].opts ? sel : null};
+}
+const planPrice = r => { const it = BY_ID[r.id]; return it.prices ? it.prices[r.vi||0] : it.price; };
 function planHTML(pl){
-  const total = pl.items.reduce((n,p)=>n+planPrice(p),0);
-  const rows = pl.items.map(p=>{
-    const it = BY_ID[p.id];
-    const pic = it.img ? `<img src="${it.img}" alt="" decoding="async">` : it.photo ? `<img class="cover" src="img/${it.photo}.webp" alt="" decoding="async">` : '&#10022;';
-    const vr = it.vl ? `<small>${esc(lbl(it.vl[p.vi||0]))}</small>` : '';
-    const nmx = it.cn||it.ce ? (state.lang==='en'?it.cn:it.ce) : nm(it);
-    return `<div class="pl-row"${it.prices?'':` data-act="open" data-id="${it.id}"`}><div class="pl-pic">${pic}</div><div class="pl-txt"><b>${esc(nmx)}</b>${vr}</div><span class="price">${money(planPrice(p))}</span></div>`;
+  const total = pl.items.reduce((n,p,i)=>n+planPrice(planPick(pl,i)),0);
+  const rows = pl.items.map((p,i)=>{
+    const r = planPick(pl,i), it = BY_ID[r.id], base = BY_ID[p.id];
+    const pic = it.img ? `<img src="${thumb(it.img)}" alt="" decoding="async">` : it.photo ? `<img class="cover" src="img/${it.photo}.webp" alt="" decoding="async">` : '&#10022;';
+    const vr = it.vl ? `<small>${esc(lbl(it.vl[r.vi||0]))}</small>` : '';
+    let title = it.cn||it.ce ? (state.lang==='en'?it.cn:it.ce) : nm(it);
+    if (p.titleEs) title = state.lang==='en' ? p.titleEn : p.titleEs;
+    let sel = '';
+    const choices = p.alts ? [p.id,...p.alts].map(id=>nm(BY_ID[id])) : base.opts ? base.opts.map(o=>o[state.lang==='en'?1:0]) : null;
+    if (choices) sel = `<select class="pl-sel" data-act="plsel" data-k="${planKey(pl,i)}" aria-label="${esc(t(p.alts?'chooseOne':'chooseProt'))}: ${esc(title)}">${choices.map((c,k)=>`<option value="${k}"${(state.pc[planKey(pl,i)]||0)===k?' selected':''}>${esc(c)}</option>`).join('')}</select>`;
+    return `<div class="pl-row"><div class="pl-pic"${it.prices?'':` data-act="open" data-id="${it.id}"`}>${pic}</div><div class="pl-txt"><b>${esc(title)}</b>${vr}${sel}</div><span class="price">${money(planPrice(r))}</span></div>`;
   }).join('');
   return `<article class="plan${state.plan===pl.id?' on':''}" data-plan="${pl.id}">
     <span class="plan-for">${esc(state.lang==='en'?pl.forEn:pl.forEs)}</span><h3>${esc(pick(pl))}</h3><p class="plan-note">${esc(state.lang==='en'?pl.noteEn:pl.noteEs)}</p>
     <div class="plan-items">${rows}</div>
     <div class="plan-foot"><div class="plan-total"><small>${t('planTotal')}</small><b>${money(total)}</b></div><button class="btn primary" type="button" data-act="plan" data-id="${pl.id}">${t('planAdd')}</button></div></article>`;
 }
+
+/* Hablador principal: el primero vigente de HABLADORES; al vencer su fecha desaparece solo */
+function habladorHTML(){
+  const h = HABLADORES.find(x=>vigente(x.hasta)); if (!h) return '';
+  const it = BY_ID[h.item], n = diasQuedan(h.hasta);
+  const left = n<=1 ? t('lastDay') : t('daysLeft')(n);
+  return `<article class="hab" data-act="open" data-id="${it.id}" tabindex="0" role="button" aria-label="${esc(state.lang==='en'?h.titleEn:h.titleEs)}">
+    <div class="hab-copy"><span class="hab-tag">&#127875; ${esc(state.lang==='en'?h.tagEn:h.tagEs)}</span>
+      <h2>${esc(state.lang==='en'?h.titleEn:h.titleEs)}</h2><p>${esc(state.lang==='en'?h.subEn:h.subEs)}</p>
+      <div class="hab-meta"><b class="hab-price">${money(it.price)}</b><span class="hab-until">${esc(t('untilDay')(fechaCorta(h.hasta)))}<i>${esc(left)}</i></span></div>
+      <button class="btn hab-btn" type="button" data-act="open" data-id="${it.id}">${t('habCta')}</button></div>
+    <img class="hab-img" src="${it.img}" alt="" fetchpriority="high" decoding="async"></article>`;
+}
+function nuevoHTML(it){
+  return `<article class="nv" data-act="open" data-id="${it.id}" tabindex="0" role="button" aria-label="${esc(nm(it))}"><span class="nv-badge">${t('newb')}</span>
+    <div class="nv-pic"><img src="${thumb(it.img)}" alt="" loading="lazy" decoding="async"></div><h3>${esc(nm(it))}</h3>
+    <div class="nv-foot"><span class="price">${money(it.price)}</span><button class="add" type="button" data-act="add" data-id="${it.id}" aria-label="${esc(t('add'))}: ${esc(nm(it))}">${ICON.plus}</button></div></article>`;
+}
 function renderHome(){
+  const hab = habladorHTML(); const hb = $('#hablador'); hb.innerHTML = hab; hb.hidden = !hab;
   $('#recoRoot').innerHTML = `<div class="plan-tabs" role="group" aria-label="${esc(t('recoTitle'))}">${PLANS.map(p=>`<button type="button" data-act="plantab" data-id="${p.id}" aria-pressed="${state.plan===p.id}">${esc(pick(p))}</button>`).join('')}</div><div class="plans">${PLANS.map(planHTML).join('')}</div>`;
+  const temp = TEMPORADA.map(id=>BY_ID[id]).filter(it=>vigente(it.hasta));
+  $('#temporada').hidden = !temp.length;
+  $('#tempRoot').innerHTML = temp.length ? `<div class="list">${temp.map(it=>itemHTML(it,'si')).join('')}</div>` : '';
+  const nuevos = NUEVOS.map(id=>BY_ID[id]).filter(Boolean);
+  $('#nuevos').hidden = !nuevos.length;
+  $('#nuevosRoot').innerHTML = nuevos.length ? `<div class="nv-row">${nuevos.map(nuevoHTML).join('')}</div>` : '';
+  observe();
 }
 function addPlan(id){
   const pl = PLANS.find(p=>p.id===id); if (!pl) return;
   muteToast = true;
-  pl.items.forEach(p=>{ const it = BY_ID[p.id]; if (it.prices) addLiq(p.id, p.vi||0); else addItem(p.id); });
+  pl.items.forEach((p,i)=>{ const r = planPick(pl,i); if (BY_ID[r.id].prices) addLiq(r.id, r.vi||0); else addItem(r.id, 1, r.opt); });
   muteToast = false;
   toast(`${pick(pl)} — ${t('planAdded')}`);
 }
 
 /* Sedes: las de El Coctelazo y las de Perritos Gourmet (pendientes) */
 function sedeHTML(s){
-  const q = encodeURIComponent(`${s.a}, Medellín, Antioquia, Colombia`);
+  const city = s.city || 'Medellín';
+  const q = encodeURIComponent(`${s.a}, ${city}, Antioquia, Colombia`);
   return `<article class="sede${s.here?' here':''}"><div class="sede-top"><h4>${esc(s.n)}</h4>${s.here?`<span class="sede-flag">${t('sedeHere')}</span>`:''}</div>
-    <p>${esc(s.a)} · Medellín</p>
+    <p>${esc(s.a)} · ${esc(city)}</p>
     <div class="sede-act"><a class="btn ghost" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=${q}">${t('sedeHow')}</a><button class="btn ghost" type="button" data-act="map" data-q="${q}">${t('sedeMap')}</button></div>
     <div class="sede-map" hidden></div></article>`;
 }
@@ -1249,8 +1382,11 @@ function setCat(id, {scroll=true,hash=true}={}){
   if (hash) history.replaceState(null,'','#'+id);
   if (scroll) scrollToContent();
 }
+function goReco(){ setView('home',{scroll:false,hash:false}); requestAnimationFrame(()=>$('#reco').scrollIntoView({behavior:'smooth',block:'start'})); }
 function route(){
-  const h = location.hash.slice(1);
+  let h = location.hash.slice(1);
+  if (h==='combos') h = 'comidas';   // los combos ahora viven dentro de Comida
+  if (h==='recomendados'){ goReco(); return; }
   if (CATS.some(c=>c.id===h)){ setCat(h,{scroll:false,hash:false}); return; }
   setView(VIEWS.includes(h)?h:'home',{scroll:false,hash:false});
 }
@@ -1276,7 +1412,7 @@ function addItem(id, qty=1, optIdx=null){
   const it = BY_ID[id]; if (!it) return;
   let variant = null;
   if (it.opts && optIdx!=null) variant = {es:it.opts[optIdx][0],en:it.opts[optIdx][1]};
-  addLine({id, name:{es:it.es,en:it.en}, variant, price:it.price, qty});
+  addLine({id, name:{es:it.ce||it.es,en:it.cn||it.en}, variant, price:it.price, qty});
 }
 function addLiq(id, vi){
   const it = BY_ID[id]; const labs = (it.vl||VL3)[vi];
@@ -1721,12 +1857,21 @@ document.addEventListener('click', e=>{
 function flash(btn){ btn.classList.add('done'); setTimeout(()=>btn.classList.remove('done'),700); }
 /* sabor y toppings del granizado: se recuerdan aunque se cambie de sección o de idioma */
 document.addEventListener('input', e=>{ if (e.target.id==='gTop') state.gtop = e.target.value; });
+/* lo que el cliente elige dentro de un plan (proteína o tipo de bao): se recuerda y el precio se recalcula */
+document.addEventListener('change', e=>{
+  const s = e.target.closest('[data-act=plsel]'); if (!s) return;
+  state.pc[s.dataset.k] = +s.value; renderHome();
+  const again = document.querySelector(`[data-k="${s.dataset.k}"]`); if (again) again.focus({preventScroll:true});
+});
 /* teclado sobre renglones y tarjetas */
 document.addEventListener('keydown', e=>{
-  if ((e.key==='Enter'||e.key===' ') && e.target.matches('.it[data-act],.feat[data-act]')){ e.preventDefault(); openModal(e.target.dataset.id); }
+  if ((e.key==='Enter'||e.key===' ') && e.target.matches('.it[data-act],.feat[data-act],.hab[data-act],.nv[data-act]')){ e.preventDefault(); openModal(e.target.dataset.id); }
 });
 
-$('#catnav').addEventListener('click', e=>{ const a=e.target.closest('[data-cat]'); if(!a) return; e.preventDefault(); setCat(a.dataset.cat); });
+$('#catnav').addEventListener('click', e=>{
+  if (e.target.closest('[data-go=reco]')){ e.preventDefault(); history.replaceState(null,'','#recomendados'); goReco(); return; }
+  const a=e.target.closest('[data-cat]'); if(!a) return; e.preventDefault(); setCat(a.dataset.cat);
+});
 $('#catnav').addEventListener('keydown', e=>{
   const s=e.key==='ArrowRight'?1:e.key==='ArrowLeft'?-1:0; if(!s) return;
   const all=$$('#catnav .chip'); const k=all.indexOf(document.activeElement); if(k<0) return; e.preventDefault(); const n=all[(k+s+all.length)%all.length]; n.focus(); n.click(); n.focus();
