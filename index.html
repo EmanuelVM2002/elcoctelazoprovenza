@@ -338,13 +338,14 @@ body.has-mouse .spot{opacity:1}
 .mainnav a[aria-current="page"]::before{filter:blur(2px) saturate(.85) brightness(.72)}
 .mainnav a[aria-current="page"]::after{background:linear-gradient(180deg,rgba(232,25,95,.36),rgba(32,11,22,.74))}
 .mainnav a[aria-current="page"] .mn-ico{background:rgba(232,25,95,.92);border-color:transparent}
-@media(min-width:1000px){
-  .mainnav{top:0;bottom:auto;width:auto;height:var(--topbar-h);padding:0;gap:8px;align-items:center;background:none;border:0;box-shadow:none;border-radius:0;backdrop-filter:none;-webkit-backdrop-filter:none;z-index:55}
+@media(min-width:1180px){
+  /* va entre el logo y los controles, que viven dentro del contenedor de 1120 px: por eso se ancla a su borde y no al centro de la pantalla */
+  .mainnav{top:0;bottom:auto;left:calc(50% - 379px);transform:none;width:auto;height:var(--topbar-h);padding:0;gap:8px;align-items:center;background:none;border:0;box-shadow:none;border-radius:0;backdrop-filter:none;-webkit-backdrop-filter:none;z-index:55}
   .mainnav a{flex:none;flex-direction:row;gap:9px;height:44px;padding:0 20px 0 9px;border-radius:999px;font-size:14.5px}
   .mn-ico{width:26px;height:26px}
   .mainnav svg{width:15px;height:15px}
 }
-@media(max-width:999px){
+@media(max-width:1179px){
   .callbtn,.admfab,.top{bottom:calc(100px + env(safe-area-inset-bottom,0px))}
   .toast{bottom:calc(164px + env(safe-area-inset-bottom,0px))}
 }
@@ -429,6 +430,39 @@ body.has-mouse .spot{opacity:1}
   .plan-tabs{display:none}
 }
 
+/* ---------- EVENTOS ---------- */
+.ev{
+  display:grid;margin-top:20px;border-radius:34px;overflow:hidden;border:1px solid var(--ln);
+  background:radial-gradient(120% 60% at 0% 0%,rgba(232,25,95,.2),transparent 60%),rgba(255,255,255,.03);
+}
+.ev-photo{position:relative;aspect-ratio:16/10;overflow:hidden}
+.ev-photo img{width:100%;height:100%;object-fit:cover;object-position:50% 40%;display:block}
+.ev-photo::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,6,9,0) 50%,rgba(14,7,11,.96))}
+.ev-tag{position:absolute;left:16px;top:16px;z-index:1;padding:6px 14px;border-radius:999px;background:rgba(10,6,9,.7);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.22);font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+.ev-body{position:relative;z-index:1;margin-top:-38px;padding:0 22px 26px}
+.ev h3{margin:0;font-family:var(--fd);font-weight:800;font-size:clamp(38px,10.5vw,60px);line-height:.94;letter-spacing:-.04em}
+.ev-price{margin:14px 0 6px}
+.ev-price small{display:block;font-size:11.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--fg2)}
+.ev-price b{display:inline-block;font-family:var(--fd);font-weight:800;font-size:clamp(44px,12vw,68px);line-height:1;letter-spacing:-.045em;background:linear-gradient(90deg,var(--rosa2),var(--rosa) 70%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.ev h4{margin:20px 0 10px;font-size:11.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--rosa2)}
+.ev-inc{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.ev-inc li{display:grid;grid-template-columns:58px minmax(0,1fr);gap:14px;align-items:center;padding:10px;border:1px solid var(--ln);border-radius:22px;background:rgba(255,255,255,.04)}
+.ev-thumb{width:58px;height:58px;border-radius:16px;overflow:hidden;display:grid;place-items:center;background:radial-gradient(circle at 50% 38%,rgba(255,255,255,.14),rgba(255,255,255,.02) 72%)}
+.ev-thumb img{width:100%;height:100%;object-fit:cover}
+.ev-it b{display:block;font-family:var(--fd);font-weight:700;font-size:17px;line-height:1.15;letter-spacing:-.015em}
+.ev-it small{display:block;margin-top:2px;font-size:12.5px;color:var(--fg2)}
+.ev-facts{list-style:none;margin:20px 0;padding:0;display:grid;gap:11px}
+.ev-facts li{display:flex;align-items:center;gap:12px;font-size:14.5px;font-weight:500;color:#e8e2ec}
+.ev-facts svg{flex:none;width:20px;height:20px;color:var(--rosa2)}
+.ev-act{display:flex;flex-wrap:wrap;gap:10px}
+.ev-tel{margin:14px 0 0;font-size:12.5px;color:var(--fg2)}
+@media(min-width:860px){
+  .ev-photo{aspect-ratio:21/9}
+  .ev-body{display:grid;grid-template-columns:1.1fr .9fr;gap:0 48px;padding:0 40px 40px}
+  .ev-side{padding-top:6px}
+  .ev-facts{margin-top:46px}
+}
+
 /* ---------- SEDES ---------- */
 .sedes-grp{margin-top:34px}
 .sedes-grp:first-child{margin-top:28px}
@@ -459,7 +493,7 @@ body.has-mouse .spot{opacity:1}
 
 /* pie de página en tres bloques: marca · explora · aviso, y una franja final */
 footer{margin:56px 0 136px;padding-top:36px;border-top:1px solid var(--ln);color:var(--fg2);font-size:13px}
-@media(min-width:1000px){footer{margin-bottom:60px}}
+@media(min-width:1180px){footer{margin-bottom:60px}}
 .foot-grid{display:grid;gap:32px}
 @media(min-width:860px){.foot-grid{grid-template-columns:1.3fr .7fr 1.2fr;gap:52px}}
 .foot-logo{display:block;width:150px;height:auto;margin:0 0 14px -4px}
@@ -748,6 +782,11 @@ footer .tag::before{content:"\2726";font-size:.45em;color:var(--rosa);margin-rig
     </div>
   </div>
 
+  <!-- ====== EVENTOS ====== -->
+  <div class="view" id="view-eventos">
+    <div class="wrap" id="eventosRoot"></div>
+  </div>
+
   <!-- ====== SEDES ====== -->
   <div class="view" id="view-sedes">
     <div class="wrap" id="sedesRoot"></div>
@@ -766,6 +805,7 @@ footer .tag::before{content:"\2726";font-size:.45em;color:var(--rosa);margin-rig
           <h4 data-i18n="footExplore">Explora</h4>
           <a href="#home" data-view="home" data-i18n="navHome">Home</a>
           <a href="#carta" data-view="carta" data-i18n="navCarta">Carta</a>
+          <a href="#eventos" data-view="eventos" data-i18n="navEventos">Eventos</a>
           <a href="#sedes" data-view="sedes" data-i18n="navSedes">Sedes</a>
         </nav>
         <div class="foot-legal">
@@ -787,6 +827,7 @@ footer .tag::before{content:"\2726";font-size:.45em;color:var(--rosa);margin-rig
 <nav class="mainnav" id="mainnav" aria-label="Principal">
   <a href="#home" data-view="home" aria-current="page" style="--bg:url(img/nav-home.webp)"><i class="mn-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v10h13V10"/><path d="M10 20v-5h4v5"/></svg></i><span class="mn-lbl" data-i18n="navHome">Home</span></a>
   <a href="#carta" data-view="carta" style="--bg:url(img/nav-carta.webp)"><i class="mn-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3h11a3 3 0 0 1 3 3v15H8a3 3 0 0 1-3-3z"/><path d="M5 18a3 3 0 0 1 3-3h11M9 7h6M9 10.5h4"/></svg></i><span class="mn-lbl" data-i18n="navCarta">Carta</span></a>
+  <a href="#eventos" data-view="eventos" style="--bg:url(img/nav-eventos.webp)"><i class="mn-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/><path d="m12 12.6.8 1.7 1.8.2-1.3 1.2.4 1.8-1.7-.9-1.7.9.4-1.8-1.3-1.2 1.8-.2z"/></svg></i><span class="mn-lbl" data-i18n="navEventos">Eventos</span></a>
   <a href="#sedes" data-view="sedes" style="--bg:url(img/nav-sedes.webp)"><i class="mn-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></i><span class="mn-lbl" data-i18n="navSedes">Sedes</span></a>
 </nav>
 
@@ -976,6 +1017,24 @@ const SEDES_PER = [
   {n:'Provenza',a:'Carrera 35 #8A-11',here:true}
 ];
 
+// Eventos (pestaña Eventos). Para agregar otro: súmalo aquí con su foto en img/. No hay fecha de vencimiento porque el afiche no la trae.
+const EVENTOS = [{
+  id:'vacaciones', foto:'evento-vacaciones', precio:229000,
+  tag:{es:'Provenza',en:'Provenza'},
+  title:{es:'Combo Vacaciones',en:'Vacation Combo'},
+  incluye:[
+    {es:'Botella de aguardiente Manzanares',en:'Bottle of Manzanares aguardiente',subEs:'Amarillo, sin azúcar',subEn:'Yellow, sugar-free',img:'img/mini/evento-botella.webp'},
+    {es:'Ceviche Fukuoka',en:'Fukuoka ceviche',subEs:'Chicharrón crocante, mango y aguacate',subEn:'Crispy pork, mango and avocado',img:'img/mini/ceviche-fukuoka.webp'},
+    {es:'2 granizados de 16 oz',en:'2 slushes, 16 oz',subEs:'',subEn:'',img:'img/mini/evento-granizados.webp'}
+  ],
+  hora:{es:'Desde las 9 P.M.',en:'From 9 P.M.'},
+  lugar:{es:'Provenza · Cra. 35 #8A 11',en:'Provenza · Cra. 35 #8A 11'},
+  musica:{es:'Clásicos del reggaetón, dancehall y reggae',en:'Reggaeton classics, dancehall and reggae'},
+  dir:'Carrera 35 #8A-11, Provenza, Medellín, Antioquia, Colombia',
+  tel:'573005757965', telTxt:'+57 300 5757965',
+  waEs:'Hola, quiero reservar para el Combo Vacaciones en Provenza.', waEn:'Hi, I’d like to book the Vacation Combo at Provenza.'
+}];
+
 const VL3 = [['Trago','Shot'],['Media','Half'],['Botella','Bottle']];
 const VL2 = [['Yarda','Yard'],['16 oz','16 oz']];
 
@@ -1125,6 +1184,7 @@ const UI = {
   es:{ctaMenu:'Ver la carta',ctaFood:'Comida gourmet',footExplore:'Explora',footNotice:'Importante',
     chooseOne:'Elige uno',untilDay:f=>`Hasta el ${f}`,daysLeft:n=>`Quedan ${n} días`,lastDay:'¡Último día!',habCta:'Pedir el combo',
     tempTitle:'De temporada',tempSub:'Solo por unos días: cuando termina la fecha, desaparece de la carta.',nuevosTitle:'Nuevos productos',nuevosSub:'Lo último que llegó a la carta.',
+    navEventos:'Eventos',evTitle:'Eventos',evSub:'Lo que se viene en Provenza.',evOnly:'Por solo',evIncludes:'Incluye',evReserve:'Reservar por WhatsApp',evCall:'Reservas:',
     navHome:'Home',navCarta:'Carta',navSedes:'Sedes',recoTitle:'Recomendados',recoSub:'Planes armados desde nuestra carta, listos para agregar a tu pedido.',planAdd:'Agregar plan',planAdded:'Plan agregado a tu pedido',planTotal:'Total del plan',
     sedesTitle:'Sedes',sedesCoc:'El Coctelazo',sedesCocS:'Medellín',sedesPer:'Perritos Gourmet',sedesPerS:'de la Uva',sedeHere:'Estás aquí',sedeHow:'Cómo llegar',sedeMap:'Ver mapa',sedeHide:'Ocultar mapa',
     soonT:'Muy pronto',soonS:'Estamos organizando las ubicaciones de Perritos Gourmet. Pronto las verás aquí.',
@@ -1146,6 +1206,7 @@ const UI = {
   en:{ctaMenu:'See the menu',ctaFood:'Gourmet food',footExplore:'Explore',footNotice:'Notice',
     chooseOne:'Choose one',untilDay:f=>`Until ${f}`,daysLeft:n=>`${n} days left`,lastDay:'Last day!',habCta:'Order the combo',
     tempTitle:'Seasonal',tempSub:'Only for a few days: when the date ends, it leaves the menu.',nuevosTitle:'New products',nuevosSub:'The latest on the menu.',
+    navEventos:'Events',evTitle:'Events',evSub:'What’s coming up at Provenza.',evOnly:'For only',evIncludes:'Includes',evReserve:'Book on WhatsApp',evCall:'Bookings:',
     navHome:'Home',navCarta:'Menu',navSedes:'Locations',recoTitle:'Recommended',recoSub:'Plans built from our menu, ready to add to your order.',planAdd:'Add plan',planAdded:'Plan added to your order',planTotal:'Plan total',
     sedesTitle:'Locations',sedesCoc:'El Coctelazo',sedesCocS:'Medellín',sedesPer:'Perritos Gourmet',sedesPerS:'de la Uva',sedeHere:'You are here',sedeHow:'Get directions',sedeMap:'Show map',sedeHide:'Hide map',
     soonT:'Coming soon',soonS:'We are organizing the Perritos Gourmet locations. You will see them here soon.',
@@ -1399,7 +1460,38 @@ function addPlan(id){
   toast(`${pick(pl)} — ${t('planAdded')}`);
 }
 
-/* Sedes: las de El Coctelazo y las de Perritos Gourmet (pendientes) */
+/* Eventos: cada evento es una tarjeta con su foto, lo que incluye, cuándo y dónde, y cómo reservar */
+const IC = {
+  clock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+  pin:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>',
+  music:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V6l11-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/></svg>'
+};
+function eventoHTML(ev){
+  const en = state.lang==='en', L = o => en ? o.en : o.es;
+  const inc = ev.incluye.map(i=>`<li><span class="ev-thumb"><img src="${i.img}" alt="" loading="lazy" decoding="async"></span><span class="ev-it"><b>${esc(en?i.en:i.es)}</b>${(en?i.subEn:i.subEs)?`<small>${esc(en?i.subEn:i.subEs)}</small>`:''}</span></li>`).join('');
+  const wa = `https://wa.me/${ev.tel}?text=${encodeURIComponent(en?ev.waEn:ev.waEs)}`;
+  const maps = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(ev.dir)}`;
+  return `<article class="ev rv">
+    <div class="ev-photo"><img src="img/${ev.foto}.webp" alt="${esc(L(ev.title))}" loading="lazy" decoding="async"><span class="ev-tag">${esc(L(ev.tag))}</span></div>
+    <div class="ev-body">
+      <div class="ev-main">
+        <h3>${esc(L(ev.title))}</h3>
+        <div class="ev-price"><small>${t('evOnly')}</small><b>${money(ev.precio)}</b></div>
+        <h4>${t('evIncludes')}</h4><ul class="ev-inc">${inc}</ul>
+      </div>
+      <div class="ev-side">
+        <ul class="ev-facts"><li>${IC.clock}<span>${esc(L(ev.hora))}</span></li><li>${IC.pin}<span>${esc(L(ev.lugar))}</span></li><li>${IC.music}<span>${esc(L(ev.musica))}</span></li></ul>
+        <div class="ev-act"><a class="btn primary" target="_blank" rel="noopener" href="${wa}">${t('evReserve')}</a><a class="btn ghost" target="_blank" rel="noopener" href="${maps}">${t('sedeHow')}</a></div>
+        <p class="ev-tel">${t('evCall')} ${esc(ev.telTxt)}</p>
+      </div>
+    </div></article>`;
+}
+function renderEventos(){
+  $('#eventosRoot').innerHTML = `<div class="section"><div class="sec-head"><h2>${esc(t('evTitle'))}</h2></div><p class="reco-sub">${t('evSub')}</p>${EVENTOS.map(eventoHTML).join('')}</div>`;
+  observe();
+}
+
+/* Sedes: las de El Coctelazo y las de Perritos Gourmet */
 function sedeHTML(s){
   const city = s.city || 'Medellín';
   const q = encodeURIComponent(`${s.a}, ${city}, Antioquia, Colombia`);
@@ -1416,14 +1508,14 @@ function renderSedes(){
 }
 
 function renderAll(){
-  applyI18n(); renderCatNav(); renderMenu(); renderHome(); renderSedes(); renderCart();
+  applyI18n(); renderCatNav(); renderMenu(); renderHome(); renderEventos(); renderSedes(); renderCart();
   if (state.modal) openModal(state.modal.id, {keep:true});
 }
 
 /* =========================================================
    VISTAS Y RUTAS — Home · Carta · Sedes
    ========================================================= */
-const VIEWS = ['home','carta','sedes'];
+const VIEWS = ['home','carta','eventos','sedes'];
 function setView(name, {scroll=true,hash=true}={}){
   if (!VIEWS.includes(name)) name = 'home';
   state.view = name;
