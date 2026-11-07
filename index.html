@@ -154,32 +154,18 @@ img{-webkit-user-drag:none}
 }
 
 /* ---------- PORTADA ---------- */
-/* portada asimétrica: texto a la izquierda y la foto del combo inclinada a la derecha */
-.hero{max-width:1120px;margin:0 auto;padding:28px var(--gut) 6px}
-.hero-grid{display:grid;gap:30px;align-items:center}
-@media(min-width:860px){.hero-grid{grid-template-columns:1.1fr .9fr;gap:60px;padding:30px 0 6px}}
-.hero-kicker{margin:0 0 16px;font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--gris)}
+/* portada alineada a la izquierda: el logo es el título */
+.hero{max-width:1120px;margin:0 auto;padding:30px var(--gut) 6px}
+.hero-copy{max-width:560px}
+.hero-kicker{margin:0 0 6px;font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--gris)}
 .hero-kicker b{color:var(--hueso);font-weight:700}
-.hero-title{margin:0;font-family:var(--fd);font-weight:800;font-size:clamp(46px,13.5vw,96px);line-height:.93;letter-spacing:-.035em}
-.hero-title span{display:block}
-.h-b{background:linear-gradient(90deg,var(--rosa2),var(--rosa) 62%,#c2124f);-webkit-background-clip:text;background-clip:text;color:transparent}
-.h-b i{font-style:normal;font-weight:500;margin-right:.1em}
-.hero-lede{margin:20px 0 24px;max-width:44ch;font-size:16px;line-height:1.6;color:#d8d2db}
+.hero-title{margin:0}
+.hero-logo{display:block;width:min(86%,400px);height:auto;margin:0 0 4px -6px;filter:drop-shadow(0 10px 34px rgba(232,25,95,.28))}
+.hero-lede{margin:14px 0 24px;max-width:44ch;font-size:16px;line-height:1.6;color:#d8d2db}
 .hero-actions{display:flex;flex-wrap:wrap;gap:10px}
-.hero-copy .status{margin:18px 0 0}
-.hero-photo{
-  position:relative;display:block;justify-self:end;width:100%;max-width:440px;aspect-ratio:4/3;padding:0;overflow:hidden;
-  border:1px solid rgba(255,255,255,.18);border-radius:32px;background:#000;transform:rotate(1.6deg);
-  box-shadow:0 30px 60px -28px rgba(232,25,95,.55);transition:transform .5s var(--ease);
-}
-@media(min-width:860px){.hero-photo{aspect-ratio:4/5;transform:rotate(2.4deg)}}
-.hero-photo:hover{transform:rotate(0)}
-.hero-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 58%;display:block}
 .hero-actions .btn{padding:0 22px}
-.hero-tag{position:absolute;left:14px;bottom:14px;display:flex;flex-direction:column;align-items:flex-start;gap:1px;padding:10px 16px 11px;border-radius:18px;background:var(--hueso);color:var(--tinta);text-align:left}
-.hero-tag small{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#b3114a}
-.hero-tag b{font-family:var(--fd);font-size:19px;font-weight:800;letter-spacing:-.02em;line-height:1.1}
-.hero-tag em{font-style:normal;font-weight:700;font-size:14px}
+.hero-copy .status{margin:18px 0 0}
+@media(min-width:860px){.hero{padding-top:44px}.hero-logo{width:440px}}
 .status{display:inline-flex;align-items:center;gap:8px;margin:0 0 16px;padding:6px 14px;border-radius:999px;border:1px solid rgba(54,201,141,.5);color:#93ebc8;font-size:12px;font-weight:600}
 .status::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--verde)}
 .status[hidden]{display:none}
@@ -209,8 +195,6 @@ img{-webkit-user-drag:none}
 }
 .catnav .chip:hover{color:var(--hueso)}
 .catnav .chip.on{color:var(--hueso)}
-.catnav .chip.reco-link{color:var(--rosa2)}
-.catnav .chip.reco-link::before{content:"\2726";margin-right:6px;font-size:12px}
 .catnav .chip.on::after{content:"\2726";position:absolute;left:50%;bottom:-2px;transform:translateX(-50%);font-size:11px;color:var(--rosa)}
 
 /* ---------- SECCIONES ---------- */
@@ -313,28 +297,37 @@ img{-webkit-user-drag:none}
 .view{display:none}
 .view.active{display:block;animation:viewIn .45s var(--ease)}
 @keyframes viewIn{from{opacity:0;transform:translateY(8px)}}
+/* Home · Carta · Sedes: tres botones grandes con un fondo de comida; el de la vista actual se enciende con un aro rosa */
 .mainnav{
-  position:fixed;z-index:60;left:0;right:0;bottom:0;display:flex;gap:4px;padding:8px 14px calc(8px + env(safe-area-inset-bottom,0px));
-  background:rgba(8,6,8,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--ln);
+  position:fixed;z-index:60;left:50%;transform:translateX(-50%);width:min(calc(100% - 24px),560px);bottom:calc(12px + env(safe-area-inset-bottom,0px));
+  display:flex;gap:6px;padding:6px;border-radius:30px;
+  background:rgba(10,6,9,.78);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,.14);box-shadow:0 18px 40px -12px rgba(0,0,0,.85);
 }
 .mainnav a{
-  flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:7px 4px 6px;border-radius:16px;text-decoration:none;
-  color:var(--gris);font-size:11.5px;font-weight:700;transition:color .2s,background .2s;
+  position:relative;isolation:isolate;overflow:hidden;flex:1;height:64px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+  border-radius:24px;text-decoration:none;color:#fff;font-size:13px;font-weight:800;-webkit-tap-highlight-color:transparent;transition:transform .2s,box-shadow .3s;
 }
-.mainnav svg{width:22px;height:22px}
-.mainnav a:hover{color:var(--hueso)}
-.mainnav a[aria-current="page"]{color:var(--hueso);background:rgba(232,25,95,.16)}
-.mainnav a[aria-current="page"] svg{color:var(--rosa2)}
+.mainnav a::before{content:"";position:absolute;inset:0;z-index:-2;background:var(--bg) center/cover;filter:saturate(1.1) brightness(.72);transform:scale(1.04);transition:transform .6s var(--ease),filter .3s}
+.mainnav a::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(8,5,8,.3),rgba(8,5,8,.78));transition:opacity .3s}
+.mn-ico{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.28);font-style:normal;transition:background .3s,border-color .3s}
+.mainnav svg{width:17px;height:17px}
+.mn-lbl{text-shadow:0 1px 8px rgba(0,0,0,.85)}
+.mainnav a:active{transform:scale(.96)}
+.mainnav a:hover::before{transform:scale(1.1)}
+.mainnav a[aria-current="page"]{box-shadow:0 0 0 2px var(--rosa),0 0 26px -2px rgba(232,25,95,.8)}
+.mainnav a[aria-current="page"]::before{filter:saturate(1.3) brightness(1.05);transform:scale(1.1)}
+.mainnav a[aria-current="page"]::after{background:linear-gradient(180deg,rgba(8,5,8,.02),rgba(8,5,8,.6))}
+.mainnav a[aria-current="page"] .mn-ico{background:var(--rosa);border-color:var(--rosa)}
 @media(min-width:1000px){
-  .mainnav{top:0;bottom:auto;left:50%;right:auto;transform:translateX(-50%);height:var(--topbar-h);padding:0;gap:6px;align-items:center;background:none;border:0;backdrop-filter:none;-webkit-backdrop-filter:none;z-index:55}
-  .mainnav a{flex:none;flex-direction:row;gap:8px;height:40px;padding:0 18px;border-radius:999px;font-size:14.5px}
-  .mainnav svg{width:18px;height:18px}
+  .mainnav{top:0;bottom:auto;width:auto;height:var(--topbar-h);padding:0;gap:8px;align-items:center;background:none;border:0;box-shadow:none;border-radius:0;backdrop-filter:none;-webkit-backdrop-filter:none;z-index:55}
+  .mainnav a{flex:none;flex-direction:row;gap:9px;height:44px;padding:0 20px 0 9px;border-radius:999px;font-size:14.5px}
+  .mn-ico{width:26px;height:26px}
+  .mainnav svg{width:15px;height:15px}
 }
 @media(max-width:999px){
-  .callbtn,.admfab{bottom:84px}
-  .top{bottom:84px}
-  .toast{bottom:146px}
-  footer{margin-bottom:120px}
+  .callbtn,.admfab,.top{bottom:calc(100px + env(safe-area-inset-bottom,0px))}
+  .toast{bottom:calc(164px + env(safe-area-inset-bottom,0px))}
 }
 
 /* ---------- RECOMENDADOS (solo en el Home) ---------- */
@@ -342,9 +335,18 @@ img{-webkit-user-drag:none}
 .seas{padding-top:40px;padding-bottom:6px}
 .seas[hidden]{display:none}
 
-/* hablador principal del Home: la promoción vigente (verde radiactivo, como el vaso del combo) */
-#hablador{padding-top:18px}
-#hablador[hidden]{display:none}
+/* ventana publicitaria: la promoción vigente (verde radiactivo, como el vaso del combo) */
+.promo{
+  position:fixed;inset:0;z-index:105;display:grid;place-items:center;padding:20px;
+  background:rgba(4,3,6,.82);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);opacity:0;visibility:hidden;transition:opacity .35s,visibility .35s;
+}
+.promo.show{opacity:1;visibility:visible}
+.promo-card{position:relative;width:min(480px,100%);max-height:calc(100vh - 40px);overflow:auto;border-radius:32px;transform:translateY(26px) scale(.94);transition:transform .5s var(--ease)}
+.promo.show .promo-card{transform:none}
+.promo-x{position:absolute;top:12px;right:12px;z-index:2;width:42px;height:42px;border-radius:50%;border:1px solid rgba(255,255,255,.3);background:rgba(8,6,9,.78);color:#fff;font-size:24px;line-height:1;display:grid;place-items:center}
+.promo-x:hover{border-color:var(--radio)}
+.promo .hab{grid-template-columns:1fr;padding:62px 22px 8px}
+.promo .hab-img{margin:6px auto 0;width:min(100%,420px)}
 .hab{
   --radio:#9dff2e;position:relative;display:grid;grid-template-columns:1fr;gap:6px;align-items:center;padding:24px 22px 8px;overflow:hidden;cursor:pointer;
   border-radius:32px;border:1px solid rgba(157,255,46,.5);-webkit-tap-highlight-color:transparent;
@@ -362,10 +364,6 @@ img{-webkit-user-drag:none}
 .hab-btn:hover{background:#c3ff6a;border-color:#c3ff6a}
 .hab-img{display:block;width:min(100%,520px);height:auto;margin:6px auto 0;justify-self:center;filter:drop-shadow(0 24px 30px rgba(0,0,0,.6));transition:transform .6s var(--ease)}
 .hab:hover .hab-img{transform:scale(1.03) rotate(-1deg)}
-@media(min-width:860px){
-  .hab{grid-template-columns:1fr 1fr;gap:20px;padding:30px 36px}
-  .hab-img{margin:0;width:100%}
-}
 
 /* nuevos productos: fila que se desliza */
 .nv-row{display:flex;gap:12px;overflow-x:auto;margin:18px calc(-1*var(--gut)) 0;padding:6px var(--gut) 14px;scroll-snap-type:x proximity;scrollbar-width:none}
@@ -440,14 +438,25 @@ img{-webkit-user-drag:none}
 .empty{padding:50px 0;text-align:center;color:var(--fg2)}
 .empty .big{font-family:var(--fd);font-size:27px;letter-spacing:-.01em;color:var(--hueso)}
 
-footer{margin:44px 0 96px;padding-top:26px;border-top:1px solid var(--ln);text-align:left;color:var(--fg2);font-size:12px}
-footer .tag{font-family:var(--fd);font-weight:800;font-size:clamp(28px,8vw,44px);letter-spacing:-.03em;color:var(--hueso)}
-footer .tag::before{content:"\2726";font-size:.4em;color:var(--rosa);margin-right:10px;vertical-align:.5em}
-.socials{display:flex;flex-wrap:wrap;justify-content:flex-start;gap:4px 22px;margin:10px 0 14px;font-family:var(--fd);font-size:15px;letter-spacing:-.01em;color:var(--hueso)}
-.credit{margin-top:14px}
-.credit a{color:var(--fg2);text-decoration:none}
-.credit a:hover{color:var(--hueso)}
-.admlink{margin-top:14px;width:34px;height:34px;border-radius:50%;border:1px solid var(--ln);background:none;color:var(--fg2);display:inline-grid;place-items:center;opacity:.55}
+/* pie de página en tres bloques: marca · explora · aviso, y una franja final */
+footer{margin:56px 0 136px;padding-top:36px;border-top:1px solid var(--ln);color:var(--fg2);font-size:13px}
+@media(min-width:1000px){footer{margin-bottom:60px}}
+.foot-grid{display:grid;gap:32px}
+@media(min-width:860px){.foot-grid{grid-template-columns:1.3fr .7fr 1.2fr;gap:52px}}
+.foot-logo{display:block;width:150px;height:auto;margin:0 0 14px -4px}
+footer .tag{font-family:var(--fd);font-weight:800;font-size:28px;letter-spacing:-.03em;color:var(--hueso)}
+footer .tag::before{content:"\2726";font-size:.45em;color:var(--rosa);margin-right:8px;vertical-align:.45em}
+.socials{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 0}
+.socials span{padding:7px 14px;border:1px solid var(--ln);border-radius:999px;font-weight:600;font-size:13px;color:var(--hueso)}
+.foot-nav h4,.foot-legal h4{margin:0 0 12px;font-size:11.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--rosa2)}
+.foot-nav{display:flex;flex-direction:column;align-items:flex-start;gap:2px}
+.foot-nav a{padding:6px 0;text-decoration:none;color:var(--hueso);font-family:var(--fd);font-weight:700;font-size:20px;letter-spacing:-.02em;transition:color .2s,transform .2s}
+.foot-nav a:hover{color:var(--rosa2);transform:translateX(4px)}
+.foot-legal p{margin:0;padding:14px 16px;border-left:3px solid var(--rosa);border-radius:0 14px 14px 0;background:rgba(255,255,255,.04);font-size:13px;line-height:1.55;color:#cfc8d2}
+.foot-bottom{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:34px;padding-top:18px;border-top:1px solid var(--ln);font-size:12px}
+.foot-bottom a{color:var(--fg2);text-decoration:none}
+.foot-bottom a:hover{color:var(--hueso)}
+.admlink{flex:none;width:34px;height:34px;border-radius:50%;border:1px solid var(--ln);background:none;color:var(--fg2);display:inline-grid;place-items:center;opacity:.55}
 .admlink svg{width:15px;height:15px}
 .admlink:hover,.admlink.on{opacity:1;color:var(--rosa2);border-color:var(--rosa)}
 
@@ -467,32 +476,25 @@ footer .tag::before{content:"\2726";font-size:.4em;color:var(--rosa);margin-righ
   .mpanel{border-bottom:1px solid rgba(232,25,95,.65);border-radius:30px}
 }
 .mmedia{position:relative;height:clamp(230px,38vh,330px);border-radius:29px 29px 0 0;overflow:hidden}
-/* escena 3D: la foto siempre cabe entera (inset fijo + object-fit) y gira con el dedo o el puntero */
-.mstage{position:absolute;inset:0;perspective:760px;cursor:grab;touch-action:pan-y;-webkit-tap-highlight-color:transparent}
-.mstage:active{cursor:grabbing}
+/* el producto siempre cabe entero (inset fijo + object-fit) y solo flota suavemente sobre su sombra */
+.mstage{position:absolute;inset:0}
 .mstage::before{content:"";position:absolute;inset:0;background:radial-gradient(60% 55% at 50% 48%,rgba(232,25,95,.30),transparent 72%)}
-.mstage .floor{position:absolute;left:50%;bottom:11%;width:44%;height:18px;transform:translateX(-50%);border-radius:50%;background:radial-gradient(ellipse at center,rgba(0,0,0,.75),transparent 72%);filter:blur(5px)}
-.mstage .pic{position:absolute;inset:0;transform-style:preserve-3d}
-.mstage .obj{
-  position:absolute;inset:22px 22px 34px;transform-style:preserve-3d;
-  transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .45s var(--ease);
-}
+.mstage .floor{position:absolute;left:50%;bottom:11%;width:44%;height:18px;transform:translateX(-50%);border-radius:50%;background:radial-gradient(ellipse at center,rgba(0,0,0,.75),transparent 72%);filter:blur(5px);animation:floorPulse 5s ease-in-out infinite}
+.mstage .pic{position:absolute;inset:0}
+.mstage .obj{position:absolute;inset:22px 22px 34px}
 .mstage .obj img{
   position:absolute;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none;user-select:none;
   filter:drop-shadow(0 22px 20px rgba(0,0,0,.55)) drop-shadow(0 0 22px rgba(232,25,95,.22));
-  animation:sway 7s ease-in-out infinite;transform-origin:50% 60%;
+  animation:floatY 5s ease-in-out infinite;
 }
-@keyframes sway{0%,100%{transform:rotateY(-13deg) translateY(2px)}50%{transform:rotateY(13deg) translateY(-7px)}}
-.mstage.drag .obj{transition:none}
-.mstage.drag .obj img{animation-play-state:paused}
+@keyframes floatY{0%,100%{transform:translateY(5px)}50%{transform:translateY(-11px)}}
+@keyframes floorPulse{0%,100%{transform:translateX(-50%) scale(1);opacity:.9}50%{transform:translateX(-50%) scale(.8);opacity:.55}}
 .mstage .pic img.photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 16%;filter:none;animation:none}
-.mstage.photo{cursor:default;perspective:none}
 .mstage.photo .floor,.mstage.photo::before{display:none}
-.mhint{position:absolute;left:0;right:0;bottom:10px;text-align:center;font-size:11px;font-weight:600;letter-spacing:.08em;color:rgba(255,255,255,.55);pointer-events:none}
 .mstar{position:absolute;inset:0;display:grid;place-items:center;font-size:34px;color:var(--rosa)}
 .mpanel.nomedia .mmedia{height:84px}
 .mpanel.nomedia .mstage::before{display:none}
-.mpanel.nomedia .mhint,.mpanel.nomedia .floor{display:none}
+.mpanel.nomedia .floor{display:none}
 .mclose{position:absolute;top:14px;right:14px;z-index:3;width:40px;height:40px;border-radius:50%;border:1px solid var(--ln);background:rgba(10,9,11,.72);color:var(--hueso);font-size:22px;line-height:1;display:grid;place-items:center}
 .mclose:hover{border-color:var(--rosa)}
 .mbody{padding:20px 24px 26px}
@@ -675,12 +677,11 @@ footer .tag::before{content:"\2726";font-size:.4em;color:var(--rosa);margin-righ
   <main>
   <!-- ====== HOME ====== -->
   <div class="view active" id="view-home">
-  <div class="wrap" id="hablador" hidden></div>
   <section class="hero">
     <div class="hero-grid">
       <div class="hero-copy">
         <p class="hero-kicker"><b>Since 2017</b> &middot; #SomosCultura</p>
-        <h1 class="hero-title"><span class="h-a">El Coctelazo</span><span class="h-b"><i>&times;</i>Perritos Gourmet</span></h1>
+        <h1 class="hero-title"><img class="hero-logo" src="img/logo-by-perritos.webp" width="749" height="425" alt="El Coctelazo by Perritos Gourmet de la Uva" fetchpriority="high" decoding="async"></h1>
         <p class="hero-lede" data-i18n="heroLede">Granizados, cócteles y chupitos del Coctelazo, junto a la comida gourmet de Perritos Gourmet de la Uva. Pide desde tu mesa.</p>
         <div class="hero-actions">
           <a class="btn primary" href="#carta" id="ctaMenu" data-i18n="ctaMenu">Ver la carta</a>
@@ -688,10 +689,6 @@ footer .tag::before{content:"\2726";font-size:.4em;color:var(--rosa);margin-righ
         </div>
         <span class="status open" id="heroMesa" role="status" hidden></span>
       </div>
-      <button class="hero-photo" type="button" data-act="open" data-id="blue" aria-label="Blue Island">
-        <img src="img/carta-blue-smirnoff.webp" width="760" height="1253" alt="" fetchpriority="high" decoding="async">
-        <span class="hero-tag"><small data-i18n="houseTag">De la casa</small><b>Blue Island</b><em>$35.000</em></span>
-      </button>
     </div>
   </section>
   <section class="wrap reco" id="reco" aria-labelledby="recoT">
@@ -739,22 +736,38 @@ footer .tag::before{content:"\2726";font-size:.4em;color:var(--rosa);margin-righ
 
   <div class="wrap">
     <footer>
-      <div class="tag">#SomosCultura</div>
-      <div class="socials"><span>@elcoctelazo</span><span>@gourmetperritos</span></div>
-      <div style="margin:0 auto;max-width:420px" data-i18n="gateAge">Venta de licor solo a mayores de 18 años. El exceso de alcohol es perjudicial para la salud.</div>
-      <div class="credit" role="contentinfo"><a id="creditL" href="https://sonetix.emanuelvillada10.workers.dev/" target="_blank" rel="noopener">© 2026 Sonetix. Páginas web a la medida.</a></div>
-      <button class="admlink" id="admLink" type="button" aria-label="Acceso barra">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
-      </button>
+      <div class="foot-grid">
+        <div class="foot-brand">
+          <img class="foot-logo" src="img/logo-by-perritos.webp" width="749" height="425" alt="El Coctelazo by Perritos Gourmet de la Uva" loading="lazy" decoding="async">
+          <div class="tag">#SomosCultura</div>
+          <div class="socials"><span>@elcoctelazo</span><span>@gourmetperritos</span></div>
+        </div>
+        <nav class="foot-nav" aria-label="Pie de página">
+          <h4 data-i18n="footExplore">Explora</h4>
+          <a href="#home" data-view="home" data-i18n="navHome">Home</a>
+          <a href="#carta" data-view="carta" data-i18n="navCarta">Carta</a>
+          <a href="#sedes" data-view="sedes" data-i18n="navSedes">Sedes</a>
+        </nav>
+        <div class="foot-legal">
+          <h4 data-i18n="footNotice">Importante</h4>
+          <p data-i18n="gateAge">Venta de licor solo a mayores de 18 años. El exceso de alcohol es perjudicial para la salud.</p>
+        </div>
+      </div>
+      <div class="foot-bottom" role="contentinfo">
+        <a id="creditL" href="https://sonetix.emanuelvillada10.workers.dev/" target="_blank" rel="noopener">© 2026 Sonetix. Páginas web a la medida.</a>
+        <button class="admlink" id="admLink" type="button" aria-label="Acceso barra">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+        </button>
+      </div>
     </footer>
   </div>
 </div>
 
 <!-- NAVEGACIÓN PRINCIPAL: barra inferior en celular y tablet, centrada en la barra superior en escritorio -->
 <nav class="mainnav" id="mainnav" aria-label="Principal">
-  <a href="#home" data-view="home" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v10h13V10"/><path d="M10 20v-5h4v5"/></svg><span data-i18n="navHome">Home</span></a>
-  <a href="#carta" data-view="carta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3h11a3 3 0 0 1 3 3v15H8a3 3 0 0 1-3-3z"/><path d="M5 18a3 3 0 0 1 3-3h11M9 7h6M9 10.5h4"/></svg><span data-i18n="navCarta">Carta</span></a>
-  <a href="#sedes" data-view="sedes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg><span data-i18n="navSedes">Sedes</span></a>
+  <a href="#home" data-view="home" aria-current="page" style="--bg:url(img/nav-home.webp)"><i class="mn-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v10h13V10"/><path d="M10 20v-5h4v5"/></svg></i><span class="mn-lbl" data-i18n="navHome">Home</span></a>
+  <a href="#carta" data-view="carta" style="--bg:url(img/nav-carta.webp)"><i class="mn-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3h11a3 3 0 0 1 3 3v15H8a3 3 0 0 1-3-3z"/><path d="M5 18a3 3 0 0 1 3-3h11M9 7h6M9 10.5h4"/></svg></i><span class="mn-lbl" data-i18n="navCarta">Carta</span></a>
+  <a href="#sedes" data-view="sedes" style="--bg:url(img/nav-sedes.webp)"><i class="mn-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></i><span class="mn-lbl" data-i18n="navSedes">Sedes</span></a>
 </nav>
 
 <!-- FICHA DEL PRODUCTO -->
@@ -763,7 +776,7 @@ footer .tag::before{content:"\2726";font-size:.4em;color:var(--rosa);margin-righ
   <div class="mpanel" id="mpanel">
     <div class="mmedia">
       <button class="mclose" id="mClose" type="button" aria-label="Cerrar">×</button>
-      <div class="mstage" id="mStage"><div class="floor" aria-hidden="true"></div><div class="pic" id="mPic"></div><span class="mhint" id="mHint" aria-hidden="true"></span></div>
+      <div class="mstage" id="mStage"><div class="floor" aria-hidden="true"></div><div class="pic" id="mPic"></div></div>
     </div>
     <div class="mbody">
       <div class="mhead"><h3 id="mTitle"></h3><div class="price" id="mPrice"></div></div>
@@ -862,6 +875,11 @@ footer .tag::before{content:"\2726";font-size:.4em;color:var(--rosa);margin-righ
   <span id="callL"></span>
 </button>
 
+<!-- VENTANA PUBLICITARIA: la promoción vigente aparece al abrir la página y se puede cerrar -->
+<div class="promo" id="promo" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Promoción">
+  <div class="promo-card" id="promoCard"></div>
+</div>
+
 <div class="toast" id="toast" role="status" aria-live="polite"><span id="toastMsg"></span><button type="button" id="toastBtn"></button></div>
 <button class="top" id="topBtn" type="button" aria-label="Volver arriba">↑</button>
 
@@ -886,8 +904,9 @@ const MESA_TTL = 5*60*60*1000;   // la mesa escaneada se recuerda 5 horas en el 
    DATOS — la carta de octubre (PDF) es la fuente
    layout: list = renglones · liq = tabla de precios con botones · feat = tarjeta con foto
    ========================================================= */
-// Orden de la barra de la carta. «Recomendados» va primero en la barra pero vive en el Home (ver renderCatNav).
+// Orden de la barra de la carta. «Recomendados» (primera pestaña) muestra los mismos planes del Home; al abrir la Carta se entra por Licores (state.cat).
 const CATS = [
+  {id:'recomendados', es:'Recomendados', en:'Recommended'},
   {id:'licores',    es:'Licores',     en:'Spirits'},
   {id:'comidas',    es:'Comida',      en:'Food'},
   {id:'granizados', es:'Granizados',  en:'Slushies'},
@@ -1083,12 +1102,12 @@ const thumb = s => s.replace('img/','img/mini/');   // miniatura cuadrada 240×2
    TEXTOS DE LA INTERFAZ
    ========================================================= */
 const UI = {
-  es:{ctaMenu:'Ver la carta',ctaFood:'Comida gourmet',houseTag:'De la casa',
-    navReco:'Recomendados',chooseOne:'Elige uno',untilDay:f=>`Hasta el ${f}`,daysLeft:n=>`Quedan ${n} días`,lastDay:'¡Último día!',habCta:'Pedir el combo',
+  es:{ctaMenu:'Ver la carta',ctaFood:'Comida gourmet',footExplore:'Explora',footNotice:'Importante',
+    chooseOne:'Elige uno',untilDay:f=>`Hasta el ${f}`,daysLeft:n=>`Quedan ${n} días`,lastDay:'¡Último día!',habCta:'Pedir el combo',
     tempTitle:'De temporada',tempSub:'Solo por unos días: cuando termina la fecha, desaparece de la carta.',nuevosTitle:'Nuevos productos',nuevosSub:'Lo último que llegó a la carta.',
     navHome:'Home',navCarta:'Carta',navSedes:'Sedes',recoTitle:'Recomendados',recoSub:'Planes armados desde nuestra carta, listos para agregar a tu pedido.',planAdd:'Agregar plan',planAdded:'Plan agregado a tu pedido',planTotal:'Total del plan',
     sedesTitle:'Sedes',sedesCoc:'El Coctelazo',sedesCocS:'Medellín',sedesPer:'Perritos Gourmet',sedesPerS:'de la Uva',sedeHere:'Estás aquí',sedeHow:'Cómo llegar',sedeMap:'Ver mapa',sedeHide:'Ocultar mapa',
-    soonT:'Muy pronto',soonS:'Estamos organizando las ubicaciones de Perritos Gourmet. Pronto las verás aquí.',dragHint:'Arrastra para girar',
+    soonT:'Muy pronto',soonS:'Estamos organizando las ubicaciones de Perritos Gourmet. Pronto las verás aquí.',
     mesaBusy:'Esta mesa ya se está usando en otro dispositivo. Pídele al mesero que la libere.',mesaFreed:'El mesero liberó tu mesa. Escanea el QR otra vez para volver a pedir.',mesaMoved:'Esta mesa pasó a otro dispositivo. Escanea el QR otra vez si quieres retomarla.',heroLede:'Granizados, cócteles y chupitos del Coctelazo, junto a la comida gourmet de Perritos Gourmet de la Uva. Pide desde tu mesa.',searchLabel:'Buscar en la carta',searchPh:'Busca en la carta…',surprise:'Sorpréndeme',
     creditL:'© 2026 Sonetix. Páginas web a la medida.',
     myOrder:'Mi pedido',total:'Total',sendBar:'Enviar pedido a la barra',copy:'Copiar',clear:'Vaciar',fine:'Tu pedido le llega a la barra por WhatsApp con el número de tu mesa. El equipo te lo confirma.',
@@ -1104,12 +1123,12 @@ const UI = {
     tip:'Elige 3 toppings a tu gusto',topsLabel:'Sabor y toppings del granizado',topsPh:'Sabor y toppings (opcional)',
     yarda:'Yarda',yardaS:'16 onzas',oz16:'16 onzas',volqueta:'Volqueta de granizado',askWaiter:'Pregúntale a tu mesero',
     close:'Cerrar',top:'Volver arriba',newb:'NUEVO',comboTag:'Combo especial'},
-  en:{ctaMenu:'See the menu',ctaFood:'Gourmet food',houseTag:'House special',
-    navReco:'Recommended',chooseOne:'Choose one',untilDay:f=>`Until ${f}`,daysLeft:n=>`${n} days left`,lastDay:'Last day!',habCta:'Order the combo',
+  en:{ctaMenu:'See the menu',ctaFood:'Gourmet food',footExplore:'Explore',footNotice:'Notice',
+    chooseOne:'Choose one',untilDay:f=>`Until ${f}`,daysLeft:n=>`${n} days left`,lastDay:'Last day!',habCta:'Order the combo',
     tempTitle:'Seasonal',tempSub:'Only for a few days: when the date ends, it leaves the menu.',nuevosTitle:'New products',nuevosSub:'The latest on the menu.',
     navHome:'Home',navCarta:'Menu',navSedes:'Locations',recoTitle:'Recommended',recoSub:'Plans built from our menu, ready to add to your order.',planAdd:'Add plan',planAdded:'Plan added to your order',planTotal:'Plan total',
     sedesTitle:'Locations',sedesCoc:'El Coctelazo',sedesCocS:'Medellín',sedesPer:'Perritos Gourmet',sedesPerS:'de la Uva',sedeHere:'You are here',sedeHow:'Get directions',sedeMap:'Show map',sedeHide:'Hide map',
-    soonT:'Coming soon',soonS:'We are organizing the Perritos Gourmet locations. You will see them here soon.',dragHint:'Drag to rotate',
+    soonT:'Coming soon',soonS:'We are organizing the Perritos Gourmet locations. You will see them here soon.',
     mesaBusy:'This table is already in use on another device. Ask the waiter to release it.',mesaFreed:'The waiter released your table. Scan the QR again to keep ordering.',mesaMoved:'This table moved to another device. Scan the QR again if you want it back.',heroLede:'Slushies, cocktails and shots from El Coctelazo, with the gourmet food of Perritos Gourmet de la Uva. Order from your table.',searchLabel:'Search the menu',searchPh:'Search the menu…',surprise:'Surprise me',
     creditL:'© 2026 Sonetix. Websites made to measure.',
     myOrder:'My order',total:'Total',sendBar:'Send order to the bar',copy:'Copy',clear:'Clear',fine:'Your order reaches the bar on WhatsApp with your table number. The team will confirm it.',
@@ -1207,6 +1226,7 @@ function subBlock(sub, items, extras){
 }
 
 function sectionHTML(cat){
+  if (cat.id==='recomendados') return `<div class="section" id="sec-recomendados"><div class="sec-head"><h2>${esc(pick(cat))}</h2></div><p class="reco-sub">${t('recoSub')}</p>${plansHTML()}</div>`;
   const subs = SUBS.filter(s=>s.cat===cat.id);
   let html = `<div class="section" id="sec-${cat.id}"><div class="sec-head"><h2>${esc(pick(cat))}</h2></div>`;
   subs.forEach(s=>{ html += subBlock(s, ITEMS.filter(i=>i.sub===s.id), true); });
@@ -1230,8 +1250,7 @@ let io;
 
 function renderCatNav(){
   const nav = $('#catnav');
-  // «Recomendados» va primero en la barra y lleva al Home, donde viven los planes
-  nav.innerHTML = `<a class="chip reco-link" href="#recomendados" data-go="reco">${esc(t('navReco'))}</a>` + CATS.map(c=>`<a class="chip${!state.q&&c.id===state.cat?' on':''}" role="tab" href="#${c.id}" data-cat="${c.id}" aria-selected="${!state.q&&c.id===state.cat}">${esc(pick(c))}</a>`).join('');
+  nav.innerHTML = CATS.map(c=>`<a class="chip${!state.q&&c.id===state.cat?' on':''}" role="tab" href="#${c.id}" data-cat="${c.id}" aria-selected="${!state.q&&c.id===state.cat}">${esc(pick(c))}</a>`).join('');
   centerChip();
 }
 function centerChip(){
@@ -1300,17 +1319,42 @@ function planHTML(pl){
     <div class="plan-foot"><div class="plan-total"><small>${t('planTotal')}</small><b>${money(total)}</b></div><button class="btn primary" type="button" data-act="plan" data-id="${pl.id}">${t('planAdd')}</button></div></article>`;
 }
 
-/* Hablador principal: el primero vigente de HABLADORES; al vencer su fecha desaparece solo */
-function habladorHTML(){
+/* Recomendados: se muestran en el Home y también como primera pestaña de la Carta (mismos planes, mismo estado) */
+function plansHTML(){
+  return `<div class="plan-tabs" role="group" aria-label="${esc(t('recoTitle'))}">${PLANS.map(p=>`<button type="button" data-act="plantab" data-id="${p.id}" aria-pressed="${state.plan===p.id}">${esc(pick(p))}</button>`).join('')}</div><div class="plans">${PLANS.map(planHTML).join('')}</div>`;
+}
+function renderPlans(){
+  $('#recoRoot').innerHTML = plansHTML();
+  if (state.cat==='recomendados' && !state.q.trim()) renderMenu();
+}
+
+/* Ventana publicitaria: la primera promoción vigente de HABLADORES, al abrir la página; al vencer su fecha deja de salir sola */
+function promoHTML(){
   const h = HABLADORES.find(x=>vigente(x.hasta)); if (!h) return '';
   const it = BY_ID[h.item], n = diasQuedan(h.hasta);
   const left = n<=1 ? t('lastDay') : t('daysLeft')(n);
-  return `<article class="hab" data-act="open" data-id="${it.id}" tabindex="0" role="button" aria-label="${esc(state.lang==='en'?h.titleEn:h.titleEs)}">
+  return `<button class="promo-x" id="promoX" type="button" aria-label="${esc(t('close'))}">×</button>
+    <article class="hab" data-act="open" data-id="${it.id}" tabindex="0" role="button" aria-label="${esc(state.lang==='en'?h.titleEn:h.titleEs)}">
     <div class="hab-copy"><span class="hab-tag">&#127875; ${esc(state.lang==='en'?h.tagEn:h.tagEs)}</span>
       <h2>${esc(state.lang==='en'?h.titleEn:h.titleEs)}</h2><p>${esc(state.lang==='en'?h.subEn:h.subEs)}</p>
       <div class="hab-meta"><b class="hab-price">${money(it.price)}</b><span class="hab-until">${esc(t('untilDay')(fechaCorta(h.hasta)))}<i>${esc(left)}</i></span></div>
       <button class="btn hab-btn" type="button" data-act="open" data-id="${it.id}">${t('habCta')}</button></div>
-    <img class="hab-img" src="${it.img}" alt="" fetchpriority="high" decoding="async"></article>`;
+    <img class="hab-img" src="${it.img}" alt="" decoding="async"></article>`;
+}
+let promoShown = false;   // una sola vez por apertura de la página
+function showPromo(){
+  if (promoShown) return;
+  const html = promoHTML(); if (!html) return;
+  promoShown = true;
+  $('#promoCard').innerHTML = html;
+  $('#promoX').addEventListener('click', closePromo);
+  const p = $('#promo'); p.classList.add('show'); p.setAttribute('aria-hidden','false'); document.body.classList.add('locked');
+  setTimeout(()=>$('#promoX')?.focus(), 80);
+}
+function closePromo(){
+  const p = $('#promo'); if (!p.classList.contains('show')) return;
+  p.classList.remove('show'); p.setAttribute('aria-hidden','true');
+  if (!$('#drawer').classList.contains('show') && !$('#scan').classList.contains('show') && !$('#gate').classList.contains('show') && !$('#adm').classList.contains('show') && !state.modal) document.body.classList.remove('locked');
 }
 function nuevoHTML(it){
   return `<article class="nv" data-act="open" data-id="${it.id}" tabindex="0" role="button" aria-label="${esc(nm(it))}"><span class="nv-badge">${t('newb')}</span>
@@ -1318,8 +1362,7 @@ function nuevoHTML(it){
     <div class="nv-foot"><span class="price">${money(it.price)}</span><button class="add" type="button" data-act="add" data-id="${it.id}" aria-label="${esc(t('add'))}: ${esc(nm(it))}">${ICON.plus}</button></div></article>`;
 }
 function renderHome(){
-  const hab = habladorHTML(); const hb = $('#hablador'); hb.innerHTML = hab; hb.hidden = !hab;
-  $('#recoRoot').innerHTML = `<div class="plan-tabs" role="group" aria-label="${esc(t('recoTitle'))}">${PLANS.map(p=>`<button type="button" data-act="plantab" data-id="${p.id}" aria-pressed="${state.plan===p.id}">${esc(pick(p))}</button>`).join('')}</div><div class="plans">${PLANS.map(planHTML).join('')}</div>`;
+  $('#recoRoot').innerHTML = plansHTML();
   const temp = TEMPORADA.map(id=>BY_ID[id]).filter(it=>vigente(it.hasta));
   $('#temporada').hidden = !temp.length;
   $('#tempRoot').innerHTML = temp.length ? `<div class="list">${temp.map(it=>itemHTML(it,'si')).join('')}</div>` : '';
@@ -1382,11 +1425,9 @@ function setCat(id, {scroll=true,hash=true}={}){
   if (hash) history.replaceState(null,'','#'+id);
   if (scroll) scrollToContent();
 }
-function goReco(){ setView('home',{scroll:false,hash:false}); requestAnimationFrame(()=>$('#reco').scrollIntoView({behavior:'smooth',block:'start'})); }
 function route(){
   let h = location.hash.slice(1);
   if (h==='combos') h = 'comidas';   // los combos ahora viven dentro de Comida
-  if (h==='recomendados'){ goReco(); return; }
   if (CATS.some(c=>c.id===h)){ setCat(h,{scroll:false,hash:false}); return; }
   setView(VIEWS.includes(h)?h:'home',{scroll:false,hash:false});
 }
@@ -1593,9 +1634,11 @@ const SS = {
 };
 function openGate(){ $('#gate').classList.add('show'); $('#gate').setAttribute('aria-hidden','false'); document.body.classList.add('locked'); setTimeout(()=>$('#gMesa').focus(),60); }
 function closeGate(){
+  const wasOpen = $('#gate').classList.contains('show');
   SS.set('coctelazo-gate','1');
   $('#gate').classList.remove('show'); $('#gate').setAttribute('aria-hidden','true');
   if (!$('#scan').classList.contains('show') && !$('#drawer').classList.contains('show')) document.body.classList.remove('locked');
+  if (wasOpen) setTimeout(showPromo, 450);   // la promoción sale justo después de la pantalla de inicio
 }
 
 /* =========================================================
@@ -1750,6 +1793,7 @@ async function admSubmit(e){
 let lastFocus=null, mOpt=0, mQty=1;
 function openModal(id, {keep=false}={}){
   const it = BY_ID[id]; if (!it) return;
+  closePromo();   // si se abre desde la ventana publicitaria, esta se cierra
   state.modal = it;
   if (!keep){ mOpt=0; mQty=1; lastFocus=document.activeElement; }
   $('#mTitle').textContent = nm(it);
@@ -1762,8 +1806,6 @@ function openModal(id, {keep=false}={}){
   const hasMedia = !!(it.photo || it.img);
   $('#mpanel').classList.toggle('nomedia', !hasMedia);
   $('#mStage').classList.toggle('photo', !!it.photo);
-  stageReset();
-  $('#mHint').textContent = it.img && !it.photo ? t('dragHint') : '';
   if (it.photo) pic.innerHTML = `<img class="photo" src="img/${it.photo}.webp" alt="${esc(nm(it))}">`;
   else if (it.img) pic.innerHTML = `<div class="obj"><img src="${it.img}" alt="${esc(nm(it))}" draggable="false"></div>`;
   else pic.innerHTML = '<span class="mstar" aria-hidden="true">&#10022;</span>';
@@ -1779,25 +1821,6 @@ function openModal(id, {keep=false}={}){
   document.body.classList.add('locked','modal-open');
   if (!keep) setTimeout(()=>$('#mClose').focus(),60);
 }
-/* 3D de la ficha: el producto gira con el puntero o con el dedo; sin interacción se mece solo */
-const stage = {drag:false, x:0, ry:0};
-function stageReset(){ const o = $('#mStage .obj'); stage.drag=false; stage.ry=0; $('#mStage').classList.remove('drag'); if (o){ o.style.setProperty('--rx','0deg'); o.style.setProperty('--ry','0deg'); } }
-function stageTilt(e){
-  const o = $('#mStage .obj'); if (!o || REDUCED) return;
-  const r = $('#mStage').getBoundingClientRect();
-  const px = Math.max(0,Math.min(1,(e.clientX-r.left)/r.width)), py = Math.max(0,Math.min(1,(e.clientY-r.top)/r.height));
-  if (stage.drag){ stage.ry += (e.clientX-stage.x)*.6; stage.x = e.clientX; o.style.setProperty('--ry', stage.ry.toFixed(1)+'deg'); }
-  else if (e.pointerType==='mouse'){ o.style.setProperty('--ry', ((px-.5)*2*26).toFixed(1)+'deg'); }
-  o.style.setProperty('--rx', (-(py-.5)*2*12).toFixed(1)+'deg');
-}
-(() => {
-  const s = $('#mStage');
-  s.addEventListener('pointerdown', e=>{ if (!$('.obj',s)) return; stage.drag=true; stage.x=e.clientX; s.classList.add('drag'); try{ s.setPointerCapture(e.pointerId); }catch(_){} });
-  s.addEventListener('pointermove', stageTilt);
-  const end = () => { if (!stage.drag) return; stage.drag=false; s.classList.remove('drag'); const o=$('.obj',s); if(o){ o.style.setProperty('--ry','0deg'); o.style.setProperty('--rx','0deg'); stage.ry=0; } };
-  s.addEventListener('pointerup', end); s.addEventListener('pointercancel', end);
-  s.addEventListener('pointerleave', e=>{ if (!stage.drag) stageReset(); });
-})();
 function closeModal(){
   state.modal=null;
   $('#modal').classList.remove('show'); $('#modal').setAttribute('aria-hidden','true');
@@ -1860,18 +1883,15 @@ document.addEventListener('input', e=>{ if (e.target.id==='gTop') state.gtop = e
 /* lo que el cliente elige dentro de un plan (proteína o tipo de bao): se recuerda y el precio se recalcula */
 document.addEventListener('change', e=>{
   const s = e.target.closest('[data-act=plsel]'); if (!s) return;
-  state.pc[s.dataset.k] = +s.value; renderHome();
-  const again = document.querySelector(`[data-k="${s.dataset.k}"]`); if (again) again.focus({preventScroll:true});
+  state.pc[s.dataset.k] = +s.value; renderPlans();
+  const again = document.querySelector(`.view.active [data-k="${s.dataset.k}"]`); if (again) again.focus({preventScroll:true});
 });
 /* teclado sobre renglones y tarjetas */
 document.addEventListener('keydown', e=>{
   if ((e.key==='Enter'||e.key===' ') && e.target.matches('.it[data-act],.feat[data-act],.hab[data-act],.nv[data-act]')){ e.preventDefault(); openModal(e.target.dataset.id); }
 });
 
-$('#catnav').addEventListener('click', e=>{
-  if (e.target.closest('[data-go=reco]')){ e.preventDefault(); history.replaceState(null,'','#recomendados'); goReco(); return; }
-  const a=e.target.closest('[data-cat]'); if(!a) return; e.preventDefault(); setCat(a.dataset.cat);
-});
+$('#catnav').addEventListener('click', e=>{ const a=e.target.closest('[data-cat]'); if(!a) return; e.preventDefault(); setCat(a.dataset.cat); });
 $('#catnav').addEventListener('keydown', e=>{
   const s=e.key==='ArrowRight'?1:e.key==='ArrowLeft'?-1:0; if(!s) return;
   const all=$$('#catnav .chip'); const k=all.indexOf(document.activeElement); if(k<0) return; e.preventDefault(); const n=all[(k+s+all.length)%all.length]; n.focus(); n.click(); n.focus();
@@ -1880,6 +1900,8 @@ $('#ctaMenu').addEventListener('click',e=>{ e.preventDefault(); setView('carta')
 $('#ctaFood').addEventListener('click',e=>{ e.preventDefault(); setCat('comidas',{scroll:false}); window.scrollTo({top:0,behavior:'instant'}); });
 $('#brandLink').addEventListener('click',e=>{ e.preventDefault(); setView('home'); });
 $('#mainnav').addEventListener('click',e=>{ const a=e.target.closest('a[data-view]'); if(!a) return; e.preventDefault(); setView(a.dataset.view); });
+$('.foot-nav').addEventListener('click',e=>{ const a=e.target.closest('a[data-view]'); if(!a) return; e.preventDefault(); setView(a.dataset.view); });
+$('#promo').addEventListener('click',e=>{ if (e.target.id==='promo') closePromo(); });
 window.addEventListener('hashchange', route);
 
 /* idioma */
@@ -1896,7 +1918,8 @@ $('#qClear').addEventListener('click',()=>{ qIn.value=''; state.q=''; $('#search
 document.addEventListener('keydown',e=>{
   if (e.key==='/' && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)){ e.preventDefault(); setView('carta',{scroll:false}); qIn.focus(); }
   if (e.key==='Escape'){
-    if ($('#scan').classList.contains('show')) closeScan();
+    if ($('#promo').classList.contains('show')) closePromo();
+    else if ($('#scan').classList.contains('show')) closeScan();
     else if ($('#adm').classList.contains('show')) admClose();
     else if ($('#gate').classList.contains('show')) return;
     else if (state.modal) closeModal(); else if ($('#drawer').classList.contains('show')) closeDrawer();
@@ -1987,7 +2010,7 @@ topBtn.addEventListener('click',()=>scrollTo({top:0,behavior:'smooth'}));
 renderAll();
 route();
 admLoad(); admStart();
-if (!SS.get('coctelazo-gate')) openGate();
+if (!SS.get('coctelazo-gate')) openGate(); else showPromo();
 
 // La mesa solo existe si el servidor confirma la llave: viene del enlace del QR (?m=3&k=…) o de una lectura anterior (5 h).
 (async ()=>{
