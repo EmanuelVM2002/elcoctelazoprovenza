@@ -59,24 +59,35 @@ img{-webkit-user-drag:none}
 :focus-visible{outline:2px solid var(--rosa2);outline-offset:3px;border-radius:6px}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
-/* fondo de mármol (el de la carta) y marco rosa fijo, como las páginas del PDF */
-.marble{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;background:#050506}
-.marble::before,.marble::after{
-  content:"";position:absolute;inset:-25%;filter:blur(36px);
+/* fondo vivo: negro con humo rosado en tres capas que se desplazan y «respiran» a ritmos distintos, más un grano muy fino para que no se vea plano.
+   Solo se animan transform y opacity (baratos para el celular) y con «reducir movimiento» todo queda quieto */
+.marble{
+  position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;
+  background:#050506 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.marble::before,.marble::after,.marble i{content:"";position:absolute;inset:-25%;filter:blur(36px)}
+.marble::before{
   background:
-    radial-gradient(38% 32% at 22% 28%,rgba(232,25,95,.30),transparent 70%),
-    radial-gradient(34% 28% at 80% 20%,rgba(255,79,143,.20),transparent 70%),
-    radial-gradient(44% 34% at 62% 82%,rgba(200,20,90,.24),transparent 70%);
-  animation:humo1 30s ease-in-out infinite alternate;
+    radial-gradient(38% 32% at 22% 28%,rgba(232,25,95,.32),transparent 70%),
+    radial-gradient(34% 28% at 80% 20%,rgba(255,79,143,.22),transparent 70%),
+    radial-gradient(44% 34% at 62% 82%,rgba(200,20,90,.26),transparent 70%);
+  animation:humo1 24s ease-in-out infinite alternate,respira 13s ease-in-out infinite alternate;
 }
 .marble::after{
   background:
-    radial-gradient(36% 30% at 70% 45%,rgba(255,79,143,.18),transparent 70%),
-    radial-gradient(40% 32% at 18% 78%,rgba(232,25,95,.20),transparent 70%);
-  animation:humo2 42s ease-in-out infinite alternate;
+    radial-gradient(36% 30% at 70% 45%,rgba(255,79,143,.20),transparent 70%),
+    radial-gradient(40% 32% at 18% 78%,rgba(232,25,95,.22),transparent 70%);
+  animation:humo2 34s ease-in-out infinite alternate,respira 17s ease-in-out -6s infinite alternate-reverse;
 }
-@keyframes humo1{to{transform:translate3d(7%,5%,0) scale(1.12) rotate(4deg)}}
-@keyframes humo2{to{transform:translate3d(-8%,-6%,0) scale(1.08) rotate(-5deg)}}
+.marble i{
+  inset:-30%;
+  background:radial-gradient(55% 15% at 50% 50%,rgba(255,120,175,.20),transparent 72%);
+  animation:humo3 40s ease-in-out infinite alternate,respira 11s ease-in-out -3s infinite alternate;
+}
+@keyframes humo1{50%{transform:translate3d(7%,-5%,0) scale(1.1) rotate(3deg)}to{transform:translate3d(-5%,8%,0) scale(1.16) rotate(-3deg)}}
+@keyframes humo2{50%{transform:translate3d(-7%,5%,0) scale(1.06) rotate(-4deg)}to{transform:translate3d(6%,-8%,0) scale(1.12) rotate(5deg)}}
+@keyframes humo3{from{transform:translate3d(-10%,-18%,0) rotate(-14deg)}to{transform:translate3d(10%,18%,0) rotate(10deg)}}
+@keyframes respira{from{opacity:.55}to{opacity:1}}
 .page{position:relative;z-index:2}
 .wrap{max-width:1120px;margin:0 auto;padding:0 var(--gut)}
 
@@ -297,28 +308,32 @@ img{-webkit-user-drag:none}
 .view{display:none}
 .view.active{display:block;animation:viewIn .45s var(--ease)}
 @keyframes viewIn{from{opacity:0;transform:translateY(8px)}}
-/* Home · Carta · Sedes: tres botones grandes con un fondo de comida; el de la vista actual se enciende con un aro rosa */
+/* Home · Carta · Sedes: tres botones con un fondo de comida muy tenue. La foto va desenfocada y bajo un mismo velo del color de la página,
+   para que la letra se lea igual en los tres; la vista actual se marca con un tinte rosa y un aro fino */
 .mainnav{
   position:fixed;z-index:60;left:50%;transform:translateX(-50%);width:min(calc(100% - 24px),560px);bottom:calc(12px + env(safe-area-inset-bottom,0px));
   display:flex;gap:6px;padding:6px;border-radius:30px;
-  background:rgba(10,6,9,.78);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
-  border:1px solid rgba(255,255,255,.14);box-shadow:0 18px 40px -12px rgba(0,0,0,.85);
+  background:rgba(22,10,17,.74);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border:1px solid rgba(232,25,95,.22);box-shadow:0 16px 34px -14px rgba(0,0,0,.8);
 }
 .mainnav a{
-  position:relative;isolation:isolate;overflow:hidden;flex:1;height:64px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
-  border-radius:24px;text-decoration:none;color:#fff;font-size:13px;font-weight:800;-webkit-tap-highlight-color:transparent;transition:transform .2s,box-shadow .3s;
+  position:relative;isolation:isolate;overflow:hidden;flex:1;height:62px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+  border-radius:24px;text-decoration:none;color:rgba(244,239,229,.82);font-size:13px;font-weight:700;-webkit-tap-highlight-color:transparent;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.08);transition:transform .2s,box-shadow .3s,color .3s;
 }
-.mainnav a::before{content:"";position:absolute;inset:0;z-index:-2;background:var(--bg) center/cover;filter:saturate(1.1) brightness(.72);transform:scale(1.04);transition:transform .6s var(--ease),filter .3s}
-.mainnav a::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(8,5,8,.3),rgba(8,5,8,.78));transition:opacity .3s}
-.mn-ico{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.28);font-style:normal;transition:background .3s,border-color .3s}
+.mainnav a::before{content:"";position:absolute;inset:0;z-index:-2;background:var(--bg) center/cover;filter:blur(2px) saturate(.75) brightness(.62);transform:scale(1.12);transition:filter .3s;animation:navDrift 16s ease-in-out infinite alternate}
+.mainnav a:nth-child(2)::before{animation-duration:20s;animation-delay:-5s}
+.mainnav a:nth-child(3)::before{animation-duration:18s;animation-delay:-9s}
+@keyframes navDrift{from{transform:scale(1.12) translate(-4%,-3%)}to{transform:scale(1.18) translate(4%,3%)}}
+.mainnav a::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(30,13,22,.5),rgba(20,9,15,.84));transition:background .3s}
+.mn-ico{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.16);font-style:normal;transition:background .3s,border-color .3s}
 .mainnav svg{width:17px;height:17px}
-.mn-lbl{text-shadow:0 1px 8px rgba(0,0,0,.85)}
-.mainnav a:active{transform:scale(.96)}
-.mainnav a:hover::before{transform:scale(1.1)}
-.mainnav a[aria-current="page"]{box-shadow:0 0 0 2px var(--rosa),0 0 26px -2px rgba(232,25,95,.8)}
-.mainnav a[aria-current="page"]::before{filter:saturate(1.3) brightness(1.05);transform:scale(1.1)}
-.mainnav a[aria-current="page"]::after{background:linear-gradient(180deg,rgba(8,5,8,.02),rgba(8,5,8,.6))}
-.mainnav a[aria-current="page"] .mn-ico{background:var(--rosa);border-color:var(--rosa)}
+.mainnav a:active{transform:scale(.97)}
+.mainnav a:hover{color:#fff}
+.mainnav a[aria-current="page"]{color:#fff;box-shadow:inset 0 0 0 1.5px rgba(255,79,143,.85)}
+.mainnav a[aria-current="page"]::before{filter:blur(2px) saturate(.85) brightness(.72)}
+.mainnav a[aria-current="page"]::after{background:linear-gradient(180deg,rgba(232,25,95,.36),rgba(32,11,22,.74))}
+.mainnav a[aria-current="page"] .mn-ico{background:rgba(232,25,95,.92);border-color:transparent}
 @media(min-width:1000px){
   .mainnav{top:0;bottom:auto;width:auto;height:var(--topbar-h);padding:0;gap:8px;align-items:center;background:none;border:0;box-shadow:none;border-radius:0;backdrop-filter:none;-webkit-backdrop-filter:none;z-index:55}
   .mainnav a{flex:none;flex-direction:row;gap:9px;height:44px;padding:0 20px 0 9px;border-radius:999px;font-size:14.5px}
@@ -652,7 +667,7 @@ footer .tag::before{content:"\2726";font-size:.45em;color:var(--rosa);margin-rig
 </head>
 <body>
 
-<div class="marble" aria-hidden="true"></div>
+<div class="marble" aria-hidden="true"><i></i></div>
 
 <div class="page">
 
