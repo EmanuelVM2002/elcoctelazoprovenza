@@ -384,6 +384,19 @@ body.has-mouse .spot{opacity:1}
 .hab-btn:hover{background:#c3ff6a;border-color:#c3ff6a}
 .hab-img{display:block;width:min(100%,520px);height:auto;margin:6px auto 0;justify-self:center;filter:drop-shadow(0 24px 30px rgba(0,0,0,.6));transition:transform .6s var(--ease)}
 .hab:hover .hab-img{transform:scale(1.03) rotate(-1deg)}
+/* Combo Vacaciones en la ventana: mismo molde, en rosa y con su foto */
+.hab-ev{--radio:#ff4f8f;cursor:default;border-color:rgba(255,79,143,.6);
+  background:radial-gradient(70% 90% at 88% 55%,rgba(232,25,95,.34),transparent 62%),radial-gradient(60% 80% at 0% 0%,rgba(90,70,255,.34),transparent 62%),#07060a;
+  box-shadow:0 0 0 1px rgba(255,79,143,.14),0 28px 70px -34px rgba(232,25,95,.6)}
+.hab-ev .hab-tag{border-color:rgba(255,79,143,.6);background:rgba(255,79,143,.12)}
+.hab-ev h2{text-shadow:0 0 28px rgba(255,79,143,.5)}
+.hab-ev .hab-btn{background:var(--rosa);border-color:var(--rosa);color:#fff}
+.hab-ev .hab-btn:hover{background:var(--rosa2);border-color:var(--rosa2)}
+.hab-ev .hab-photo{border-radius:20px;filter:none;box-shadow:0 18px 40px -18px rgba(0,0,0,.8);margin-bottom:14px}
+.hab-ev:hover .hab-img{transform:none}
+.promo-dots{display:flex;justify-content:center;gap:7px;padding:14px 0 2px}
+.promo-dots i{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.3)}
+.promo-dots i.on{width:22px;border-radius:999px;background:#fff}
 
 /* nuevos productos: fila que se desliza */
 .nv-row{display:flex;gap:12px;overflow-x:auto;margin:18px calc(-1*var(--gut)) 0;padding:6px var(--gut) 14px;scroll-snap-type:x proximity;scrollbar-width:none}
@@ -1441,28 +1454,57 @@ function renderPlans(){
   if (state.cat==='recomendados' && !state.q.trim()) renderMenu();
 }
 
-/* Ventana publicitaria: la primera promoción vigente de HABLADORES, al abrir la página; al vencer su fecha deja de salir sola */
+/* Ventana publicitaria al abrir la página, en orden: primero el Combo Vacaciones (el primer evento) y después los habladores
+   vigentes (Combo del Terror). La × pasa a la siguiente; tocar afuera o Esc cierra todas. Al vencer la fecha de un hablador deja de salir solo. */
+function promoQueue(){
+  const q = [];
+  if (EVENTOS[0]) q.push({ev:EVENTOS[0]});
+  HABLADORES.filter(x=>vigente(x.hasta)).forEach(h=>q.push({h}));
+  return q;
+}
+let promoQ = [], promoI = 0;
+function promoEventoHTML(ev){
+  const en = state.lang==='en', L = o => en ? o.en : o.es;
+  const inc = ev.incluye.map(i=>esc(en?i.en:i.es)).join(' + ');
+  return `<article class="hab hab-ev" aria-label="${esc(L(ev.title))}">
+    <div class="hab-copy"><span class="hab-tag">&#9733; ${t('featBadge')}</span>
+      <h2>${esc(L(ev.title))}</h2><p>${inc}</p>
+      <div class="hab-meta"><b class="hab-price">${money(ev.precio)}</b><span class="hab-until">${esc(L(ev.tag))}<i>${esc(L(ev.hora))}</i></span></div>
+      <a class="btn hab-btn" href="#eventos" data-view="eventos">${t('featMore')}</a></div>
+    <img class="hab-img hab-photo" src="img/${ev.foto}.webp" alt="" decoding="async"></article>`;
+}
 function promoHTML(){
-  const h = HABLADORES.find(x=>vigente(x.hasta)); if (!h) return '';
+  const s = promoQ[promoI]; if (!s) return '';
+  const dots = promoQ.length>1 ? `<div class="promo-dots" aria-hidden="true">${promoQ.map((_,k)=>`<i${k===promoI?' class="on"':''}></i>`).join('')}</div>` : '';
+  const x = `<button class="promo-x" id="promoX" type="button" aria-label="${esc(t('close'))}">×</button>`;
+  if (s.ev) return x + promoEventoHTML(s.ev) + dots;
+  const h = s.h;
   const it = BY_ID[h.item], n = diasQuedan(h.hasta);
   const left = n<=1 ? t('lastDay') : t('daysLeft')(n);
-  return `<button class="promo-x" id="promoX" type="button" aria-label="${esc(t('close'))}">×</button>
+  return x + `
     <article class="hab" data-act="open" data-id="${it.id}" tabindex="0" role="button" aria-label="${esc(state.lang==='en'?h.titleEn:h.titleEs)}">
     <div class="hab-copy"><span class="hab-tag">&#127875; ${esc(state.lang==='en'?h.tagEn:h.tagEs)}</span>
       <h2>${esc(state.lang==='en'?h.titleEn:h.titleEs)}</h2><p>${esc(state.lang==='en'?h.subEn:h.subEs)}</p>
       <div class="hab-meta"><b class="hab-price">${money(it.price)}</b><span class="hab-until">${esc(t('untilDay')(fechaCorta(h.hasta)))}<i>${esc(left)}</i></span></div>
       <button class="btn hab-btn" type="button" data-act="open" data-id="${it.id}">${t('habCta')}</button></div>
-    <img class="hab-img" src="${it.img}" alt="" decoding="async"></article>`;
+    <img class="hab-img" src="${it.img}" alt="" decoding="async"></article>` + dots;
 }
 let promoShown = false;   // una sola vez por apertura de la página
+function renderPromo(){
+  $('#promoCard').innerHTML = promoHTML();
+  $('#promoCard').scrollTop = 0;
+  $('#promoX').addEventListener('click', promoNext);
+  setTimeout(()=>$('#promoX')?.focus(), 80);
+}
+function promoNext(){
+  if (promoI+1 < promoQ.length){ promoI++; renderPromo(); } else closePromo();
+}
 function showPromo(){
   if (promoShown) return;
-  const html = promoHTML(); if (!html) return;
-  promoShown = true;
-  $('#promoCard').innerHTML = html;
-  $('#promoX').addEventListener('click', closePromo);
+  promoQ = promoQueue(); if (!promoQ.length) return;
+  promoShown = true; promoI = 0;
+  renderPromo();
   const p = $('#promo'); p.classList.add('show'); p.setAttribute('aria-hidden','false'); document.body.classList.add('locked');
-  setTimeout(()=>$('#promoX')?.focus(), 80);
 }
 function closePromo(){
   const p = $('#promo'); if (!p.classList.contains('show')) return;
@@ -2045,7 +2087,10 @@ $('#ctaFood').addEventListener('click',e=>{ e.preventDefault(); setCat('comidas'
 $('#brandLink').addEventListener('click',e=>{ e.preventDefault(); setView('home'); });
 $('#mainnav').addEventListener('click',e=>{ const a=e.target.closest('a[data-view]'); if(!a) return; e.preventDefault(); setView(a.dataset.view); });
 $('.foot-nav').addEventListener('click',e=>{ const a=e.target.closest('a[data-view]'); if(!a) return; e.preventDefault(); setView(a.dataset.view); });
-$('#promo').addEventListener('click',e=>{ if (e.target.id==='promo') closePromo(); });
+$('#promo').addEventListener('click',e=>{
+  if (e.target.id==='promo') closePromo();
+  const a = e.target.closest('a[data-view]'); if (a){ e.preventDefault(); closePromo(); setView(a.dataset.view); }
+});
 window.addEventListener('hashchange', route);
 
 /* idioma */
