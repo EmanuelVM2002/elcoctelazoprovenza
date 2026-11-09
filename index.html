@@ -405,6 +405,25 @@ body.has-mouse .spot{opacity:1}
   background:radial-gradient(120% 70% at 0% 0%,rgba(232,25,95,.16),transparent 60%),rgba(255,255,255,.03);
 }
 .plan.on{display:flex}
+.plan-hero{margin:-6px -6px 10px;aspect-ratio:960/560;border-radius:22px;display:grid;place-items:center;background:radial-gradient(60% 70% at 50% 55%,rgba(255,255,255,.13),transparent 72%)}
+.plan-hero img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 14px 18px rgba(0,0,0,.45))}
+.fcombo{display:grid;margin:18px 0 22px;border-radius:30px;overflow:hidden;border:1px solid rgba(255,79,143,.55);background:radial-gradient(120% 80% at 100% 0%,rgba(232,25,95,.22),transparent 60%),rgba(255,255,255,.03);box-shadow:0 0 38px rgba(232,25,95,.22)}
+.fc-photo{position:relative;display:block;aspect-ratio:16/10;overflow:hidden}
+.fc-photo img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s var(--ease)}
+.fcombo:hover .fc-photo img{transform:scale(1.04)}
+.fc-photo::after{content:"";position:absolute;inset:auto 0 0;height:38%;background:linear-gradient(transparent,rgba(10,6,9,.6));pointer-events:none}
+.fc-badge{position:absolute;left:14px;top:14px;z-index:1;padding:6px 13px;border-radius:999px;background:var(--rosa);color:#fff;font-size:11.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;box-shadow:0 6px 18px rgba(232,25,95,.5)}
+.fc-body{padding:18px 22px 22px;display:flex;flex-direction:column}
+.fc-for{font-size:11.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--rosa2)}
+.fc-body h3{margin:4px 0 6px;font-family:var(--fd);font-weight:800;font-size:clamp(30px,8vw,40px);line-height:1;letter-spacing:-.03em}
+.fc-inc{margin:0;font-size:14px;color:var(--fg2);max-width:46ch}
+.fc-foot{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:14px 18px;margin-top:16px}
+.fc-act{display:flex;flex-wrap:wrap;gap:10px}
+@media(min-width:860px){
+  .fcombo{grid-template-columns:1.2fr .8fr}
+  .fc-photo{aspect-ratio:auto;min-height:340px}
+  .fc-body{justify-content:center;padding:28px}
+}
 .plan-for{font-size:11.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--rosa2)}
 .plan h3{margin:4px 0 6px;font-family:var(--fd);font-weight:800;font-size:34px;line-height:1;letter-spacing:-.03em}
 .plan-note{margin:0;font-size:13px;color:var(--fg2)}
@@ -982,13 +1001,13 @@ const CATS = [
 const PLANS = [
   {id:'parejas', es:'Parejas', en:'Couples', forEs:'Para 2', forEn:'For 2',
    noteEs:'Un perrito y una hamburguesa gourmet para compartir de a dos.', noteEn:'A gourmet hot dog and burger to share between two.',
-   items:[{id:'perr'},{id:'ham'}]},
+   img:'plan-parejas', items:[{id:'perr'},{id:'ham'}]},
   {id:'amigos', es:'Amigos', en:'Friends', forEs:'Para 2 a 4', forEn:'For 2 to 4',
    noteEs:'Las Gemelas del Perreo y unos baos para la mesa.', noteEn:'The Perreo Twins and some baos for the table.',
-   items:[{id:'gem'},{id:'bao1',alts:['bao3'],titleEs:'Baos x2',titleEn:'Baos x2'}]},
+   img:'plan-amigos', items:[{id:'gem'},{id:'bao1',alts:['bao3'],titleEs:'Baos x2',titleEn:'Baos x2'}]},
   {id:'familia', es:'Familia', en:'Family', forEs:'Para 2 o 3 · sin licor', forEn:'For 2 or 3 · alcohol-free',
    noteEs:'Un granizado tradicional sin licor y el ceviche de la casa.', noteEn:'An alcohol-free traditional slush and the house ceviche.',
-   items:[{id:'gt-sin',vi:0},{id:'fuku'}]}
+   img:'plan-familia', items:[{id:'gt-sin',vi:0,pic:'granizado-tradicional'},{id:'fuku'}]}
 ];
 
 // Home: nuevos productos (los que la carta marca como NUEVO) y productos de temporada (con fecha de vencimiento propia)
@@ -1184,7 +1203,7 @@ const UI = {
   es:{ctaMenu:'Ver la carta',ctaFood:'Comida gourmet',footExplore:'Explora',footNotice:'Importante',
     chooseOne:'Elige uno',untilDay:f=>`Hasta el ${f}`,daysLeft:n=>`Quedan ${n} días`,lastDay:'¡Último día!',habCta:'Pedir el combo',
     tempTitle:'De temporada',tempSub:'Solo por unos días: cuando termina la fecha, desaparece de la carta.',nuevosTitle:'Nuevos productos',nuevosSub:'Lo último que llegó a la carta.',
-    navEventos:'Eventos',evTitle:'Eventos',evSub:'Lo que se viene en Provenza.',evOnly:'Por solo',evIncludes:'Incluye',evReserve:'Reservar por WhatsApp',evCall:'Reservas:',
+    navEventos:'Eventos',evTitle:'Eventos',evSub:'Lo que se viene en Provenza.',evOnly:'Por solo',evIncludes:'Incluye',evReserve:'Reservar por WhatsApp',evCall:'Reservas:',featBadge:'Recomendado de la casa',featMore:'Ver el combo',
     navHome:'Home',navCarta:'Carta',navSedes:'Sedes',recoTitle:'Recomendados',recoSub:'Planes armados desde nuestra carta, listos para agregar a tu pedido.',planAdd:'Agregar plan',planAdded:'Plan agregado a tu pedido',planTotal:'Total del plan',
     sedesTitle:'Sedes',sedesCoc:'El Coctelazo',sedesCocS:'Medellín',sedesPer:'Perritos Gourmet',sedesPerS:'de la Uva',sedeHere:'Estás aquí',sedeHow:'Cómo llegar',sedeMap:'Ver mapa',sedeHide:'Ocultar mapa',
     soonT:'Muy pronto',soonS:'Estamos organizando las ubicaciones de Perritos Gourmet. Pronto las verás aquí.',
@@ -1206,7 +1225,7 @@ const UI = {
   en:{ctaMenu:'See the menu',ctaFood:'Gourmet food',footExplore:'Explore',footNotice:'Notice',
     chooseOne:'Choose one',untilDay:f=>`Until ${f}`,daysLeft:n=>`${n} days left`,lastDay:'Last day!',habCta:'Order the combo',
     tempTitle:'Seasonal',tempSub:'Only for a few days: when the date ends, it leaves the menu.',nuevosTitle:'New products',nuevosSub:'The latest on the menu.',
-    navEventos:'Events',evTitle:'Events',evSub:'What’s coming up at Provenza.',evOnly:'For only',evIncludes:'Includes',evReserve:'Book on WhatsApp',evCall:'Bookings:',
+    navEventos:'Events',evTitle:'Events',evSub:'What’s coming up at Provenza.',evOnly:'For only',evIncludes:'Includes',evReserve:'Book on WhatsApp',evCall:'Bookings:',featBadge:'House recommendation',featMore:'See the combo',
     navHome:'Home',navCarta:'Menu',navSedes:'Locations',recoTitle:'Recommended',recoSub:'Plans built from our menu, ready to add to your order.',planAdd:'Add plan',planAdded:'Plan added to your order',planTotal:'Plan total',
     sedesTitle:'Locations',sedesCoc:'El Coctelazo',sedesCocS:'Medellín',sedesPer:'Perritos Gourmet',sedesPerS:'de la Uva',sedeHere:'You are here',sedeHow:'Get directions',sedeMap:'Show map',sedeHide:'Hide map',
     soonT:'Coming soon',soonS:'We are organizing the Perritos Gourmet locations. You will see them here soon.',
@@ -1385,7 +1404,7 @@ function planHTML(pl){
   const total = pl.items.reduce((n,p,i)=>n+planPrice(planPick(pl,i)),0);
   const rows = pl.items.map((p,i)=>{
     const r = planPick(pl,i), it = BY_ID[r.id], base = BY_ID[p.id];
-    const pic = it.img ? `<img src="${thumb(it.img)}" alt="" decoding="async">` : it.photo ? `<img class="cover" src="img/${it.photo}.webp" alt="" decoding="async">` : '&#10022;';
+    const pic = p.pic ? `<img src="img/mini/${p.pic}.webp" alt="" decoding="async">` : it.img ? `<img src="${thumb(it.img)}" alt="" decoding="async">` : it.photo ? `<img class="cover" src="img/${it.photo}.webp" alt="" decoding="async">` : '&#10022;';
     const vr = it.vl ? `<small>${esc(lbl(it.vl[r.vi||0]))}</small>` : '';
     let title = it.cn||it.ce ? (state.lang==='en'?it.cn:it.ce) : nm(it);
     if (p.titleEs) title = state.lang==='en' ? p.titleEn : p.titleEs;
@@ -1395,14 +1414,27 @@ function planHTML(pl){
     return `<div class="pl-row"><div class="pl-pic"${it.prices?'':` data-act="open" data-id="${it.id}"`}>${pic}</div><div class="pl-txt"><b>${esc(title)}</b>${vr}${sel}</div><span class="price">${money(planPrice(r))}</span></div>`;
   }).join('');
   return `<article class="plan${state.plan===pl.id?' on':''}" data-plan="${pl.id}">
+    <div class="plan-hero"><img src="img/${pl.img}.webp" alt="" loading="lazy" decoding="async"></div>
     <span class="plan-for">${esc(state.lang==='en'?pl.forEn:pl.forEs)}</span><h3>${esc(pick(pl))}</h3><p class="plan-note">${esc(state.lang==='en'?pl.noteEn:pl.noteEs)}</p>
     <div class="plan-items">${rows}</div>
     <div class="plan-foot"><div class="plan-total"><small>${t('planTotal')}</small><b>${money(total)}</b></div><button class="btn primary" type="button" data-act="plan" data-id="${pl.id}">${t('planAdd')}</button></div></article>`;
 }
 
 /* Recomendados: se muestran en el Home y también como primera pestaña de la Carta (mismos planes, mismo estado) */
+/* Combo recomendado de la casa: va primero, antes de los planes. Es el primer evento de EVENTOS y lleva a su pestaña */
+function featHTML(){
+  const ev = EVENTOS[0]; if (!ev) return '';
+  const en = state.lang==='en', L = o => en ? o.en : o.es;
+  const inc = ev.incluye.map(i=>esc(en?i.en:i.es)).join(' + ');
+  const wa = `https://wa.me/${ev.tel}?text=${encodeURIComponent(en?ev.waEn:ev.waEs)}`;
+  return `<article class="fcombo"><a class="fc-photo" href="#eventos" data-view="eventos" aria-label="${esc(L(ev.title))}"><img src="img/${ev.foto}.webp" alt="" decoding="async"><span class="fc-badge">&#9733; ${t('featBadge')}</span></a>
+    <div class="fc-body"><span class="fc-for">${esc(L(ev.tag))} · ${esc(L(ev.hora))}</span><h3>${esc(L(ev.title))}</h3>
+      <p class="fc-inc">${inc}</p>
+      <div class="fc-foot"><div class="ev-price"><small>${t('evOnly')}</small><b>${money(ev.precio)}</b></div>
+      <div class="fc-act"><a class="btn primary" target="_blank" rel="noopener" href="${wa}">${t('evReserve')}</a><a class="btn ghost" href="#eventos" data-view="eventos">${t('featMore')}</a></div></div></div></article>`;
+}
 function plansHTML(){
-  return `<div class="plan-tabs" role="group" aria-label="${esc(t('recoTitle'))}">${PLANS.map(p=>`<button type="button" data-act="plantab" data-id="${p.id}" aria-pressed="${state.plan===p.id}">${esc(pick(p))}</button>`).join('')}</div><div class="plans">${PLANS.map(planHTML).join('')}</div>`;
+  return featHTML() + `<div class="plan-tabs" role="group" aria-label="${esc(t('recoTitle'))}">${PLANS.map(p=>`<button type="button" data-act="plantab" data-id="${p.id}" aria-pressed="${state.plan===p.id}">${esc(pick(p))}</button>`).join('')}</div><div class="plans">${PLANS.map(planHTML).join('')}</div>`;
 }
 function renderPlans(){
   $('#recoRoot').innerHTML = plansHTML();
