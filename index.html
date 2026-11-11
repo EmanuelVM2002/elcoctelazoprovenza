@@ -1491,7 +1491,7 @@ function planHTML(pl){
 
 /* Recomendados: se muestran en el Home y también como primera pestaña de la Carta (mismos planes, mismo estado) */
 /* Combo recomendado de la casa: va primero, antes de los planes. Es el primer evento de EVENTOS y lleva a su pestaña */
-function featHTML(){
+function comboHTML(){
   const ev = EVENTOS[0]; if (!ev) return '';
   const en = state.lang==='en', L = o => en ? o.en : o.es;
   const inc = ev.incluye.map(i=>esc(en?i.en:i.es)).join(' + ');
@@ -1503,7 +1503,7 @@ function featHTML(){
       <div class="fc-act"><a class="btn primary" target="_blank" rel="noopener" href="${wa}">${t('evReserve')}</a><a class="btn ghost" href="#eventos" data-view="eventos">${t('featMore')}</a></div></div></div></article>`;
 }
 function plansHTML(){
-  return featHTML() + `<div class="plan-tabs" role="group" aria-label="${esc(t('recoTitle'))}">${PLANS.map(p=>`<button type="button" data-act="plantab" data-id="${p.id}" aria-pressed="${state.plan===p.id}">${esc(pick(p))}</button>`).join('')}</div><div class="plans">${PLANS.map(planHTML).join('')}</div>`;
+  return comboHTML() + `<div class="plan-tabs" role="group" aria-label="${esc(t('recoTitle'))}">${PLANS.map(p=>`<button type="button" data-act="plantab" data-id="${p.id}" aria-pressed="${state.plan===p.id}">${esc(pick(p))}</button>`).join('')}</div><div class="plans">${PLANS.map(planHTML).join('')}</div>`;
 }
 function renderPlans(){
   $('#recoRoot').innerHTML = plansHTML();
