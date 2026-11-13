@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Coctelazo &amp; Perritos Gourmet</title>
-<meta name="description" content="Carta de Coctelazo &amp; Perritos Gourmet: granizados, cócteles, chupitos, malteadas, licores, cervezas, micheladas y comida gourmet. Pide desde tu mesa.">
+<meta name="description" content="Carta de Coctelazo &amp; Perritos Gourmet: granizados, cócteles, chupitos, malteadas, licores, cervezas, micheladas y comida gourmet. Pide desde tu mesa o a domicilio.">
 <meta name="apple-mobile-web-app-title" content="Coctelazo &amp; Perritos Gourmet">
 <meta name="theme-color" content="#0a090b">
 <link rel="icon" href="favicon.ico" sizes="any">
@@ -695,6 +695,47 @@ footer .tag::before{content:"\2726";font-size:.45em;color:var(--rosa);margin-rig
 .drawer .btn.ghost{color:var(--tinta);border-color:var(--ln)}
 .drawer .btn.ghost:hover{border-color:var(--rosa);background:rgba(255,255,255,.4)}
 .dfine{margin:12px 0 0;font-size:11.5px;color:var(--fg2);text-align:center}
+/* domicilios: selector «En la mesa / A domicilio», mínimo, recomendación y ubicación (el pedido sale por WhatsApp) */
+.dmode{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin:10px 0;padding:4px;border-radius:999px;border:1px solid var(--ln);background:rgba(255,255,255,.4)}
+.dmode button{height:38px;border:0;border-radius:999px;background:transparent;color:var(--tinta);font:700 13px var(--fb);transition:background .2s,color .2s}
+.dmode button[aria-pressed="true"]{background:var(--rosa);color:#fff}
+.ddeliv{display:none}
+body.mode-dom .ddeliv{display:block}
+body.mode-dom #dMin{display:flex;flex-direction:column;align-items:stretch;gap:3px}
+body.mode-dom .dsug.ddeliv[hidden]{display:none}
+body.mode-dom .dtable{display:none}
+.dmin .t{line-height:1.4}
+.dmin b{color:#9c1346}
+.dmin.ok b{color:#157a52}
+.dmin .z{color:#9c1346;font-weight:700}
+.dmin .bar{height:5px;border-radius:999px;background:rgba(0,0,0,.12);margin-top:6px;overflow:hidden}
+.dmin .bar i{display:block;height:100%;width:0;border-radius:999px;background:var(--rosa);transition:width .4s var(--ease)}
+.dmin.ok .bar i{background:#1b8c5f}
+.dmin.bad{border:1px solid rgba(190,90,0,.6);background:rgba(255,178,56,.16)}
+.dsug{margin:0 0 12px;padding:10px 14px;border-radius:12px;border:1px dashed rgba(156,19,70,.5);background:rgba(255,255,255,.35);font-size:13px}
+.dsug-r{display:flex;align-items:center;gap:10px;margin-top:8px}
+.dsug-r img{flex:none;width:46px;height:46px;object-fit:contain}
+.dsug-r .sn{flex:1;min-width:0;font-weight:700;font-size:14px;line-height:1.25}
+.dsug-r .sp{flex:none;font-weight:800}
+.loc-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.loc-btns .btn{height:42px;padding:0 10px;font-size:13px;gap:6px;justify-content:center}
+.loc-btns .btn svg{width:16px;height:16px;flex:none}
+.loc-btns .btn.busy{opacity:.6;pointer-events:none}
+.loc-hint{margin:8px 2px 0;font-size:11.5px;color:var(--fg2)}
+.locmap{margin-top:10px;border-radius:14px;overflow:hidden;border:1px solid var(--ln)}
+.locmap[hidden]{display:none}
+.locmap iframe{display:block;width:100%;height:190px;border:0}
+.locinfo{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;padding:9px 12px;font-size:12px;background:rgba(255,255,255,.5)}
+.locinfo a{color:#9c1346;font-weight:700}
+.locinfo button{margin-left:auto;background:none;border:0;color:#9c1346;font:inherit;font-weight:700;cursor:pointer;padding:0}
+.dlegal{line-height:1.5}
+.dlegal a{color:inherit;text-decoration:underline;text-underline-offset:3px}
+.status.closed{border-color:rgba(255,178,56,.5);color:#ffd9a0}
+.status.closed::before{background:#ffb238}
+.foot-legal p+p{margin-top:10px}
+.foot-who[hidden]{display:none}
+.foot-policy{display:inline-block;margin-top:12px;font-size:12.5px;color:var(--fg2);text-underline-offset:3px}
+.foot-policy:hover{color:var(--hueso)}
 
 /* ---------- ESCÁNER, INICIO Y BARRA ---------- */
 .scan,.adm{
@@ -823,11 +864,13 @@ footer .tag::before{content:"\2726";font-size:.45em;color:var(--rosa);margin-rig
       <div class="hero-copy">
         <p class="hero-kicker"><b>Since 2017</b> &middot; #SomosCultura</p>
         <h1 class="hero-title"><img class="hero-logo" src="img/logo-by-perritos.webp" width="749" height="425" alt="El Coctelazo by Perritos Gourmet de la Uva" fetchpriority="high" decoding="async"></h1>
-        <p class="hero-lede" data-i18n="heroLede">Granizados, cócteles y chupitos del Coctelazo, junto a la comida gourmet de Perritos Gourmet de la Uva. Pide desde tu mesa.</p>
+        <p class="hero-lede" data-i18n="heroLede">Granizados, cócteles y chupitos del Coctelazo, junto a la comida gourmet de Perritos Gourmet de la Uva. Pide desde tu mesa o a domicilio.</p>
         <div class="hero-actions">
           <a class="btn primary" href="#carta" id="ctaMenu" data-i18n="ctaMenu">Ver la carta</a>
           <a class="btn ghost" href="#comidas" id="ctaFood" data-i18n="ctaFood">Comida gourmet</a>
+          <button class="btn ghost" type="button" id="ctaDom" data-i18n="ctaDom">Pedir a domicilio</button>
         </div>
+        <span class="status" id="heroDom" role="status"></span>
         <span class="status open" id="heroMesa" role="status" hidden></span>
       </div>
     </div>
@@ -898,6 +941,8 @@ footer .tag::before{content:"\2726";font-size:.45em;color:var(--rosa);margin-rig
         <div class="foot-legal">
           <h4 data-i18n="footNotice">Importante</h4>
           <p data-i18n="gateAge">Venta de licor solo a mayores de 18 años. El exceso de alcohol es perjudicial para la salud.</p>
+          <p class="foot-who" id="legalWho"></p>
+          <a class="foot-policy" id="legalPolicy" href="politica-datos.html" target="_blank" rel="noopener" data-i18n="legPolicy">Política de privacidad y tratamiento de datos personales</a>
         </div>
       </div>
       <div class="foot-bottom" role="contentinfo">
@@ -944,17 +989,30 @@ footer .tag::before{content:"\2726";font-size:.45em;color:var(--rosa);margin-rig
   <div class="dlist" id="dList"></div>
   <div class="dfoot" id="dFoot">
     <div class="total"><span data-i18n="total">Total</span><b id="dTotal">$0</b></div>
-    <div class="dmin" id="dMesa" aria-live="polite"><div class="t" id="dMesaT"></div><button class="linkbtn" id="dMesaBtn" type="button"></button></div>
+    <div class="dmode" role="group" id="dMode" data-i18n-aria="modeAria"><button type="button" id="mdMesa" data-m="mesa" data-i18n="modeMesa">En la mesa</button><button type="button" id="mdDom" data-m="dom" data-i18n="modeDom">A domicilio</button></div>
+    <div class="dmin dtable" id="dMesa" aria-live="polite"><div class="t" id="dMesaT"></div><button class="linkbtn" id="dMesaBtn" type="button"></button></div>
+    <div class="dmin ddeliv" id="dMin" aria-live="polite"><div class="t" id="dMinT"></div><div class="t" id="dMinH"></div><div class="z" id="dMinZ"></div><div class="bar"><i id="dMinBar"></i></div></div>
+    <div class="dsug ddeliv" id="dSug" hidden></div>
     <div class="fld">
-      <input id="fName" class="wide" type="text" maxlength="40" autocomplete="name" data-i18n-ph="namePhD" placeholder="Tu nombre (opcional)">
-      <input id="fNote" class="wide" type="text" maxlength="120" autocomplete="off" data-i18n-ph="notePh" placeholder="Nota para la barra (ej: sin hielo)">
+      <input id="fName" class="wide" type="text" maxlength="40" autocomplete="name">
+      <input id="fAddr" class="wide ddeliv" type="text" maxlength="120" autocomplete="street-address" data-i18n-ph="addrPh" placeholder="Dirección de entrega (barrio, torre, apto)">
+      <div class="loc wide ddeliv">
+        <div class="loc-btns">
+          <button class="btn ghost" id="bLoc" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/><circle cx="12" cy="12" r="8"/></svg><span id="bLocT">Usar mi ubicación</span></button>
+          <button class="btn ghost" id="bMapAddr" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><span id="bMapT">Ver en el mapa</span></button>
+        </div>
+        <p class="loc-hint" id="locHint"></p>
+        <div class="locmap" id="locMap" hidden></div>
+      </div>
+      <input id="fNote" class="wide" type="text" maxlength="120" autocomplete="off">
     </div>
     <div class="dact">
       <button class="btn primary wa full" id="bWa" type="button"></button>
-      <button class="btn ghost" id="bCopy" type="button" data-i18n="copy">Copiar</button>
+      <button class="btn ghost dtable" id="bCopy" type="button" data-i18n="copy">Copiar</button>
       <button class="btn ghost" id="bClear" type="button" data-i18n="clear">Vaciar</button>
     </div>
-    <p class="dfine" data-i18n="fine">Muestra este pedido en la mesa o envíalo. El equipo lo confirma contigo.</p>
+    <p class="dfine" id="dFine"></p>
+    <p class="dfine dlegal" id="dLegal"></p>
   </div>
 </aside>
 
@@ -977,9 +1035,13 @@ footer .tag::before{content:"\2726";font-size:.45em;color:var(--rosa);margin-rig
       <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3"/><rect x="8" y="8" width="3" height="3"/><rect x="13" y="8" width="3" height="3"/><rect x="8" y="13" width="3" height="3"/><path d="M13 13h3v3"/></svg></span>
       <span><b data-i18n="gateMesa">Tomar el pedido en la mesa</b><small id="gMesaS" data-i18n="gateMesaS">Escanea el QR de tu mesa y manda tu pedido a la barra.</small></span>
     </button>
+    <button class="gopt" id="gDom" type="button">
+      <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="17" r="2.6"/><circle cx="18" cy="17" r="2.6"/><path d="M8.6 17h6.8M6 14.4 9 8h4l2 5M13 8h3l2.6 6.4"/></svg></span>
+      <span><b data-i18n="gateDom">Pedir a domicilio</b><small data-i18n="gateDomS">Elige tus productos y mándanos tu dirección por WhatsApp. Te lo llevamos.</small></span>
+    </button>
     <button class="gopt" id="gVer" type="button">
       <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5M9 8h6M9 12h4"/></svg></span>
-      <span><b data-i18n="gateVer">Ver la carta</b><small data-i18n="gateVerS">Mira los productos. Si algo te gusta lo agregas y escaneas tu mesa al pedir.</small></span>
+      <span><b data-i18n="gateVer">Ver la carta</b><small data-i18n="gateVerS">Mira los productos. Si algo te gusta lo agregas y eliges cómo pedir.</small></span>
     </button>
     <div class="glang" role="group" aria-label="Idioma"><button type="button" data-l="es">ES</button><button type="button" data-l="en">EN</button></div>
     <p class="gate-age" data-i18n="gateAge">Venta de licor solo a mayores de 18 años. El exceso de alcohol es perjudicial para la salud.</p>
@@ -1034,6 +1096,7 @@ footer .tag::before{content:"\2726";font-size:.45em;color:var(--rosa);margin-rig
 
 <noscript>Esta carta necesita JavaScript para mostrarse. / This menu needs JavaScript.</noscript>
 
+<script src="legal.js"></script>
 <script>
 (() => {
 'use strict';
@@ -1044,6 +1107,18 @@ footer .tag::before{content:"\2726";font-size:.45em;color:var(--rosa);margin-rig
 // Si pones aquí el número de WhatsApp del local (solo dígitos, con indicativo: 573001234567),
 // el botón "Enviar por WhatsApp" abrirá directo ese chat. Vacío = el cliente elige el contacto.
 const WHATSAPP_NUMBER = '573002456331';
+
+// DOMICILIOS — mismo método que El Coctelazo Original: el pedido sale por WhatsApp con la dirección o la ubicación; no pasa por el servidor.
+// OJO: estos valores son provisionales (copiados del Original y del horario del local) hasta que el negocio los confirme.
+const DELIVERY_MIN   = 20000;                                      // pedido mínimo para domicilio (COP)
+const DELIVERY_PUNTO = {n:'Provenza', lat:6.2075656, lng:-75.5662571};   // el domicilio sale solo de este punto (Cra. 35 #8A-11)
+const TZ = 'America/Bogota';
+// Horario de domicilios por día de la semana (0 = domingo … 6 = sábado): [abre, cierra] en minutos desde las 00:00.
+// Un cierre mayor a 1440 es la madrugada del día siguiente. null = sin servicio (el lunes no se atiende).
+const DELIVERY_SCHED = [[18*60,25*60], null, [17*60,24*60], [17*60,24*60], [17*60,25*60], [18*60,26*60], [18*60,26*60]];
+// Cobertura. Sin datos todavía: se activa al llenarlos.
+const NO_COVERAGE = [];   // barrios o zonas sin servicio, p. ej. ['Santo Domingo','La Sierra']
+const MAX_KM = null;      // radio máximo (km en línea recta) desde el punto de domicilios; null = sin límite
 
 // Esta carta es solo para servicio en mesa (no hay domicilios en Provenza).
 // Cada QR de mesa es un enlace …/?m=3&k=LLAVE; la llave la firma el servidor (QR_SECRET), por eso no se puede inventar una mesa.
@@ -1276,14 +1351,20 @@ const UI = {
     navHome:'Home',navCarta:'Carta',navSedes:'Sedes',recoTitle:'Recomendados',recoSub:'Planes armados desde nuestra carta, listos para agregar a tu pedido.',planAdd:'Agregar plan',planAdded:'Plan agregado a tu pedido',planTotal:'Total del plan',
     sedesTitle:'Sedes',sedesCoc:'El Coctelazo',sedesCocS:'Medellín',sedesPer:'Perritos Gourmet',sedesPerS:'de la Uva',sedeHere:'Estás aquí',sedeHow:'Cómo llegar',sedeMap:'Ver mapa',sedeHide:'Ocultar mapa',
     soonT:'Muy pronto',soonS:'Estamos organizando las ubicaciones de Perritos Gourmet. Pronto las verás aquí.',
-    mesaBusy:'Esta mesa ya se está usando en otro dispositivo. Pídele al mesero que la libere.',mesaFreed:'El mesero liberó tu mesa. Escanea el QR otra vez para volver a pedir.',mesaMoved:'Esta mesa pasó a otro dispositivo. Escanea el QR otra vez si quieres retomarla.',heroLede:'Granizados, cócteles y chupitos del Coctelazo, junto a la comida gourmet de Perritos Gourmet de la Uva. Pide desde tu mesa.',searchLabel:'Buscar en la carta',searchPh:'Busca en la carta…',surprise:'Sorpréndeme',
+    mesaBusy:'Esta mesa ya se está usando en otro dispositivo. Pídele al mesero que la libere.',mesaFreed:'El mesero liberó tu mesa. Escanea el QR otra vez para volver a pedir.',mesaMoved:'Esta mesa pasó a otro dispositivo. Escanea el QR otra vez si quieres retomarla.',heroLede:'Granizados, cócteles y chupitos del Coctelazo, junto a la comida gourmet de Perritos Gourmet de la Uva. Pide desde tu mesa o a domicilio.',searchLabel:'Buscar en la carta',searchPh:'Busca en la carta…',surprise:'Sorpréndeme',
     creditL:'© 2026 Sonetix. Páginas web a la medida.',
     myOrder:'Mi pedido',total:'Total',sendBar:'Enviar pedido a la barra',copy:'Copiar',clear:'Vaciar',fine:'Tu pedido le llega a la barra por WhatsApp con el número de tu mesa. El equipo te lo confirma.',
     emptyCart:'Tu pedido está vacío',emptyCartSub:'Toca el + de cualquier producto para armarlo aquí.',remove:'Quitar',add:'Agregar',addTo:'Agregar al pedido',added:'añadido',viewOrder:'Ver pedido',copied:'Pedido copiado',
     namePhD:'Tu nombre (opcional)',notePh:'Nota para la barra (ej: sin hielo)',whoD:'Nombre',noteL:'Nota',mesaW:'MESA',
     gateAge:'Venta de licor solo a mayores de 18 años. El exceso de alcohol es perjudicial para la salud.',heroMesa:n=>`Pidiendo desde la mesa ${n}`,scanOk:n=>`Mesa ${n} lista ✓`,
     scanTitle:'Escanea el QR de tu mesa',scanHelp:'Apunta la cámara al código que está en tu mesa.',scanCam:'No pudimos abrir la cámara. Permite el acceso, o abre la cámara normal de tu celular y apunta al QR de tu mesa.',scanBad:'Ese QR no es de una mesa de Coctelazo & Perritos Gourmet.',scanNet:'Sin conexión. Revisa tu internet e inténtalo otra vez.',
-    gateTitle:'¿Cómo quieres pedir?',gateMesa:'Tomar el pedido en la mesa',gateMesaS:'Escanea el QR de tu mesa y manda tu pedido a la barra.',gateMesaOk:n=>`Mesa ${n} lista · toca para pedir`,gateVer:'Ver la carta',gateVerS:'Mira los productos. Si algo te gusta lo agregas y escaneas tu mesa al pedir.',
+    ctaDom:'Pedir a domicilio',sendWa:'Enviar por WhatsApp',modeAria:'Cómo quieres pedir',modeMesa:'En la mesa',modeDom:'A domicilio',gateDom:'Pedir a domicilio',gateDomS:'Elige tus productos y mándanos tu dirección por WhatsApp. Te lo llevamos.',namePhDel:'Tu nombre',notePhDel:'Nota para el pedido (ej: sin hielo, timbre)',fineD:'Envía tu pedido por WhatsApp. El equipo lo confirma contigo.',greetD:'Hola El Coctelazo Provenza 👋 Quiero hacer este pedido a domicilio',type:'Tipo',deliveryM:'Domicilio',addr:'Dirección',addrPh:'Dirección de entrega (barrio, torre, apto)',
+    minNeed:(n,m)=>`Pedido mínimo para domicilio: <b>${m}</b>. Te faltan <b>${n}</b>.`,minOk:m=>`Domicilio disponible · mínimo ${m} ✓`,onlyFrom:s=>`Los domicilios salen únicamente de ${s}.`,zoneBlocked:'Por ahora no llegamos a esa zona.',tooFar:km=>`Estás a unos ${km}: queda fuera de nuestra zona de domicilios.`,minToast:m=>`El domicilio requiere un pedido mínimo de ${m}`,needAddr:'Escribe la dirección de entrega',
+    delOpen:c=>`Domicilios abiertos · hasta ${c}`,delClosed:o=>`Domicilios desde ${o}`,delNone:'Hoy no hay domicilios',tmr:'mañana',
+    locUse:'Usar mi ubicación',locView:'Ver en el mapa',locBusy:'Buscando…',locHint:'Puedes escribir la dirección o compartir tu ubicación: se envía junto al pedido por WhatsApp.',locShared:'Ubicación compartida',locFromAddr:'Dirección en el mapa',locKm:(km,s)=>`≈ ${km} de ${s}`,locOpen:'Abrir en Waze',locRemove:'Quitar',locNo:'Tu navegador no permite compartir la ubicación.',locErr:'No pudimos obtener tu ubicación. Revisa el permiso del navegador o escribe tu dirección.',locNeedAddr:'Escribe primero tu dirección',locMsg:'Ubicación',
+    sugT:n=>`Te faltan <b>${n}</b> para el domicilio. Te recomendamos:`,sugAdd:'Agregar',
+    legPolicy:'Política de privacidad y tratamiento de datos personales',legDrawer:'Al enviar tu pedido autorizas el tratamiento de tus datos según nuestra <a href="politica-datos.html" target="_blank" rel="noopener">política de privacidad y de datos personales</a>. Licor solo para mayores de 18 años.',
+    gateTitle:'¿Cómo quieres pedir?',gateMesa:'Tomar el pedido en la mesa',gateMesaS:'Escanea el QR de tu mesa y manda tu pedido a la barra.',gateMesaOk:n=>`Mesa ${n} lista · toca para pedir`,gateVer:'Ver la carta',gateVerS:'Mira los productos. Si algo te gusta lo agregas y eliges cómo pedir.',
     callBtn:'Llamar al mesero',callWait:'Mesero avisado · ya va',callOk:'Listo, avisamos al mesero',callErr:'No pudimos avisar. Intenta de nuevo.',mesaBad:'Esa mesa ya no es válida. Escanea el QR de tu mesa otra vez.',
     mesaLbl:'Mesa',mesaScan:'Escanear mesa',mesaSet:n=>`Mesa ${n} lista ✓`,mesaOk:n=>`Pedido para la <b>mesa ${n}</b>`,mesaNo:'Para enviar tu pedido necesitamos saber tu mesa.',mesaChange:'Cambiar mesa',mesaScanBtn:'Escanear el QR de mi mesa',
     chooseProt:'Elige tu proteína',surpriseToast:'Hoy te toca',greet:'Pedido en mesa · Coctelazo & Perritos Gourmet',noteApprox:'Valores en pesos colombianos.',
@@ -1298,14 +1379,20 @@ const UI = {
     navHome:'Home',navCarta:'Menu',navSedes:'Locations',recoTitle:'Recommended',recoSub:'Plans built from our menu, ready to add to your order.',planAdd:'Add plan',planAdded:'Plan added to your order',planTotal:'Plan total',
     sedesTitle:'Locations',sedesCoc:'El Coctelazo',sedesCocS:'Medellín',sedesPer:'Perritos Gourmet',sedesPerS:'de la Uva',sedeHere:'You are here',sedeHow:'Get directions',sedeMap:'Show map',sedeHide:'Hide map',
     soonT:'Coming soon',soonS:'We are organizing the Perritos Gourmet locations. You will see them here soon.',
-    mesaBusy:'This table is already in use on another device. Ask the waiter to release it.',mesaFreed:'The waiter released your table. Scan the QR again to keep ordering.',mesaMoved:'This table moved to another device. Scan the QR again if you want it back.',heroLede:'Slushies, cocktails and shots from El Coctelazo, with the gourmet food of Perritos Gourmet de la Uva. Order from your table.',searchLabel:'Search the menu',searchPh:'Search the menu…',surprise:'Surprise me',
+    mesaBusy:'This table is already in use on another device. Ask the waiter to release it.',mesaFreed:'The waiter released your table. Scan the QR again to keep ordering.',mesaMoved:'This table moved to another device. Scan the QR again if you want it back.',heroLede:'Slushies, cocktails and shots from El Coctelazo, with the gourmet food of Perritos Gourmet de la Uva. Order from your table or get it delivered.',searchLabel:'Search the menu',searchPh:'Search the menu…',surprise:'Surprise me',
     creditL:'© 2026 Sonetix. Websites made to measure.',
     myOrder:'My order',total:'Total',sendBar:'Send order to the bar',copy:'Copy',clear:'Clear',fine:'Your order reaches the bar on WhatsApp with your table number. The team will confirm it.',
     emptyCart:'Your order is empty',emptyCartSub:'Tap the + on any product to build it here.',remove:'Remove',add:'Add',addTo:'Add to order',added:'added',viewOrder:'View order',copied:'Order copied',
     namePhD:'Your name (optional)',notePh:'Note for the bar (e.g. no ice)',whoD:'Name',noteL:'Note',mesaW:'TABLE',
     gateAge:'Liquor is sold to adults over 18 only. Excessive alcohol consumption is harmful to health.',heroMesa:n=>`Ordering from table ${n}`,scanOk:n=>`Table ${n} ready ✓`,
     scanTitle:'Scan your table’s QR',scanHelp:'Point the camera at the code on your table.',scanCam:'We couldn’t open the camera. Allow access, or open your phone’s regular camera and point it at your table’s QR.',scanBad:'That QR isn’t from a Coctelazo & Perritos Gourmet table.',scanNet:'No connection. Check your internet and try again.',
-    gateTitle:'How would you like to order?',gateMesa:'Order at my table',gateMesaS:'Scan your table’s QR and send your order to the bar.',gateMesaOk:n=>`Table ${n} ready · tap to order`,gateVer:'See the menu',gateVerS:'Browse the products. If you like something, add it and scan your table when ordering.',
+    ctaDom:'Order delivery',sendWa:'Send on WhatsApp',modeAria:'How would you like to order',modeMesa:'At my table',modeDom:'Delivery',gateDom:'Order delivery',gateDomS:'Pick your products and send us your address on WhatsApp. We bring it to you.',namePhDel:'Your name',notePhDel:'Note for the order (e.g. no ice, doorbell)',fineD:'Send your order on WhatsApp. The team will confirm it with you.',greetD:'Hi El Coctelazo Provenza 👋 I’d like to place this delivery order',type:'Type',deliveryM:'Delivery',addr:'Address',addrPh:'Delivery address (area, building, apt)',
+    minNeed:(n,m)=>`Minimum order for delivery: <b>${m}</b>. You need <b>${n}</b> more.`,minOk:m=>`Delivery available · minimum ${m} ✓`,onlyFrom:s=>`Deliveries leave only from ${s}.`,zoneBlocked:'We don’t deliver to that area for now.',tooFar:km=>`You are about ${km} away: that is outside our delivery area.`,minToast:m=>`Delivery requires a minimum order of ${m}`,needAddr:'Enter the delivery address',
+    delOpen:c=>`Delivery open · until ${c}`,delClosed:o=>`Delivery from ${o}`,delNone:'No delivery today',tmr:'tomorrow',
+    locUse:'Use my location',locView:'See on map',locBusy:'Locating…',locHint:'Type your address or share your location: it is sent with the order on WhatsApp.',locShared:'Location shared',locFromAddr:'Address on the map',locKm:(km,s)=>`≈ ${km} from ${s}`,locOpen:'Open in Waze',locRemove:'Remove',locNo:'Your browser does not allow sharing your location.',locErr:'We could not get your location. Check the browser permission or type your address.',locNeedAddr:'Type your address first',locMsg:'Location',
+    sugT:n=>`You need <b>${n}</b> more for delivery. We suggest:`,sugAdd:'Add',
+    legPolicy:'Privacy and personal data processing policy (Spanish)',legDrawer:'By sending your order you authorize the processing of your data under our <a href="politica-datos.html" target="_blank" rel="noopener">privacy and personal data policy</a> (Spanish). Alcohol is sold only to adults (18+).',
+    gateTitle:'How would you like to order?',gateMesa:'Order at my table',gateMesaS:'Scan your table’s QR and send your order to the bar.',gateMesaOk:n=>`Table ${n} ready · tap to order`,gateVer:'See the menu',gateVerS:'Browse the products. If you like something, add it and choose how to order.',
     callBtn:'Call the waiter',callWait:'Waiter notified · on the way',callOk:'Done, we notified the waiter',callErr:'We couldn’t notify. Try again.',mesaBad:'That table is no longer valid. Scan your table’s QR again.',
     mesaLbl:'Table',mesaScan:'Scan table',mesaSet:n=>`Table ${n} ready ✓`,mesaOk:n=>`Order for <b>table ${n}</b>`,mesaNo:'To send your order we need to know your table.',mesaChange:'Change table',mesaScanBtn:'Scan my table’s QR',
     chooseProt:'Choose your protein',surpriseToast:'Tonight it’s',greet:'Table order · Coctelazo & Perritos Gourmet',noteApprox:'Prices in Colombian pesos.',
@@ -1329,8 +1416,10 @@ const store = {
   set(k,v){try{localStorage.setItem(k,v)}catch(e){}}
 };
 
-const state = {lang: store.get('coctelazo-language')==='en'?'en':'es', mesa:null, view:'home', cat:'licores', plan:'parejas', pc:{}, q:'', cart:[], gtop:'', modal:null};
+const state = {lang: store.get('coctelazo-language')==='en'?'en':'es', mesa:null, mode: store.get('coctelazo-modo')==='dom'?'dom':'mesa', view:'home', cat:'licores', plan:'parejas', pc:{}, q:'', cart:[], gtop:'', modal:null};
 try{ state.cart = JSON.parse(store.get('coctelazo-cart-v3')||'[]').filter(l=>l&&BY_ID[l.id]&&vigente(BY_ID[l.id].hasta)); }catch(e){ state.cart=[]; }
+
+let locPick = null, locBusy = false;   // ubicación de entrega elegida por el cliente (domicilios)
 
 const t = k => UI[state.lang][k];
 const nm = i => i[state.lang];
@@ -1447,6 +1536,7 @@ function applyI18n(){
   document.documentElement.lang = state.lang;
   $$('[data-i18n]').forEach(el=>{ const v=t(el.dataset.i18n); if (typeof v==='string') el.textContent=v; });
   $$('[data-i18n-ph]').forEach(el=>{ el.placeholder=t(el.dataset.i18nPh); });
+  $$('[data-i18n-aria]').forEach(el=>{ el.setAttribute('aria-label', t(el.dataset.i18nAria)); });
   $('#lang').dataset.lang = state.lang;
   $$('#lang button, .glang button').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.l===state.lang)));
   $('#scanClose').setAttribute('aria-label',t('close'));
@@ -1664,7 +1754,7 @@ function renderSedes(){
 }
 
 function renderAll(){
-  applyI18n(); renderCatNav(); renderMenu(); renderHome(); renderEventos(); renderSedes(); renderCart();
+  applyI18n(); renderCatNav(); renderMenu(); renderHome(); renderEventos(); renderSedes(); renderCart(); renderLegal(); renderHeroDom();
   if (state.modal) openModal(state.modal.id, {keep:true});
 }
 
@@ -1778,7 +1868,7 @@ async function verifyMesa(m,k){
 // La mesa dejó de ser de este dispositivo (la barra la liberó o la tomó otro celular)
 function mesaLost(why){ clearMesa(); toast(t(why==='expulsado' ? 'mesaFreed' : 'mesaMoved'), 7000); }
 function setMesa(n,k){
-  state.mesa = n; state.mesaK = k;
+  state.mesa = n; state.mesaK = k; state.mode = 'mesa'; store.set('coctelazo-modo','mesa');
   store.set('coctelazo-mesa', JSON.stringify({n,k,t:Date.now()}));
   renderMesa(); startCallPoll();
 }
@@ -1805,19 +1895,163 @@ function renderMesa(){
   $('#dMesaT').innerHTML = has ? t('mesaOk')(n) : t('mesaNo');
   $('#dMesaBtn').textContent = has ? t('mesaChange') : '';
   $('#dMesaBtn').hidden = !has;
-  $('#bWa').textContent = has ? t('sendBar') : t('mesaScanBtn');
-  $('#bWa').disabled = false;
   const hm = $('#heroMesa'); hm.hidden = !has; hm.textContent = has ? t('heroMesa')(n) : '';
   $('#gMesaS').textContent = has ? t('gateMesaOk')(n) : t('gateMesaS');
   document.body.classList.toggle('has-mesa', has);
   renderCallBtn();
+  renderMode();
 }
 
-function orderText(){
+function orderTextMesa(){
   const lines = state.cart.map(l=>`• ${l.qty}× ${l.name[state.lang]}${l.variant?` (${l.variant[state.lang]})`:''} — ${money(l.price*l.qty)}`);
   const who = $('#fName').value.trim();
   const note = $('#fNote').value.trim();
   return [`🪑 ${t('mesaW')} ${state.mesa}`, `${t('greet')}`, '', ...lines, '', `${t('total')}: ${money(cartTotal())}`, ...(note?[`${t('noteL')}: ${note}`]:[]), ...(who?[`${t('whoD')}: ${who}`]:[]), `(${t('noteApprox')})`].filter((x,i,a)=>x!==''||a[i-1]!=='').join('\n');
+}
+const orderText = () => state.mode==='dom' ? orderTextDom() : orderTextMesa();
+
+/* =========================================================
+   DOMICILIOS — el cliente elige «A domicilio» (pantalla de inicio, botón del Home o selector del pedido), escribe su dirección o
+   comparte su ubicación y el pedido sale por WhatsApp con un enlace de Waze. Mínimo de pedido, horario y cobertura: ver CONFIGURACIÓN.
+   ========================================================= */
+function setMode(m){
+  state.mode = m==='dom' ? 'dom' : 'mesa';
+  store.set('coctelazo-modo', state.mode);
+  renderMode();
+}
+const DAYS_SHORT = {es:['dom','lun','mar','mié','jue','vie','sáb'], en:['Sun','Mon','Tue','Wed','Thu','Fri','Sat']};
+function nowParts(){   // día de la semana y minutos del día en hora de Colombia
+  try{
+    const p = new Intl.DateTimeFormat('en-GB',{timeZone:TZ,weekday:'short',hour:'2-digit',minute:'2-digit',hour12:false}).formatToParts(new Date());
+    const dow = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].indexOf(p.find(x=>x.type==='weekday').value);
+    return {dow, mins:(+p.find(x=>x.type==='hour').value % 24)*60 + +p.find(x=>x.type==='minute').value};
+  }catch(e){ const d = new Date(); return {dow:d.getDay(), mins:d.getHours()*60+d.getMinutes()}; }
+}
+function clock(m){
+  const h = Math.floor(m/60)%24, mm = m%60;
+  return `${h%12||12}:${String(mm).padStart(2,'0')} ${h>=12?'PM':'AM'}`;
+}
+// {open:true, until} si hay servicio ahora; si no, {open:false, day, at} con la próxima apertura (day vacío = hoy)
+function deliveryStatus(){
+  const {dow,mins} = nowParts(), today = DELIVERY_SCHED[dow], yest = DELIVERY_SCHED[(dow+6)%7];
+  if (today && mins>=today[0] && mins<today[1]) return {open:true, until:today[1]%1440};
+  if (yest && yest[1]>1440 && mins<yest[1]-1440) return {open:true, until:yest[1]-1440};   // el turno de ayer sigue abierto de madrugada
+  for (let k=0;k<7;k++){
+    const d = (dow+k)%7, sc = DELIVERY_SCHED[d];
+    if (!sc || (k===0 && mins>=sc[0])) continue;
+    return {open:false, day: k===0 ? '' : k===1 ? t('tmr') : DAYS_SHORT[state.lang][d], at:sc[0]};
+  }
+  return {open:false, at:null};
+}
+function deliveryText(){
+  const s = deliveryStatus();
+  if (s.open) return t('delOpen')(clock(s.until));
+  return s.at==null ? t('delNone') : t('delClosed')((s.day?s.day+' ':'')+clock(s.at));
+}
+function renderHeroDom(){
+  const el = $('#heroDom'); if (!el) return;
+  el.className = 'status '+(deliveryStatus().open?'open':'closed');
+  el.textContent = deliveryText();
+}
+function haversine(a,b){
+  const R=6371, r=Math.PI/180, dLat=(b.lat-a.lat)*r, dLng=(b.lng-a.lng)*r;
+  const h=Math.sin(dLat/2)**2+Math.cos(a.lat*r)*Math.cos(b.lat*r)*Math.sin(dLng/2)**2;
+  return 2*R*Math.asin(Math.sqrt(h));
+}
+function fmtKm(km){
+  if (km<1) return `${Math.max(10,Math.round(km*100)*10)} m`;
+  const n = km<10 ? km.toFixed(1) : String(Math.round(km));
+  return (state.lang==='es' ? n.replace('.',',') : n) + ' km';
+}
+const deliveryShort = () => Math.max(0, DELIVERY_MIN - cartTotal());
+const blockedZone = () => { const a = norm($('#fAddr').value); return NO_COVERAGE.some(z=>a.includes(norm(z))); };
+const farAway = () => MAX_KM!=null && locPick && locPick.kind==='gps' && haversine(locPick, DELIVERY_PUNTO) > MAX_KM;
+
+// Todo lo que cambia según «En la mesa» o «A domicilio»
+function renderMode(){
+  const dom = state.mode==='dom';
+  document.body.classList.toggle('mode-dom', dom);
+  $$('#dMode button').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.m===state.mode)));
+  $('#fName').placeholder = t(dom?'namePhDel':'namePhD');
+  $('#fNote').placeholder = t(dom?'notePhDel':'notePh');
+  $('#dFine').textContent = t(dom?'fineD':'fine');
+  $('#dLegal').innerHTML = t('legDrawer');
+  if (dom){ renderDelivery(); renderLoc(); }
+  else { $('#bWa').textContent = state.mesa ? t('sendBar') : t('mesaScanBtn'); $('#bWa').disabled = false; }
+}
+function renderDelivery(){
+  const tot = cartTotal(), short = deliveryShort(), bz = blockedZone(), far = farAway();
+  $('#dMin').classList.toggle('ok', short===0 && !bz && !far);
+  $('#dMin').classList.toggle('bad', bz || far);
+  $('#dMinT').innerHTML = short ? t('minNeed')(money(short), money(DELIVERY_MIN)) : t('minOk')(money(DELIVERY_MIN));
+  $('#dMinH').textContent = t('onlyFrom')(DELIVERY_PUNTO.n)+' '+deliveryText();
+  $('#dMinZ').textContent = bz ? t('zoneBlocked') : far ? t('tooFar')(fmtKm(haversine(locPick,DELIVERY_PUNTO))) : '';
+  $('#dMinBar').style.width = Math.min(100, tot/DELIVERY_MIN*100)+'%';
+  const b = $('#bWa'); b.innerHTML = `<span>${t('sendWa')}</span><b> · ${money(tot)}</b>`; b.disabled = short>0 || bz || far;
+  renderSuggest(short);
+}
+
+/* recomendación: el producto que completa el mínimo con el menor sobrante (si ninguno alcanza, el más caro) */
+function suggestItem(short){
+  const c = ITEMS.filter(it=>it.price!=null && !it.opts && !it.hasta && it.img && ['casa','chupitos','malteadas','granizados'].includes(it.cat));
+  if (!c.length) return null;
+  const ok = c.filter(it=>it.price>=short).sort((a,b)=>a.price-b.price);
+  return ok[0] || c.sort((a,b)=>b.price-a.price)[0];
+}
+function renderSuggest(short){
+  const box = $('#dSug'), it = short>0 ? suggestItem(short) : null;
+  if (!it){ box.hidden = true; box.innerHTML = ''; return; }
+  box.hidden = false;
+  box.innerHTML = `<div>${t('sugT')(money(short))}</div><div class="dsug-r"><img src="${thumb(it.img)}" alt="" decoding="async"><div class="sn">${esc(nm(it))}</div><span class="sp">${money(it.price)}</span><button class="add" type="button" data-act="add" data-id="${it.id}" aria-label="${esc(t('sugAdd')+' '+nm(it))}">${ICON.plus}</button></div>`;
+}
+
+/* ubicación de entrega: coordenadas por GPS o dirección escrita, con mapa; viaja en el mensaje de WhatsApp (las coordenadas no se guardan) */
+const wazeUrl = p => p.kind==='gps' ? `https://waze.com/ul?ll=${p.lat.toFixed(6)},${p.lng.toFixed(6)}&navigate=yes` : `https://waze.com/ul?q=${encodeURIComponent(p.q)}&navigate=yes`;
+const gmap = q => 'https://maps.google.com/maps?q='+encodeURIComponent(q)+'&z=17&output=embed';
+function renderLoc(){
+  $('#bLocT').textContent = locBusy ? t('locBusy') : t('locUse');
+  $('#bMapT').textContent = t('locView');
+  $('#bLoc').classList.toggle('busy', locBusy);
+  $('#locHint').textContent = t('locHint');
+  const box = $('#locMap');
+  if (!locPick){ box.hidden = true; box.innerHTML = ''; return; }
+  const gps = locPick.kind==='gps';
+  const q = gps ? locPick.lat+','+locPick.lng : locPick.q;
+  let info = `<b>${gps ? t('locShared') : t('locFromAddr')}</b>`;
+  if (gps){
+    info += `<span>${locPick.lat.toFixed(5)}, ${locPick.lng.toFixed(5)}</span>`;
+    info += `<span>${t('locKm')(fmtKm(haversine(locPick, DELIVERY_PUNTO)), esc(DELIVERY_PUNTO.n))}</span>`;
+  }
+  info += `<a href="${wazeUrl(locPick)}" target="_blank" rel="noopener">${t('locOpen')}</a><button type="button" id="bLocX">${t('locRemove')}</button>`;
+  box.hidden = false;
+  box.innerHTML = `<iframe loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="${esc(t('locMsg'))}" src="${gmap(q)}"></iframe><div class="locinfo">${info}</div>`;
+}
+function useMyLocation(){
+  if (locBusy) return;
+  if (!('geolocation' in navigator)){ toast(t('locNo')); return; }
+  locBusy = true; renderLoc();
+  navigator.geolocation.getCurrentPosition(pos=>{
+    locBusy = false; locPick = {kind:'gps', lat:pos.coords.latitude, lng:pos.coords.longitude}; renderLoc(); renderDelivery();
+  }, ()=>{ locBusy = false; renderLoc(); toast(t('locErr')); }, {enableHighAccuracy:true, timeout:12000, maximumAge:60000});
+}
+function viewAddrOnMap(){
+  const a = $('#fAddr').value.trim();
+  if (!a){ toast(t('locNeedAddr')); $('#fAddr').focus(); return; }
+  locPick = {kind:'addr', q: a+', Medellín, Antioquia, Colombia'}; renderLoc(); renderDelivery();
+}
+const locLines = () => locPick ? [`${t('locMsg')} (Waze): ${wazeUrl(locPick)}`] : [];
+
+function orderTextDom(){
+  const lines = state.cart.map(l=>`• ${l.qty}× ${l.name[state.lang]}${l.variant?` (${l.variant[state.lang]})`:''} — ${money(l.price*l.qty)}`);
+  const who = $('#fName').value.trim(), addr = $('#fAddr').value.trim(), note = $('#fNote').value.trim();
+  return [`${t('greetD')}:`, '', ...lines, '', `${t('total')}: ${money(cartTotal())}`, `${t('type')}: ${t('deliveryM')}`, ...(addr?[`${t('addr')}: ${addr}`]:[]), ...locLines(), ...(note?[`${t('noteL')}: ${note}`]:[]), ...(who?[`${t('whoD')}: ${who}`]:[])].filter((x,i,a)=>x!==''||a[i-1]!=='').join('\n');
+}
+
+/* datos del responsable (legal.js) en el pie de página */
+function renderLegal(){
+  const L = window.LEGAL || {};
+  const who = [L.razon, L.nit ? 'NIT '+L.nit : '', L.dir, L.email, L.tel].filter(Boolean).join(' · ');
+  const el = $('#legalWho'); if (el){ el.textContent = who; el.hidden = !who; }
 }
 
 /* escáner: BarcodeDetector si el navegador lo trae; si no (iPhone), jsQR (jsQR.js, del mismo sitio, licencia Apache-2.0) */
@@ -2237,11 +2471,29 @@ $('#bCopy').addEventListener('click',async()=>{
 $('#fName').value = store.get('coctelazo-name') || '';
 $('#fName').addEventListener('input',e=>store.set('coctelazo-name',e.target.value));
 $('#bWa').addEventListener('click',()=>{
+  if (state.mode==='dom'){
+    if (deliveryShort()>0){ toast(t('minToast')(money(DELIVERY_MIN))); return; }
+    if (blockedZone() || farAway()){ toast(t('zoneBlocked')); return; }
+    if (!$('#fAddr').value.trim() && !(locPick && locPick.kind==='gps')){ toast(t('needAddr')); $('#fAddr').focus(); return; }
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(orderText())}`,'_blank','noopener');
+    return;
+  }
   if (!state.mesa){ closeDrawer(); openScan('drawer'); return; }
   const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(orderText())}`;
   window.open(url,'_blank','noopener');
 });
 $('#dMesaBtn').addEventListener('click',()=>{ closeDrawer(); openScan('drawer'); });
+$$('#dMode button').forEach(b=>b.addEventListener('click',()=>setMode(b.dataset.m)));
+$('#bLoc').addEventListener('click',useMyLocation);
+$('#bMapAddr').addEventListener('click',viewAddrOnMap);
+$('#locMap').addEventListener('click',e=>{ if (e.target.closest('#bLocX')){ locPick=null; renderLoc(); renderDelivery(); } });
+$('#fAddr').value = store.get('coctelazo-addr') || '';
+$('#fAddr').addEventListener('input',e=>{ store.set('coctelazo-addr',e.target.value); renderDelivery(); });
+/* pedir a domicilio desde la pantalla de inicio o el Home: queda elegido el modo y se va a la carta */
+const goDelivery = () => { setMode('dom'); closeGate(); setView('carta'); };
+$('#gDom').addEventListener('click',goDelivery);
+$('#ctaDom').addEventListener('click',goDelivery);
+setInterval(renderHeroDom, 60000);
 
 /* mesa: chip de la barra, pantalla de inicio y escáner */
 $('#mesaChip').addEventListener('click',()=>{ closeDrawer(); openScan(state.cart.length?'drawer':'menu'); });
