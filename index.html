@@ -664,23 +664,50 @@ footer .tag::before{content:"\2726";font-size:.45em;color:var(--rosa);margin-rig
 }
 .drawer.show{transform:none;visibility:visible}
 .dhead{display:flex;align-items:center;justify-content:space-between;padding:22px 24px 14px;border-bottom:2px dashed var(--ln)}
-.dhead h3{margin:0;font-family:var(--fd);font-weight:700;font-size:27px;letter-spacing:-.01em}
+.dhead{gap:10px}
+.dhead h3{flex:1;margin:0;font-family:var(--fd);font-weight:700;font-size:27px;letter-spacing:-.01em}
+.dback{flex:none;width:38px;height:38px;border-radius:50%;border:1px solid var(--ln);background:rgba(255,255,255,.4);color:var(--tinta);display:grid;place-items:center}
+.dback[hidden]{display:none}
+.dback svg{width:20px;height:20px}
+.dback:hover{border-color:var(--rosa)}
 .dclose{width:38px;height:38px;border-radius:50%;border:1px solid var(--ln);background:rgba(255,255,255,.4);color:var(--tinta);font-size:22px;line-height:1;display:grid;place-items:center}
 .dclose:hover{border-color:var(--rosa)}
-.dlist{flex:1;overflow:auto;padding:4px 24px}
-.line{display:grid;grid-template-columns:1fr auto;gap:4px 12px;padding:14px 0;border-bottom:1px dotted var(--ln);animation:lineIn .35s var(--ease)}
+/* los productos ocupan todo el alto que deja el pie; el pie del paso 1 es corto (total, cómo pedir y «Continuar») */
+.dscroll{flex:1;min-height:0;overflow:auto;padding:0 20px;-webkit-overflow-scrolling:touch}
+.dlist{padding:0}
+.line{display:grid;grid-template-columns:64px minmax(0,1fr) auto;gap:6px 12px;align-items:start;padding:14px 0;border-bottom:1px dotted var(--ln);animation:lineIn .35s var(--ease)}
 @keyframes lineIn{from{opacity:0;transform:translateX(12px)}}
 .line .n{font-weight:700;font-size:14px}
 .line .v{font-size:12px;color:#9c1346}
 .line .lp{font-weight:700;font-variant-numeric:tabular-nums;text-align:right}
-.line .ctl{grid-column:1/-1;display:flex;align-items:center;gap:8px}
+.line .ctl{grid-column:2/-1;display:flex;align-items:center;gap:8px}
+.lpic{grid-row:1/3;width:64px;height:64px;border-radius:16px;display:grid;place-items:center;overflow:hidden;background:rgba(255,255,255,.55);border:1px solid var(--ln);color:#9c1346;font-size:22px}
+.lpic img{width:100%;height:100%;object-fit:contain}
+.ltx{min-width:0}
 .mini{display:inline-flex;align-items:center;border:1px solid var(--ln);border-radius:999px;background:rgba(255,255,255,.35)}
 .mini button{width:34px;height:32px;background:none;border:0;color:var(--tinta);font-size:17px}
 .mini output{min-width:22px;text-align:center;font-weight:700;font-size:13px}
 .rm{margin-left:auto;background:none;border:0;color:#9c1346;text-decoration:underline;font-size:12px}
 .dempty{padding:48px 0;text-align:center;color:var(--fg2);font-size:13px}
 .dempty .big{font-family:var(--fd);font-size:23px;letter-spacing:-.01em;color:var(--tinta);margin-bottom:4px}
-.dfoot{max-height:72vh;overflow:auto;padding:16px 24px 24px;border-top:2px dashed var(--ln);background:rgba(255,255,255,.22)}
+.dfoot{max-height:72vh;overflow:auto;padding:14px 24px 22px;border-top:2px dashed var(--ln);background:rgba(255,255,255,.22)}
+/* dos pasos: 1 = revisar los productos · 2 = datos y envío (los productos se ven con «N productos ▾») */
+.dstep2{display:none}
+.drawer[data-step="2"] .dstep1{display:none}
+.drawer[data-step="2"] .dstep2{display:block}
+.drawer[data-step="2"] .dscroll{display:none}
+.drawer[data-step="2"].peek .dscroll{display:block;flex:none;max-height:36vh}
+.drawer[data-step="2"] .dfoot{flex:1;min-height:0;max-height:none}
+.dstep1 .total b{font-size:34px}
+.dstep1 .dmode{margin:8px 0}
+.dstep1 .dmin{margin:8px 0}
+.dstep1 #bNext{margin-top:4px}
+.dstep1 #bNext:disabled{opacity:.5}
+.dsum{display:flex;align-items:center;gap:8px;width:100%;margin:0 0 12px;padding:10px 14px;border-radius:12px;border:1px solid var(--ln);background:rgba(255,255,255,.45);color:var(--tinta);font:700 14px var(--fb);text-align:left}
+.dsum span{flex:1}
+.dsum b{font-family:var(--fd);font-weight:800;font-size:17px}
+.dsum svg{flex:none;width:18px;height:18px;transition:transform .25s}
+.drawer.peek .dsum svg{transform:rotate(180deg)}
 .total{display:flex;align-items:baseline;justify-content:space-between;font-family:var(--fd);font-size:17px;letter-spacing:-.01em}
 .total b{font-weight:400;font-size:38px;letter-spacing:.03em}
 .dmin{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:10px 0;padding:10px 14px;border-radius:12px;border:1px dashed rgba(156,19,70,.55);font-size:13px}
@@ -712,7 +739,7 @@ body.mode-dom .dtable{display:none}
 .dmin .bar i{display:block;height:100%;width:0;border-radius:999px;background:var(--rosa);transition:width .4s var(--ease)}
 .dmin.ok .bar i{background:#1b8c5f}
 .dmin.bad{border:1px solid rgba(190,90,0,.6);background:rgba(255,178,56,.16)}
-.dsug{margin:0 0 12px;padding:10px 14px;border-radius:12px;border:1px dashed rgba(156,19,70,.5);background:rgba(255,255,255,.35);font-size:13px}
+.dsug{margin:12px 0;padding:10px 14px;border-radius:12px;border:1px dashed rgba(156,19,70,.5);background:rgba(255,255,255,.35);font-size:13px}
 .dsug-r{display:flex;align-items:center;gap:10px;margin-top:8px}
 .dsug-r img{flex:none;width:46px;height:46px;object-fit:contain}
 .dsug-r .sn{flex:1;min-width:0;font-weight:700;font-size:14px;line-height:1.25}
@@ -984,35 +1011,49 @@ body.mode-dom .dtable{display:none}
 </div>
 
 <!-- MI PEDIDO (comanda) -->
-<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="dTitle" aria-hidden="true">
-  <div class="dhead"><h3 id="dTitle" data-i18n="myOrder">Mi pedido</h3><button class="dclose" id="dClose" type="button" aria-label="Cerrar">×</button></div>
-  <div class="dlist" id="dList"></div>
-  <div class="dfoot" id="dFoot">
-    <div class="total"><span data-i18n="total">Total</span><b id="dTotal">$0</b></div>
-    <div class="dmode" role="group" id="dMode" data-i18n-aria="modeAria"><button type="button" id="mdMesa" data-m="mesa" data-i18n="modeMesa">En la mesa</button><button type="button" id="mdDom" data-m="dom" data-i18n="modeDom">A domicilio</button></div>
-    <div class="dmin dtable" id="dMesa" aria-live="polite"><div class="t" id="dMesaT"></div><button class="linkbtn" id="dMesaBtn" type="button"></button></div>
-    <div class="dmin ddeliv" id="dMin" aria-live="polite"><div class="t" id="dMinT"></div><div class="t" id="dMinH"></div><div class="z" id="dMinZ"></div><div class="bar"><i id="dMinBar"></i></div></div>
+<aside class="drawer" id="drawer" data-step="1" role="dialog" aria-modal="true" aria-labelledby="dTitle" aria-hidden="true">
+  <div class="dhead">
+    <button class="dback" id="dBack" type="button" hidden aria-label="Volver"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></button>
+    <h3 id="dTitle">Mi pedido</h3>
+    <button class="dclose" id="dClose" type="button" aria-label="Cerrar">×</button>
+  </div>
+  <div class="dscroll" id="dScroll">
+    <div class="dlist" id="dList"></div>
     <div class="dsug ddeliv" id="dSug" hidden></div>
-    <div class="fld">
-      <input id="fName" class="wide" type="text" maxlength="40" autocomplete="name">
-      <input id="fAddr" class="wide ddeliv" type="text" maxlength="120" autocomplete="street-address" data-i18n-ph="addrPh" placeholder="Dirección de entrega (barrio, torre, apto)">
-      <div class="loc wide ddeliv">
-        <div class="loc-btns">
-          <button class="btn ghost" id="bLoc" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/><circle cx="12" cy="12" r="8"/></svg><span id="bLocT">Usar mi ubicación</span></button>
-          <button class="btn ghost" id="bMapAddr" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><span id="bMapT">Ver en el mapa</span></button>
+  </div>
+  <div class="dfoot" id="dFoot">
+    <!-- Paso 1: los productos arriba, aquí solo el total, cómo pedir y «Continuar» -->
+    <div class="dstep1">
+      <div class="total"><span data-i18n="total">Total</span><b id="dTotal">$0</b></div>
+      <div class="dmode" role="group" id="dMode" data-i18n-aria="modeAria"><button type="button" id="mdMesa" data-m="mesa" data-i18n="modeMesa">En la mesa</button><button type="button" id="mdDom" data-m="dom" data-i18n="modeDom">A domicilio</button></div>
+      <div class="dmin dtable" id="dMesa" aria-live="polite"><div class="t" id="dMesaT"></div><button class="linkbtn" id="dMesaBtn" type="button"></button></div>
+      <div class="dmin ddeliv" id="dMin" aria-live="polite"><div class="t" id="dMinT"></div><div class="t" id="dMinH"></div><div class="z" id="dMinZ"></div><div class="bar"><i id="dMinBar"></i></div></div>
+      <button class="btn primary full" id="bNext" type="button" data-i18n="next">Continuar</button>
+    </div>
+    <!-- Paso 2: datos del pedido y envío -->
+    <div class="dstep2">
+      <button class="dsum" id="dSum" type="button" aria-expanded="false"><span id="dSumT"></span><b id="dSumP"></b><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+      <div class="fld">
+        <input id="fName" class="wide" type="text" maxlength="40" autocomplete="name">
+        <input id="fAddr" class="wide ddeliv" type="text" maxlength="120" autocomplete="street-address" data-i18n-ph="addrPh" placeholder="Dirección de entrega (barrio, torre, apto)">
+        <div class="loc wide ddeliv">
+          <div class="loc-btns">
+            <button class="btn ghost" id="bLoc" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/><circle cx="12" cy="12" r="8"/></svg><span id="bLocT">Usar mi ubicación</span></button>
+            <button class="btn ghost" id="bMapAddr" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><span id="bMapT">Ver en el mapa</span></button>
+          </div>
+          <p class="loc-hint" id="locHint"></p>
+          <div class="locmap" id="locMap" hidden></div>
         </div>
-        <p class="loc-hint" id="locHint"></p>
-        <div class="locmap" id="locMap" hidden></div>
+        <input id="fNote" class="wide" type="text" maxlength="120" autocomplete="off">
       </div>
-      <input id="fNote" class="wide" type="text" maxlength="120" autocomplete="off">
+      <div class="dact">
+        <button class="btn primary wa full" id="bWa" type="button"></button>
+        <button class="btn ghost dtable" id="bCopy" type="button" data-i18n="copy">Copiar</button>
+        <button class="btn ghost" id="bClear" type="button" data-i18n="clear">Vaciar</button>
+      </div>
+      <p class="dfine" id="dFine"></p>
+      <p class="dfine dlegal" id="dLegal"></p>
     </div>
-    <div class="dact">
-      <button class="btn primary wa full" id="bWa" type="button"></button>
-      <button class="btn ghost dtable" id="bCopy" type="button" data-i18n="copy">Copiar</button>
-      <button class="btn ghost" id="bClear" type="button" data-i18n="clear">Vaciar</button>
-    </div>
-    <p class="dfine" id="dFine"></p>
-    <p class="dfine dlegal" id="dLegal"></p>
   </div>
 </aside>
 
@@ -1358,7 +1399,7 @@ const UI = {
     namePhD:'Tu nombre (opcional)',notePh:'Nota para la barra (ej: sin hielo)',whoD:'Nombre',noteL:'Nota',mesaW:'MESA',
     gateAge:'Venta de licor solo a mayores de 18 años. El exceso de alcohol es perjudicial para la salud.',heroMesa:n=>`Pidiendo desde la mesa ${n}`,scanOk:n=>`Mesa ${n} lista ✓`,
     scanTitle:'Escanea el QR de tu mesa',scanHelp:'Apunta la cámara al código que está en tu mesa.',scanCam:'No pudimos abrir la cámara. Permite el acceso, o abre la cámara normal de tu celular y apunta al QR de tu mesa.',scanBad:'Ese QR no es de una mesa de Coctelazo & Perritos Gourmet.',scanNet:'Sin conexión. Revisa tu internet e inténtalo otra vez.',
-    ctaDom:'Pedir a domicilio',sendWa:'Enviar por WhatsApp',modeAria:'Cómo quieres pedir',modeMesa:'En la mesa',modeDom:'A domicilio',gateDom:'Pedir a domicilio',gateDomS:'Elige tus productos y mándanos tu dirección por WhatsApp. Te lo llevamos.',namePhDel:'Tu nombre',notePhDel:'Nota para el pedido (ej: sin hielo, timbre)',fineD:'Envía tu pedido por WhatsApp. El equipo lo confirma contigo.',greetD:'Hola El Coctelazo Provenza 👋 Quiero hacer este pedido a domicilio',type:'Tipo',deliveryM:'Domicilio',addr:'Dirección',addrPh:'Dirección de entrega (barrio, torre, apto)',
+    ctaDom:'Pedir a domicilio',next:'Continuar',confirmT:'Confirmar pedido',back:'Volver',prodOne:'producto',prodMany:'productos',sendWa:'Enviar por WhatsApp',modeAria:'Cómo quieres pedir',modeMesa:'En la mesa',modeDom:'A domicilio',gateDom:'Pedir a domicilio',gateDomS:'Elige tus productos y mándanos tu dirección por WhatsApp. Te lo llevamos.',namePhDel:'Tu nombre',notePhDel:'Nota para el pedido (ej: sin hielo, timbre)',fineD:'Envía tu pedido por WhatsApp. El equipo lo confirma contigo.',greetD:'Hola El Coctelazo Provenza 👋 Quiero hacer este pedido a domicilio',type:'Tipo',deliveryM:'Domicilio',addr:'Dirección',addrPh:'Dirección de entrega (barrio, torre, apto)',
     minNeed:(n,m)=>`Pedido mínimo para domicilio: <b>${m}</b>. Te faltan <b>${n}</b>.`,minOk:m=>`Domicilio disponible · mínimo ${m} ✓`,onlyFrom:s=>`Los domicilios salen únicamente de ${s}.`,zoneBlocked:'Por ahora no llegamos a esa zona.',tooFar:km=>`Estás a unos ${km}: queda fuera de nuestra zona de domicilios.`,minToast:m=>`El domicilio requiere un pedido mínimo de ${m}`,needAddr:'Escribe la dirección de entrega',
     delOpen:c=>`Domicilios abiertos · hasta ${c}`,delClosed:o=>`Domicilios desde ${o}`,delNone:'Hoy no hay domicilios',tmr:'mañana',
     locUse:'Usar mi ubicación',locView:'Ver en el mapa',locBusy:'Buscando…',locHint:'Puedes escribir la dirección o compartir tu ubicación: se envía junto al pedido por WhatsApp.',locShared:'Ubicación compartida',locFromAddr:'Dirección en el mapa',locKm:(km,s)=>`≈ ${km} de ${s}`,locOpen:'Abrir en Waze',locRemove:'Quitar',locNo:'Tu navegador no permite compartir la ubicación.',locErr:'No pudimos obtener tu ubicación. Revisa el permiso del navegador o escribe tu dirección.',locNeedAddr:'Escribe primero tu dirección',locMsg:'Ubicación',
@@ -1386,7 +1427,7 @@ const UI = {
     namePhD:'Your name (optional)',notePh:'Note for the bar (e.g. no ice)',whoD:'Name',noteL:'Note',mesaW:'TABLE',
     gateAge:'Liquor is sold to adults over 18 only. Excessive alcohol consumption is harmful to health.',heroMesa:n=>`Ordering from table ${n}`,scanOk:n=>`Table ${n} ready ✓`,
     scanTitle:'Scan your table’s QR',scanHelp:'Point the camera at the code on your table.',scanCam:'We couldn’t open the camera. Allow access, or open your phone’s regular camera and point it at your table’s QR.',scanBad:'That QR isn’t from a Coctelazo & Perritos Gourmet table.',scanNet:'No connection. Check your internet and try again.',
-    ctaDom:'Order delivery',sendWa:'Send on WhatsApp',modeAria:'How would you like to order',modeMesa:'At my table',modeDom:'Delivery',gateDom:'Order delivery',gateDomS:'Pick your products and send us your address on WhatsApp. We bring it to you.',namePhDel:'Your name',notePhDel:'Note for the order (e.g. no ice, doorbell)',fineD:'Send your order on WhatsApp. The team will confirm it with you.',greetD:'Hi El Coctelazo Provenza 👋 I’d like to place this delivery order',type:'Type',deliveryM:'Delivery',addr:'Address',addrPh:'Delivery address (area, building, apt)',
+    ctaDom:'Order delivery',next:'Continue',confirmT:'Confirm order',back:'Back',prodOne:'item',prodMany:'items',sendWa:'Send on WhatsApp',modeAria:'How would you like to order',modeMesa:'At my table',modeDom:'Delivery',gateDom:'Order delivery',gateDomS:'Pick your products and send us your address on WhatsApp. We bring it to you.',namePhDel:'Your name',notePhDel:'Note for the order (e.g. no ice, doorbell)',fineD:'Send your order on WhatsApp. The team will confirm it with you.',greetD:'Hi El Coctelazo Provenza 👋 I’d like to place this delivery order',type:'Type',deliveryM:'Delivery',addr:'Address',addrPh:'Delivery address (area, building, apt)',
     minNeed:(n,m)=>`Minimum order for delivery: <b>${m}</b>. You need <b>${n}</b> more.`,minOk:m=>`Delivery available · minimum ${m} ✓`,onlyFrom:s=>`Deliveries leave only from ${s}.`,zoneBlocked:'We don’t deliver to that area for now.',tooFar:km=>`You are about ${km} away: that is outside our delivery area.`,minToast:m=>`Delivery requires a minimum order of ${m}`,needAddr:'Enter the delivery address',
     delOpen:c=>`Delivery open · until ${c}`,delClosed:o=>`Delivery from ${o}`,delNone:'No delivery today',tmr:'tomorrow',
     locUse:'Use my location',locView:'See on map',locBusy:'Locating…',locHint:'Type your address or share your location: it is sent with the order on WhatsApp.',locShared:'Location shared',locFromAddr:'Address on the map',locKm:(km,s)=>`≈ ${km} from ${s}`,locOpen:'Open in Waze',locRemove:'Remove',locNo:'Your browser does not allow sharing your location.',locErr:'We could not get your location. Check the browser permission or type your address.',locNeedAddr:'Type your address first',locMsg:'Location',
@@ -1828,13 +1869,30 @@ function renderCart(){
   if (!state.cart.length){
     list.innerHTML = `<div class="dempty"><div class="big">${t('emptyCart')}</div>${t('emptyCartSub')}</div>`;
   } else {
-    list.innerHTML = state.cart.map((l,i)=>`<div class="line"><div><div class="n">${esc(l.name[state.lang])}</div>${l.variant?`<div class="v">${esc(l.variant[state.lang])}</div>`:''}</div><div class="lp">${money(l.price*l.qty)}</div>
+    list.innerHTML = state.cart.map((l,i)=>`<div class="line"><div class="lpic">${linePic(l.id)}</div><div class="ltx"><div class="n">${esc(l.name[state.lang])}</div>${l.variant?`<div class="v">${esc(l.variant[state.lang])}</div>`:''}</div><div class="lp">${money(l.price*l.qty)}</div>
       <div class="ctl"><div class="mini"><button type="button" data-act="dec" data-i="${i}" aria-label="−">−</button><output>${l.qty}</output><button type="button" data-act="inc" data-i="${i}" aria-label="+">+</button></div><button class="rm" type="button" data-act="rm" data-i="${i}">${t('remove')}</button></div></div>`).join('');
   }
   $('#dTotal').textContent = money(cartTotal());
+  $('#dSumT').textContent = `${n} ${t(n===1?'prodOne':'prodMany')}`; $('#dSumP').textContent = money(cartTotal());
   $('#dFoot').style.display = state.cart.length ? '' : 'none';
   renderMesa();
+  renderStep();
 }
+// foto del producto en el pedido; si no tiene (licores, granizados por tamaño) va un adorno
+function linePic(id){
+  const it = BY_ID[id]; if (!it) return '&#10022;';
+  const src = it.img ? thumb(it.img) : it.photo ? 'img/'+it.photo+'.webp' : it.sub==='g-tipos' ? 'img/mini/granizado-tradicional.webp' : null;
+  return src ? `<img src="${src}" alt="" decoding="async">` : '&#10022;';
+}
+/* el pedido va en dos pasos: 1 = revisar los productos, 2 = datos y envío */
+function renderStep(){
+  const dr = $('#drawer'); if (!state.cart.length) dr.dataset.step = '1';
+  const two = dr.dataset.step==='2';
+  $('#dBack').hidden = !two; $('#dBack').setAttribute('aria-label', t('back'));
+  $('#dTitle').textContent = t(two?'confirmT':'myOrder');
+  if (!two){ dr.classList.remove('peek'); $('#dSum').setAttribute('aria-expanded','false'); }
+}
+function setStep(n){ $('#drawer').dataset.step = String(n); renderStep(); $('#dFoot').scrollTop = 0; $('#dScroll').scrollTop = 0; }
 
 /* =========================================================
    MESA — solo vale la del QR de la mesa: el servidor confirma la llave firmada (no se puede escribir un número)
@@ -1977,7 +2035,7 @@ function renderMode(){
   $('#dFine').textContent = t(dom?'fineD':'fine');
   $('#dLegal').innerHTML = t('legDrawer');
   if (dom){ renderDelivery(); renderLoc(); }
-  else { $('#bWa').textContent = state.mesa ? t('sendBar') : t('mesaScanBtn'); $('#bWa').disabled = false; }
+  else { $('#bWa').textContent = state.mesa ? t('sendBar') : t('mesaScanBtn'); $('#bWa').disabled = false; $('#bNext').disabled = false; }
 }
 function renderDelivery(){
   const tot = cartTotal(), short = deliveryShort(), bz = blockedZone(), far = farAway();
@@ -1988,6 +2046,8 @@ function renderDelivery(){
   $('#dMinZ').textContent = bz ? t('zoneBlocked') : far ? t('tooFar')(fmtKm(haversine(locPick,DELIVERY_PUNTO))) : '';
   $('#dMinBar').style.width = Math.min(100, tot/DELIVERY_MIN*100)+'%';
   const b = $('#bWa'); b.innerHTML = `<span>${t('sendWa')}</span><b> · ${money(tot)}</b>`; b.disabled = short>0 || bz || far;
+  $('#bNext').disabled = short>0 || bz || far;
+  if (short>0 && $('#drawer').dataset.step==='2') setStep(1);   // si se quitan productos y baja del mínimo, vuelve a los productos
   renderSuggest(short);
 }
 
@@ -2331,6 +2391,7 @@ function closeModal(){
   lastFocus?.focus?.({preventScroll:true});
 }
 function openDrawer(){
+  setStep(1);
   closeModal(); $('#toast').classList.remove('show');
   $('#drawer').classList.add('show'); $('#drawer').setAttribute('aria-hidden','false'); $('#scrim').classList.add('show');
   document.body.classList.add('locked','cart-open'); lastFocus=$('#cartBtn');
@@ -2484,6 +2545,9 @@ $('#bWa').addEventListener('click',()=>{
 });
 $('#dMesaBtn').addEventListener('click',()=>{ closeDrawer(); openScan('drawer'); });
 $$('#dMode button').forEach(b=>b.addEventListener('click',()=>setMode(b.dataset.m)));
+$('#bNext').addEventListener('click',()=>setStep(2));
+$('#dBack').addEventListener('click',()=>setStep(1));
+$('#dSum').addEventListener('click',()=>{ const on = $('#drawer').classList.toggle('peek'); $('#dSum').setAttribute('aria-expanded',String(on)); });
 $('#bLoc').addEventListener('click',useMyLocation);
 $('#bMapAddr').addEventListener('click',viewAddrOnMap);
 $('#locMap').addEventListener('click',e=>{ if (e.target.closest('#bLocX')){ locPick=null; renderLoc(); renderDelivery(); } });
