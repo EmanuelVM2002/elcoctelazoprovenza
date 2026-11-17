@@ -24,20 +24,26 @@ test('la mesa solo es válida con la llave de su QR', async () => {
   assert.equal((await call(env, 'GET', `/api/mesa?m=0&k=${await mesaToken(env.QR_SECRET, 0)}`)).status, 403, 'mesa fuera de rango');
 });
 
-test('sin secretos en Cloudflare se usan los de ejemplo del código (los QR impresos siguen valiendo)', async () => {
+test('sin secretos configurados todo se rechaza: no hay valores de respaldo en el código', async () => {
   const env = makeEnv({ QR_SECRET: undefined, ADMIN_USER: undefined, ADMIN_PASS: undefined, SESSION_SECRET: undefined });
-  // llaves de los QR ya impresos (mesa 1, 2 y 3)
-  assert.equal((await call(env, 'GET', '/api/mesa?m=1&k=3gaSZmjwJEAqQbbg')).status, 200);
-  assert.equal((await call(env, 'GET', '/api/mesa?m=2&k=EFXXu7TDAjE_RvvE')).status, 200);
-  assert.equal((await call(env, 'GET', '/api/mesa?m=3&k=wFHLhA75lDIvGQHM')).status, 200);
-  assert.equal((await call(env, 'GET', '/api/mesa?m=3&k=3gaSZmjwJEAqQbbg')).status, 403);
-  assert.equal((await call(env, 'GET', '/api/mesa?m=1&k=abc')).status, 403);
-  const ok = await call(env, 'POST', '/api/login', { usuario: 'BarraProvenza', clave: 'Provenza2026*' });
-  assert.equal(ok.status, 200);
-  assert.equal((await call(env, 'POST', '/api/login', { usuario: 'BarraProvenza', clave: 'otra' })).status, 401);
+  // ni una llave inventada ni una calculada con otro secreto entra
+  assert.equal((await call(env, 'GET', '/api/mesa?m=1&k=3gaSZmjwJEAqQbbg')).status, 403);
+  assert.equal((await call(env, 'GET', '/api/mesa?m=1&k=' + await mesaToken('otro-secreto', 1))).status, 403);
+  // el inicio de sesión responde «sin configurar», también con las claves que antes estaban en el repositorio
+  assert.equal((await call(env, 'POST', '/api/login', { usuario: 'BarraProvenza', clave: 'Provenza2026*' })).status, 503);
+  assert.equal((await call(env, 'POST', '/api/login', { usuario: 'undefined', clave: 'undefined' })).status, 503);
+  assert.equal((await call(env, 'GET', '/api/llamados')).status, 401);
 });
 
-test('un secreto de Cloudflare tiene prioridad sobre el ejemplo del código', async () => {
+test('los secretos que estuvieron en el repositorio público ya no sirven', async () => {
+  const env = makeEnv();
+  assert.equal((await call(env, 'GET', '/api/mesa?m=1&k=3gaSZmjwJEAqQbbg')).status, 403);
+  assert.equal((await call(env, 'GET', '/api/mesa?m=2&k=EFXXu7TDAjE_RvvE')).status, 403);
+  assert.equal((await call(env, 'GET', '/api/mesa?m=3&k=wFHLhA75lDIvGQHM')).status, 403);
+  assert.equal((await call(env, 'POST', '/api/login', { usuario: 'BarraProvenza', clave: 'Provenza2026*' })).status, 401);
+});
+
+test('la contraseña sale solo del secreto configurado', async () => {
   const env = makeEnv({ ADMIN_PASS: 'nueva-clave' });
   assert.equal((await call(env, 'POST', '/api/login', { usuario: 'BarraProvenza', clave: 'nueva-clave' })).status, 200);
   assert.equal((await call(env, 'POST', '/api/login', { usuario: 'BarraProvenza', clave: 'clave-de-prueba-local' })).status, 401);
@@ -111,7 +117,7 @@ test('login: un éxito borra los fallos; el usuario también se valida', async (
 });
 
 test('login con clave vacía o ausente no entra', async () => {
-  const env = makeEnv({ ADMIN_PASS: undefined });
+  const env = makeEnv();
   assert.equal((await call(env, 'POST', '/api/login', { usuario: 'BarraProvenza', clave: '' })).status, 401);
   assert.equal((await call(env, 'POST', '/api/login', { usuario: 'BarraProvenza' })).status, 401);
 });

@@ -10,28 +10,15 @@
 //  · Inicia sesión del personal de la barra. Usuario y contraseña viven SOLO como secretos del Worker
 //    (nunca en la página ni en el repositorio).
 //
-// Secretos (Cloudflare → Worker → Variables y secretos, tipo «Secreto»):
+// Secretos (Cloudflare → Worker → Configuración → Variables y secretos, tipo «Secreto»). Los 4 son obligatorios:
 //   ADMIN_USER      usuario de la barra
 //   ADMIN_PASS      contraseña de la barra
 //   SESSION_SECRET  texto largo al azar (firma las sesiones de la barra)
 //   QR_SECRET       texto largo al azar (firma los QR de las mesas)
-//
-// POR AHORA los 4 valores van de EJEMPLO aquí abajo, para que funcione sin configurar nada en Cloudflare.
-// Más adelante se guardan como secretos en Cloudflare (tienen prioridad sobre estos) y se borran de este archivo.
-// OJO: mientras estén aquí, cualquiera que vea el repositorio los conoce. Los QR ya impresos solo valen con este QR_SECRET:
-// al pasarlo a secreto, usa el MISMO valor para no tener que reimprimirlos.
-const EJEMPLO = {
-  ADMIN_USER: 'BarraProvenza',
-  ADMIN_PASS: 'Provenza2026*',
-  SESSION_SECRET: '9LT3VSxxfIAFxJjnCY0u6mLO_v9nzc0iK59i5ya_-Rc',
-  QR_SECRET: 'XPeJTGh4fyrGqQ6Rb_7nwFz8LVvsdhkE7eKFXGrenlU'
-};
-const conf = env => ({
-  ADMIN_USER: env.ADMIN_USER || EJEMPLO.ADMIN_USER,
-  ADMIN_PASS: env.ADMIN_PASS || EJEMPLO.ADMIN_PASS,
-  SESSION_SECRET: env.SESSION_SECRET || EJEMPLO.SESSION_SECRET,
-  QR_SECRET: env.QR_SECRET || EJEMPLO.QR_SECRET
-});
+// NO hay valores de respaldo en el código: si falta alguno, las mesas se rechazan (403) y el inicio de sesión responde 503.
+// Para probar en local: copia .dev.vars.example como .dev.vars (nunca se sube a GitHub).
+const conf = env => ({ ADMIN_USER: env.ADMIN_USER, ADMIN_PASS: env.ADMIN_PASS, SESSION_SECRET: env.SESSION_SECRET, QR_SECRET: env.QR_SECRET });
+const configurado = cfg => !!(cfg.ADMIN_USER && cfg.ADMIN_PASS && cfg.SESSION_SECRET && cfg.QR_SECRET);
 
 const enc = new TextEncoder();
 const MAX_MESA = 99;
@@ -127,7 +114,8 @@ export default {
 
       // Barra: iniciar sesión
       if (path === '/api/login' && request.method === 'POST') {
-                const ip = request.headers.get('CF-Connecting-IP') || 'local';
+        if (!configurado(cfg)) return json({ ok: false, error: 'El servidor no está configurado' }, 503);
+        const ip = request.headers.get('CF-Connecting-IP') || 'local';
         const bloqueo = await (await to('/login-estado', { ip })).json();
         if (bloqueo.bloqueado) return json({ ok: false, error: 'Demasiados intentos. Espera unos minutos.' }, 429);
         const b = await bodyOf(request);
