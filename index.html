@@ -180,7 +180,15 @@ body.has-mouse .spot{opacity:1}
 .hero-actions{display:flex;flex-wrap:wrap;gap:10px}
 .hero-actions .btn{padding:0 22px}
 .hero-copy .status{margin:18px 0 0}
-@media(min-width:860px){.hero{padding-top:44px}.hero-logo{width:440px}}
+@media(min-width:860px){
+  .hero{padding-top:44px}.hero-logo{width:440px}
+  /* en pantallas anchas el inicio va centrado (en celular ocupa todo el ancho y se queda alineado a la izquierda) */
+  .hero-copy{max-width:700px;margin:0 auto;text-align:center}
+  .hero-logo{margin:0 auto 4px}
+  .hero-lede{margin:14px auto 24px}
+  .hero-actions{justify-content:center}
+  .hero-copy .status{margin:18px 5px 0}
+}
 .status{display:inline-flex;align-items:center;gap:8px;margin:0 0 16px;padding:6px 14px;border-radius:999px;border:1px solid rgba(54,201,141,.5);color:#93ebc8;font-size:12px;font-weight:600}
 .status::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--verde)}
 .status[hidden]{display:none}
@@ -345,11 +353,6 @@ body.has-mouse .spot{opacity:1}
   .mn-ico{width:26px;height:26px}
   .mainnav svg{width:15px;height:15px}
 }
-@media(max-width:1179px){
-  .callbtn,.admfab,.top{bottom:calc(100px + env(safe-area-inset-bottom,0px))}
-  .toast{bottom:calc(164px + env(safe-area-inset-bottom,0px))}
-}
-
 /* ---------- RECOMENDADOS (solo en el Home) ---------- */
 .reco{padding-top:44px;padding-bottom:6px;scroll-margin-top:76px}
 .seas{padding-top:40px;padding-bottom:6px}
@@ -843,6 +846,12 @@ body.mode-dom .dtable{display:none}
 }
 .top.show{opacity:1;transform:none;pointer-events:auto}
 .top:hover{background:var(--rosa)}
+/* con la barra de navegación abajo (celular y tableta), los botones flotantes y el aviso van POR ENCIMA de ella.
+   Esta regla va después de las reglas base de arriba: si va antes, la base la pisa y los botones tapan la navegación */
+@media(max-width:1179px){
+  .callbtn,.admfab,.top{bottom:calc(100px + env(safe-area-inset-bottom,0px))}
+  .toast{bottom:calc(164px + env(safe-area-inset-bottom,0px))}
+}
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
   .rv{opacity:1;transform:none}
@@ -1882,6 +1891,7 @@ async function verifyMesa(m,k){
 function mesaLost(why){ clearMesa(); toast(t(why==='expulsado' ? 'mesaFreed' : 'mesaMoved'), 7000); }
 function setMesa(n,k){
   state.mesa = n; state.mesaK = k; state.mode = 'mesa'; store.set('coctelazo-modo','mesa');
+  call.active = false;   // el llamado de la mesa anterior no se arrastra a la nueva (el servidor lo borra al cambiar)
   store.set('coctelazo-mesa', JSON.stringify({n,k,t:Date.now()}));
   renderMesa(); startCallPoll();
 }

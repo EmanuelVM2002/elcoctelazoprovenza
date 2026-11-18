@@ -188,6 +188,49 @@ test('la barra libera una mesa: el dispositivo cae y otro puede entrar', async (
   assert.equal((await (await call(env, 'POST', '/api/liberar', { mesa: 9 }, h)).json()).liberada, false, 'liberar una mesa vacía no falla');
 });
 
+test('quien se cambia de mesa deja libre la anterior, con su llamado', async () => {
+  const env = makeEnv();
+  const k2 = await mesaToken(env.QR_SECRET, 2), k5 = await mesaToken(env.QR_SECRET, 5);
+  await call(env, 'GET', `/api/mesa?m=2&k=${k2}&d=${D1}`);
+  await call(env, 'POST', '/api/llamar', { m: 2, k: k2, d: D1 });                          // D1 llama al mesero desde la mesa 2
+  assert.equal((await call(env, 'GET', `/api/mesa?m=5&k=${k5}&d=${D1}`)).status, 200, 'D1 escanea la mesa 5');
+
+  const { token } = await login(env);
+  const h = { Authorization: 'Bearer ' + token };
+  let lista = await (await call(env, 'GET', '/api/llamados', null, h)).json();
+  assert.deepEqual(lista.mesas.map(m => m.mesa), [5], 'la barra ya no ve la mesa 2 ocupada');
+  assert.deepEqual(lista.llamados, [], 'y el llamado de la mesa 2 desapareció');
+
+  const st = await (await call(env, 'GET', `/api/mesa?m=2&k=${k2}&d=${D2}`)).status;
+  assert.equal(st, 200, 'otro cliente puede sentarse en la mesa 2 ya');
+  const est = await (await call(env, 'GET', `/api/llamar?m=2&k=${k2}&d=${D2}`)).json();
+  assert.equal(est.activo, false, 'y no hereda el llamado del cliente anterior');
+
+  // una señal automática viva de D1 sobre la mesa 2 no la recupera (la mesa 2 ya es de D2)
+  assert.equal((await call(env, 'GET', `/api/llamar?m=2&k=${k2}&d=${D1}`)).status, 409);
+  // D1 sigue bien en la mesa 5
+  assert.equal((await call(env, 'GET', `/api/llamar?m=5&k=${k5}&d=${D1}`)).status, 200);
+});
+
+test('si la mesa nueva está ocupada, la anterior no se suelta', async () => {
+  const env = makeEnv();
+  const k2 = await mesaToken(env.QR_SECRET, 2), k5 = await mesaToken(env.QR_SECRET, 5);
+  await call(env, 'GET', `/api/mesa?m=2&k=${k2}&d=${D1}`);
+  await call(env, 'GET', `/api/mesa?m=5&k=${k5}&d=${D2}`);                                   // D2 ya tiene la mesa 5
+  assert.equal((await call(env, 'GET', `/api/mesa?m=5&k=${k5}&d=${D1}`)).status, 409, 'D1 no puede tomar la mesa 5');
+  assert.equal((await call(env, 'GET', `/api/llamar?m=2&k=${k2}&d=${D1}`)).status, 200, 'D1 conserva la mesa 2');
+  assert.equal((await call(env, 'GET', `/api/mesa?m=2&k=${k2}&d=${D2}`)).status, 409, 'y nadie más la toma');
+});
+
+test('quien vuelve a escanear su mesa anterior a propósito la recupera', async () => {
+  const env = makeEnv();
+  const k2 = await mesaToken(env.QR_SECRET, 2), k5 = await mesaToken(env.QR_SECRET, 5);
+  await call(env, 'GET', `/api/mesa?m=2&k=${k2}&d=${D1}`);
+  await call(env, 'GET', `/api/mesa?m=5&k=${k5}&d=${D1}`);                                   // se pasa a la 5 (la 2 queda libre)
+  assert.equal((await call(env, 'GET', `/api/mesa?m=2&k=${k2}&d=${D1}`)).status, 200, 'regresa a la 2 escaneando su QR');
+  assert.equal((await call(env, 'GET', `/api/mesa?m=5&k=${k5}&d=${D2}`)).status, 200, 'y la 5 queda libre para otro');
+});
+
 test('si el dueño deja de dar señales, la mesa se libera sola', async () => {
   const env = makeEnv();
   const k5 = await mesaToken(env.QR_SECRET, 5);

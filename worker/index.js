@@ -192,6 +192,17 @@ export class Barra {
     }
     const cur = ses[mesa];
     if (cur && cur.d !== d) return 'otro';
+    // Un dispositivo ocupa una sola mesa: al escanear otra deja libre la anterior, con su llamado (que ya no es de nadie) y sin poder
+    // volver a tomarla por señales automáticas (solo escaneando su QR otra vez).
+    if (explicito) {
+      const anteriores = Object.keys(ses).filter(m => m !== String(mesa) && ses[m].d === d);
+      if (anteriores.length) {
+        const todos = await this.llamados();
+        for (const m of anteriores) { delete ses[m]; delete todos[m]; exp[m + ':' + d] = ahora; }
+        await this.state.storage.put('llamados', todos);
+        await this.state.storage.put('expulsados', exp);
+      }
+    }
     ses[mesa] = { d, desde: cur ? cur.desde : ahora, visto: ahora };
     await this.state.storage.put('sesiones', ses);
     return 'ok';
