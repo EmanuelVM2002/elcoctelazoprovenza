@@ -5,3 +5,7 @@ node_modules/
 .wrangler/
 .claude/
 qr-mesas/
+
+# Nunca subir copias comprimidas ni la carpeta de QR (traen llaves y secretos)
+*.zip
+qr-mesas*
