@@ -26,7 +26,7 @@ Cada QR lleva `https://elcoctelazoprovenza.com/?m=3&k=LLAVE`. La llave es un HMA
 ```
 node qr-mesas/generar-qr.mjs      # abre http://localhost:8863 → botón «Generar y guardar» → PNG en qr-mesas/nuevos/
 ```
-Variables opcionales: `DOMINIO` (por defecto https://elcoctelazoprovenza.com) y `MESAS` (por defecto 20). La llave de cada mesa la calcula el servidor con el mismo código del Worker. **No imprimir hasta que el dominio esté asignado al Worker y un celular real lea un QR de prueba.**
+Variables opcionales: `DOMINIO` (por defecto https://elcoctelazoprovenza.com) y `MESAS` (por defecto 15). La llave de cada mesa la calcula el servidor con el mismo código del Worker. **No imprimir hasta que el dominio esté asignado al Worker y un celular real lea un QR de prueba.**
 
 ## 4. Probar en local
 ```
