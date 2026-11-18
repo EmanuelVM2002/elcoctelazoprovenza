@@ -544,6 +544,45 @@ body.has-mouse .spot{opacity:1}
   .ev-facts{margin-top:46px}
 }
 
+/* evento con afiche vertical (sin producto recortado): el afiche se ve completo y, en pantalla ancha, queda a la izquierda */
+.ev.poster .ev-photo{aspect-ratio:auto;background:none}
+.ev.poster .ev-photo img{position:static;padding:0;filter:none;height:auto;object-fit:cover}
+.ev.poster .ev-photo::after{display:none}
+.ev.poster .ev-body{margin-top:0;padding-top:22px}
+.ev-note{margin:12px 0 0;max-width:48ch;font-size:15px;line-height:1.5;color:#e8e2ec}
+.ev-thumb.ph{color:var(--rosa2);font-size:20px}
+@media(min-width:860px){
+  .ev.poster{grid-template-columns:minmax(0,420px) minmax(0,1fr)}
+  .ev.poster .ev-photo{aspect-ratio:auto}
+  .ev.poster .ev-photo img{height:100%}
+  .ev.poster .ev-photo::after{display:none}
+  .ev.poster .ev-body{display:block;margin-top:0;padding:34px 40px 40px}
+  .ev.poster .ev-facts{margin-top:22px}
+}
+
+/* ---------- PROMOS DE LA SEMANA (Home) ---------- */
+.promos{padding-top:40px;padding-bottom:6px}
+.promos[hidden]{display:none}
+.pm-grid{display:grid;gap:16px;margin-top:16px}
+.pm{display:flex;flex-direction:column;border-radius:30px;overflow:hidden;border:1px solid var(--ln);background:radial-gradient(120% 70% at 0% 0%,rgba(232,25,95,.16),transparent 60%),rgba(255,255,255,.03)}
+.pm-img{position:relative;aspect-ratio:3/2;overflow:hidden}
+.pm-img img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .6s var(--ease)}
+.pm-img.crop-top img{object-position:50% 0}
+.pm:hover .pm-img img{transform:scale(1.04)}
+.pm-img::after{content:"";position:absolute;inset:auto 0 0;height:34%;background:linear-gradient(transparent,rgba(10,6,9,.55));pointer-events:none}
+.pm-tag,.pm-hoy{position:absolute;top:14px;z-index:1;padding:6px 13px;border-radius:999px;font-size:11.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+.pm-tag{left:14px;background:var(--rosa);color:#fff;box-shadow:0 6px 18px rgba(232,25,95,.5)}
+.pm-hoy{right:14px;background:#9dff2e;color:#07110a}
+.pm-body{display:flex;flex-direction:column;flex:1;padding:18px 22px 22px}
+.pm-body h3{margin:0 0 6px;font-family:var(--fd);font-weight:800;font-size:clamp(28px,7vw,34px);line-height:1;letter-spacing:-.03em}
+.pm-body p{margin:0;max-width:44ch;font-size:14.5px;line-height:1.5;color:var(--fg2)}
+.pm-foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 16px;margin-top:auto;padding-top:16px}
+.pm-price{font-family:var(--fd);font-weight:800;font-size:38px;line-height:1;letter-spacing:-.04em;background:linear-gradient(90deg,var(--rosa2),var(--rosa) 70%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.pm .btn:disabled{opacity:.55;cursor:not-allowed}
+.add:disabled{opacity:.4;pointer-events:none}
+.cat-note,.sede-note{margin:10px 0 0;font-size:13.5px;font-weight:600;color:var(--rosa2)}
+@media(min-width:860px){.pm-grid{grid-template-columns:1fr 1fr;gap:20px}}
+
 /* ---------- SEDES ---------- */
 .sedes-grp{margin-top:34px}
 .sedes-grp:first-child{margin-top:28px}
@@ -752,6 +791,8 @@ body.mode-dom .dtable{display:none}
 .dlegal{line-height:1.5}
 .dlegal a{color:inherit;text-decoration:underline;text-underline-offset:3px}
 .status.closed{border-color:rgba(255,178,56,.5);color:#ffd9a0}
+.status.info{border-color:rgba(255,255,255,.22);color:#e6e0ea}
+.status.info::before{background:var(--rosa2)}
 .status.closed::before{background:#ffb238}
 .foot-legal p+p{margin-top:10px}
 .foot-who[hidden]{display:none}
@@ -898,6 +939,7 @@ body.mode-dom .dtable{display:none}
           <button class="btn ghost" type="button" id="ctaDom" data-i18n="ctaDom">Pedir a domicilio</button>
         </div>
         <span class="status" id="heroDom" role="status"></span>
+        <span class="status info" id="heroCocina" data-i18n="heroCocina">Cocina hasta las 3:00 AM · vie y sáb</span>
         <span class="status open" id="heroMesa" role="status" hidden></span>
       </div>
     </div>
@@ -906,6 +948,11 @@ body.mode-dom .dtable{display:none}
     <div class="sec-head"><h2 id="recoT" data-i18n="recoTitle">Recomendados</h2></div>
     <p class="reco-sub" data-i18n="recoSub">Planes armados desde nuestra carta, listos para agregar a tu pedido.</p>
     <div id="recoRoot"></div>
+  </section>
+  <section class="wrap promos" id="promos" aria-labelledby="promosT">
+    <div class="sec-head"><h2 id="promosT" data-i18n="promosTitle">Promos de la semana</h2></div>
+    <p class="reco-sub" data-i18n="promosSub">Planes que se repiten cada semana.</p>
+    <div class="pm-grid" id="promosRoot"></div>
   </section>
   <section class="wrap seas" id="temporada" aria-labelledby="tempT" hidden>
     <div class="sec-head"><h2 id="tempT" data-i18n="tempTitle">De temporada</h2></div>
@@ -1173,7 +1220,7 @@ const MESA_TTL = 5*60*60*1000;   // la mesa escaneada se recuerda 5 horas en el 
 const CATS = [
   {id:'recomendados', es:'Recomendados', en:'Recommended'},
   {id:'licores',    es:'Licores',     en:'Spirits'},
-  {id:'comidas',    es:'Comida',      en:'Food'},
+  {id:'comidas',    es:'Comida',      en:'Food', noteEs:'Viernes y sábados: cocina abierta hasta las 3:00 AM.', noteEn:'Fridays and Saturdays: kitchen open until 3:00 AM.'},
   {id:'granizados', es:'Granizados',  en:'Slushies'},
   {id:'casa',       es:'De la casa',  en:'House specials'},
   {id:'chupitos',   es:'Chupitos',    en:'Shots'},
@@ -1201,7 +1248,7 @@ const TEMPORADA = [];   // ids de productos de temporada (con `hasta` = último 
 
 // Sedes de El Coctelazo y de Perritos Gourmet de la Uva (city = ciudad para el mapa; por defecto Medellín)
 const SEDES_COC = [
-  {n:'Provenza',a:'Cra. 35 #8a 11',here:true},{n:'Campo Valdés',a:'Cra 48a #76-59'},
+  {n:'Provenza',a:'Cra. 35 #8a 11',here:true,nota:{es:'Viernes y sábados: cocina hasta las 3:00 AM',en:'Fridays and Saturdays: kitchen until 3:00 AM'}},{n:'Campo Valdés',a:'Cra 48a #76-59'},
   {n:'Belén La Nubia',a:'Carrera 83 #15a-21'},{n:'Belén Rincón',a:'Carrera 79 #1a-42'},
   {n:'Manrique',a:'Carrera 47 #69-5'},{n:'San Javier',a:'Calle 39b #108-76'},
   {n:'Castilla',a:'Carrera 68 #93-83'}
@@ -1209,7 +1256,7 @@ const SEDES_COC = [
 const SEDES_PER = [
   {n:'UVA Poblado',a:'Calle 3B Sur'},
   {n:'Sabaneta',a:'Calle 67 Sur #44-36',city:'Sabaneta'},
-  {n:'Provenza',a:'Carrera 35 #8A-11',here:true}
+  {n:'Provenza',a:'Carrera 35 #8A-11',here:true,nota:{es:'Viernes y sábados: cocina hasta las 3:00 AM',en:'Fridays and Saturdays: kitchen until 3:00 AM'}}
 ];
 
 // Eventos (pestaña Eventos). Para agregar otro: súmalo aquí con su foto en img/. No hay fecha de vencimiento porque el afiche no la trae.
@@ -1228,6 +1275,24 @@ const EVENTOS = [{
   dir:'Carrera 35 #8A-11, Provenza, Medellín, Antioquia, Colombia',
   tel:'573005757965', telTxt:'+57 300 5757965',
   waEs:'Hola, quiero reservar para el Combo Vacaciones en Provenza.', waEn:'Hi, I’d like to book the Vacation Combo at Provenza.'
+},{
+  id:'vallenato', foto:'evento-vallenato', poster:true,   // poster: el afiche completo (vertical) en vez de un producto recortado
+  pill:{es:'Todos los domingos',en:'Every Sunday'}, cta:{es:'Ver el evento',en:'See the event'}, badge:{es:'Domingos',en:'Sundays'},
+  tag:{es:'Provenza',en:'Provenza'},
+  title:{es:'Tardeo de Vallenato',en:'Vallenato Afternoon'},
+  resumen:{es:'Vení de blanco y te recibimos con cóctel de bienvenida y chicharrón.',en:'Come dressed in white and we welcome you with a welcome cocktail and chicharrón.'},
+  nota:{es:'Traé al parche y cantá a todo pulmón.',en:'Bring your crew and sing your heart out.'},
+  incluyeTitulo:{es:'Si vienes de blanco',en:'If you come in white'},
+  incluye:[
+    {es:'Cóctel de bienvenida',en:'Welcome cocktail',subEs:'De cortesía al llegar',subEn:'Complimentary on arrival'},
+    {es:'Chicharrón',en:'Chicharrón',subEs:'De cortesía',subEn:'Complimentary'}
+  ],
+  hora:{es:'Todos los domingos',en:'Every Sunday'},
+  lugar:{es:'Provenza · Cra. 35 #8A 11',en:'Provenza · Cra. 35 #8A 11'},
+  musica:{es:'Vallenato',en:'Vallenato'},
+  dir:'Carrera 35 #8A-11, Provenza, Medellín, Antioquia, Colombia',
+  tel:WHATSAPP_NUMBER, telTxt:'302 037 0950',
+  waEs:'Hola, quiero reservar para el Tardeo de Vallenato del domingo en Provenza.', waEn:'Hi, I’d like to book for the Sunday Vallenato Afternoon at Provenza.'
 }];
 
 const VL3 = [['Trago','Shot'],['Media','Half'],['Botella','Bottle']];
@@ -1269,6 +1334,7 @@ const L = (sub,id,name,prices,extra={}) => { const n = Array.isArray(name)?name:
 
 // Combos (con la foto de la carta)
 X('f-combo','combo-ceviche',['Combo Ceviche','Ceviche combo'],['Ceviche Fukuoka + granizado tradicional + margarita.','Fukuoka ceviche + traditional slush + margarita.'],79000,null,{photo:'carta-ceviche'});
+X('f-combo','martes-antojo',['Martes de Antojo','Tuesday Craving'],['2 baos de pulled pork + 2 granizados de Oreo. Solo los martes.','2 pulled pork baos + 2 Oreo slushes. Tuesdays only.'],59000,null,{photo:'martes-antojo',dias:[2],diasTxt:{es:'Solo los martes',en:'Tuesdays only'}});
 X('f-combo','combo-baos',['Combo Baos','Baos combo'],['2 baos de chicharrón crocante + 2 granizados: Milo y Oreo.','2 crispy pork baos + 2 slushes: Milo and Oreo.'],55000,null,{photo:'carta-baos'});
 
 // Granizados: Yarda y 16 oz (la volqueta no tiene precio en la carta)
@@ -1366,6 +1432,8 @@ const BY_ID = Object.fromEntries(ITEMS.map(i => [i.id,i]));
 // Vigencia: una fecha «hasta» vale hasta el final de ese día en Colombia. Los productos vencidos no se muestran ni se buscan.
 const finDe = d => new Date(d + 'T23:59:59-05:00').getTime();
 const vigente = d => !d || Date.now() <= finDe(d);
+// producto con `dias` (0 = domingo … 6 = sábado, hora de Colombia): solo se puede pedir esos días (p. ej. Martes de Antojo)
+const disponibleHoy = it => !it.dias || it.dias.includes(nowParts().dow);
 const thumb = s => s.replace('img/','img/mini/');   // miniatura cuadrada 240×240 de cada producto (la foto grande queda para la ficha)
 
 // Granizado: la carta no trae sabores, solo «elige 3 toppings»; el cliente los escribe y viajan en la línea del pedido
@@ -1387,7 +1455,7 @@ const UI = {
     namePhD:'Tu nombre (opcional)',notePh:'Nota para la barra (ej: sin hielo)',whoD:'Nombre',noteL:'Nota',mesaW:'MESA',
     gateAge:'Venta de licor solo a mayores de 18 años. El exceso de alcohol es perjudicial para la salud.',heroMesa:n=>`Pidiendo desde la mesa ${n}`,scanOk:n=>`Mesa ${n} lista ✓`,
     scanTitle:'Escanea el QR de tu mesa',scanHelp:'Apunta la cámara al código que está en tu mesa.',scanCam:'No pudimos abrir la cámara. Permite el acceso, o abre la cámara normal de tu celular y apunta al QR de tu mesa.',scanBad:'Ese QR no es de una mesa de Coctelazo & Perritos Gourmet.',scanNet:'Sin conexión. Revisa tu internet e inténtalo otra vez.',
-    ctaDom:'Pedir a domicilio',next:'Continuar',confirmT:'Confirmar pedido',back:'Volver',prodOne:'producto',prodMany:'productos',sendWa:'Enviar por WhatsApp',modeAria:'Cómo quieres pedir',modeMesa:'En la mesa',modeDom:'A domicilio',gateDom:'Pedir a domicilio',gateDomS:'Elige tus productos y mándanos tu dirección por WhatsApp. Te lo llevamos.',namePhDel:'Tu nombre',notePhDel:'Nota para el pedido (ej: sin hielo, timbre)',fineD:'Envía tu pedido por WhatsApp. El equipo lo confirma contigo.',greetD:'Hola El Coctelazo Provenza 👋 Quiero hacer este pedido a domicilio',type:'Tipo',deliveryM:'Domicilio',addr:'Dirección',addrPh:'Dirección de entrega (barrio, torre, apto)',
+    ctaDom:'Pedir a domicilio',promosTitle:'Promos de la semana',promosSub:'Planes que se repiten cada semana.',pmMartesTag:'Todos los martes',pmDomTag:'Todos los domingos',pmAdd:'Agregar al pedido',pmSoloMartes:'Disponible los martes',pmHoy:'¡Hoy!',heroCocina:'Cocina hasta las 3:00 AM · vie y sáb',next:'Continuar',confirmT:'Confirmar pedido',back:'Volver',prodOne:'producto',prodMany:'productos',sendWa:'Enviar por WhatsApp',modeAria:'Cómo quieres pedir',modeMesa:'En la mesa',modeDom:'A domicilio',gateDom:'Pedir a domicilio',gateDomS:'Elige tus productos y mándanos tu dirección por WhatsApp. Te lo llevamos.',namePhDel:'Tu nombre',notePhDel:'Nota para el pedido (ej: sin hielo, timbre)',fineD:'Envía tu pedido por WhatsApp. El equipo lo confirma contigo.',greetD:'Hola El Coctelazo Provenza 👋 Quiero hacer este pedido a domicilio',type:'Tipo',deliveryM:'Domicilio',addr:'Dirección',addrPh:'Dirección de entrega (barrio, torre, apto)',
     minNeed:(n,m)=>`Pedido mínimo para domicilio: <b>${m}</b>. Te faltan <b>${n}</b>.`,minOk:m=>`Domicilio disponible · mínimo ${m} ✓`,onlyFrom:s=>`Los domicilios salen únicamente de ${s}.`,zoneBlocked:'Por ahora no llegamos a esa zona.',tooFar:km=>`Estás a unos ${km}: queda fuera de nuestra zona de domicilios.`,minToast:m=>`El domicilio requiere un pedido mínimo de ${m}`,needAddr:'Escribe la dirección de entrega',
     delOpen:c=>`Domicilios abiertos · hasta ${c}`,delClosed:o=>`Domicilios desde ${o}`,delNone:'Hoy no hay domicilios',tmr:'mañana',
     locUse:'Usar mi ubicación',locView:'Ver en el mapa',locBusy:'Buscando…',locHint:'Puedes escribir la dirección o compartir tu ubicación: se envía junto al pedido por WhatsApp.',locShared:'Ubicación compartida',locFromAddr:'Dirección en el mapa',locKm:(km,s)=>`≈ ${km} de ${s}`,locOpen:'Abrir en Waze',locRemove:'Quitar',locNo:'Tu navegador no permite compartir la ubicación.',locErr:'No pudimos obtener tu ubicación. Revisa el permiso del navegador o escribe tu dirección.',locNeedAddr:'Escribe primero tu dirección',locMsg:'Ubicación',
@@ -1415,7 +1483,7 @@ const UI = {
     namePhD:'Your name (optional)',notePh:'Note for the bar (e.g. no ice)',whoD:'Name',noteL:'Note',mesaW:'TABLE',
     gateAge:'Liquor is sold to adults over 18 only. Excessive alcohol consumption is harmful to health.',heroMesa:n=>`Ordering from table ${n}`,scanOk:n=>`Table ${n} ready ✓`,
     scanTitle:'Scan your table’s QR',scanHelp:'Point the camera at the code on your table.',scanCam:'We couldn’t open the camera. Allow access, or open your phone’s regular camera and point it at your table’s QR.',scanBad:'That QR isn’t from a Coctelazo & Perritos Gourmet table.',scanNet:'No connection. Check your internet and try again.',
-    ctaDom:'Order delivery',next:'Continue',confirmT:'Confirm order',back:'Back',prodOne:'item',prodMany:'items',sendWa:'Send on WhatsApp',modeAria:'How would you like to order',modeMesa:'At my table',modeDom:'Delivery',gateDom:'Order delivery',gateDomS:'Pick your products and send us your address on WhatsApp. We bring it to you.',namePhDel:'Your name',notePhDel:'Note for the order (e.g. no ice, doorbell)',fineD:'Send your order on WhatsApp. The team will confirm it with you.',greetD:'Hi El Coctelazo Provenza 👋 I’d like to place this delivery order',type:'Type',deliveryM:'Delivery',addr:'Address',addrPh:'Delivery address (area, building, apt)',
+    ctaDom:'Order delivery',promosTitle:'Weekly specials',promosSub:'Deals that come back every week.',pmMartesTag:'Every Tuesday',pmDomTag:'Every Sunday',pmAdd:'Add to order',pmSoloMartes:'Available on Tuesdays',pmHoy:'Today!',heroCocina:'Kitchen until 3:00 AM · Fri & Sat',next:'Continue',confirmT:'Confirm order',back:'Back',prodOne:'item',prodMany:'items',sendWa:'Send on WhatsApp',modeAria:'How would you like to order',modeMesa:'At my table',modeDom:'Delivery',gateDom:'Order delivery',gateDomS:'Pick your products and send us your address on WhatsApp. We bring it to you.',namePhDel:'Your name',notePhDel:'Note for the order (e.g. no ice, doorbell)',fineD:'Send your order on WhatsApp. The team will confirm it with you.',greetD:'Hi El Coctelazo Provenza 👋 I’d like to place this delivery order',type:'Type',deliveryM:'Delivery',addr:'Address',addrPh:'Delivery address (area, building, apt)',
     minNeed:(n,m)=>`Minimum order for delivery: <b>${m}</b>. You need <b>${n}</b> more.`,minOk:m=>`Delivery available · minimum ${m} ✓`,onlyFrom:s=>`Deliveries leave only from ${s}.`,zoneBlocked:'We don’t deliver to that area for now.',tooFar:km=>`You are about ${km} away: that is outside our delivery area.`,minToast:m=>`Delivery requires a minimum order of ${m}`,needAddr:'Enter the delivery address',
     delOpen:c=>`Delivery open · until ${c}`,delClosed:o=>`Delivery from ${o}`,delNone:'No delivery today',tmr:'tomorrow',
     locUse:'Use my location',locView:'See on map',locBusy:'Locating…',locHint:'Type your address or share your location: it is sent with the order on WhatsApp.',locShared:'Location shared',locFromAddr:'Address on the map',locKm:(km,s)=>`≈ ${km} from ${s}`,locOpen:'Open in Waze',locRemove:'Remove',locNo:'Your browser does not allow sharing your location.',locErr:'We could not get your location. Check the browser permission or type your address.',locNeedAddr:'Type your address first',locMsg:'Location',
@@ -1446,7 +1514,7 @@ const store = {
 };
 
 const state = {lang: store.get('coctelazo-language')==='en'?'en':'es', mesa:null, mode: store.get('coctelazo-modo')==='dom'?'dom':'mesa', view:'home', cat:'licores', plan:'parejas', pc:{}, q:'', cart:[], gtop:'', modal:null};
-try{ state.cart = JSON.parse(store.get('coctelazo-cart-v3')||'[]').filter(l=>l&&BY_ID[l.id]&&vigente(BY_ID[l.id].hasta)); }catch(e){ state.cart=[]; }
+try{ state.cart = JSON.parse(store.get('coctelazo-cart-v3')||'[]').filter(l=>l&&BY_ID[l.id]&&vigente(BY_ID[l.id].hasta)&&disponibleHoy(BY_ID[l.id])); }catch(e){ state.cart=[]; }
 
 let locPick = null, locBusy = false;   // ubicación de entrega elegida por el cliente (domicilios)
 
@@ -1470,7 +1538,7 @@ function itemHTML(it, pic=''){
   const price = money(it.price) + (it.unit?` <small>${it.unit}</small>`:'');
   const act = it.opts ? 'open' : 'add';
   const box = it.img ? `<div class="it-pic"><img src="${thumb(it.img)}" alt="" loading="lazy" decoding="async"></div>` : pic==='ph' ? '<div class="it-pic ph" aria-hidden="true">&#10022;</div>' : '';
-  const until = it.hasta ? `<em class="until">${t('untilDay')(fechaCorta(it.hasta))}</em>` : '';
+  const until = it.hasta ? `<em class="until">${t('untilDay')(fechaCorta(it.hasta))}</em>` : it.dias ? `<em class="until">${esc(state.lang==='en'?it.diasTxt.en:it.diasTxt.es)}</em>` : '';
   return `<article class="it rv${box?' has-pic':''}" data-act="open" data-id="${it.id}" tabindex="0" role="button" aria-label="${esc(nm(it))}">${box}
     <div class="it-txt"><h3>${esc(nm(it))}</h3>${until}${ds(it)?`<p>${esc(ds(it))}</p>`:''}</div>
     <div class="it-end"><span class="price">${price}</span><button class="add" type="button" data-act="${act}" data-id="${it.id}" aria-label="${esc(it.opts?t('chooseProt'):t('add'))}: ${esc(nm(it))}">${ICON.plus}</button></div></article>`;
@@ -1479,8 +1547,8 @@ function itemHTML(it, pic=''){
 function featHTML(it){
   return `<article class="feat rv" data-act="open" data-id="${it.id}" tabindex="0" role="button" aria-label="${esc(nm(it))}">
     <img class="feat-img" src="img/${it.photo}.webp" alt="" loading="lazy" decoding="async">
-    <div class="feat-body"><span class="feat-tag">${t('comboTag')}</span><h3>${esc(nm(it))}</h3><p>${esc(ds(it))}</p>
-      <div class="feat-foot"><span class="price">${money(it.price)}</span><button class="add" type="button" data-act="add" data-id="${it.id}" aria-label="${esc(t('add'))}: ${esc(nm(it))}">${ICON.plus}</button></div></div></article>`;
+    <div class="feat-body"><span class="feat-tag">${it.dias ? esc(state.lang==='en'?it.diasTxt.en:it.diasTxt.es) : t('comboTag')}</span><h3>${esc(nm(it))}</h3><p>${esc(ds(it))}</p>
+      <div class="feat-foot"><span class="price">${money(it.price)}</span><button class="add" type="button"${disponibleHoy(it)?'':' disabled'} data-act="add" data-id="${it.id}" aria-label="${esc(t('add'))}: ${esc(nm(it))}">${ICON.plus}</button></div></div></article>`;
 }
 
 function liqHTML(it){
@@ -1515,7 +1583,7 @@ function subBlock(sub, items, extras){
 function sectionHTML(cat){
   if (cat.id==='recomendados') return `<div class="section" id="sec-recomendados"><div class="sec-head"><h2>${esc(pick(cat))}</h2></div><p class="reco-sub">${t('recoSub')}</p>${plansHTML()}</div>`;
   const subs = SUBS.filter(s=>s.cat===cat.id);
-  let html = `<div class="section" id="sec-${cat.id}"><div class="sec-head"><h2>${esc(pick(cat))}</h2></div>`;
+  let html = `<div class="section" id="sec-${cat.id}"><div class="sec-head"><h2>${esc(pick(cat))}</h2></div>${cat.noteEs?`<p class="cat-note">${esc(state.lang==='en'?cat.noteEn:cat.noteEs)}</p>`:''}`;
   subs.forEach(s=>{ html += subBlock(s, ITEMS.filter(i=>i.sub===s.id), true); });
   return html + '</div>';
 }
@@ -1645,16 +1713,16 @@ function promoFall(){
 function promoSlide(s, on){
   const en = state.lang==='en', cls = `pr-slide ${s.k}${on?' on':''}`;
   const ev = s.ev, L = o => en ? o.en : o.es;
-  const inc = ev.incluye.map(i=>esc(en?i.en:i.es)).join(' + ');
+  const inc = ev.resumen ? esc(L(ev.resumen)) : ev.incluye.map(i=>esc(en?i.en:i.es)).join(' + ');
   return `<section class="${cls}" data-k="${s.k}" aria-label="${esc(L(ev.title))}">
       <div class="pr-fall" aria-hidden="true">${promoFall()}</div>${PR_WAVES}
       <div class="pr-stage"><div class="pr-rays" aria-hidden="true"></div>${PR_RINGS}
         <img class="pr-img" src="img/${ev.foto}.webp" alt="" decoding="async">
-        <span class="pr-badge"><span><small>${t('evOnly')}</small>${money(ev.precio)}</span></span></div>
-      <div class="pr-copy"><span class="pr-pill">&#9733; ${t('featBadge')}</span>
+        <span class="pr-badge"><span>${ev.precio?`<small>${t('evOnly')}</small>${money(ev.precio)}`:esc(L(ev.badge||ev.tag))}</span></span></div>
+      <div class="pr-copy"><span class="pr-pill">&#9733; ${ev.pill?esc(L(ev.pill)):t('featBadge')}</span>
         <h2>${esc(L(ev.title))}</h2><p>${inc}</p>
         <div class="pr-meta">${esc(L(ev.tag))}<i>${esc(L(ev.hora))}</i></div>
-        <div class="pr-cta"><a class="btn pr-go" href="#eventos" data-view="eventos">${t('featMore')}</a></div></div></section>`;
+        <div class="pr-cta"><a class="btn pr-go" href="#eventos" data-view="eventos">${ev.cta?esc(L(ev.cta)):t('featMore')}</a></div></div></section>`;
 }
 const promoTitle = s => state.lang==='en' ? s.ev.title.en : s.ev.title.es;
 let promoQ = [], promoI = 0, promoTimer = null;
@@ -1693,7 +1761,22 @@ function nuevoHTML(it){
     <div class="nv-pic"><img src="${thumb(it.img)}" alt="" loading="lazy" decoding="async"></div><h3>${esc(nm(it))}</h3>
     <div class="nv-foot"><span class="price">${money(it.price)}</span><button class="add" type="button" data-act="add" data-id="${it.id}" aria-label="${esc(t('add'))}: ${esc(nm(it))}">${ICON.plus}</button></div></article>`;
 }
+/* Promos de la semana: Martes de Antojo (se pide solo los martes) y el Tardeo de Vallenato de los domingos */
+function renderPromos(){
+  const root = $('#promosRoot'); if (!root) return;
+  const en = state.lang==='en', m = BY_ID['martes-antojo'], v = EVENTOS.find(e=>e.id==='vallenato'), dow = nowParts().dow;
+  const hoy = m && disponibleHoy(m);
+  const c1 = m ? `<article class="pm"><div class="pm-img"><img src="img/${m.photo}.webp" alt="" loading="lazy" decoding="async"><span class="pm-tag">${t('pmMartesTag')}</span>${hoy?`<span class="pm-hoy">${t('pmHoy')}</span>`:''}</div>
+    <div class="pm-body"><h3>${esc(nm(m))}</h3><p>${esc(en?'2 pulled pork baos + 2 Oreo slushes':'2 baos de pulled pork + 2 granizados de Oreo')}</p>
+    <div class="pm-foot"><b class="pm-price">${money(m.price)}</b><button class="btn primary" type="button" data-act="add" data-id="${m.id}"${hoy?'':' disabled'}>${t(hoy?'pmAdd':'pmSoloMartes')}</button></div></div></article>` : '';
+  const c2 = v ? `<article class="pm"><div class="pm-img crop-top"><img src="img/${v.foto}.webp" alt="" loading="lazy" decoding="async"><span class="pm-tag">${t('pmDomTag')}</span>${dow===0?`<span class="pm-hoy">${t('pmHoy')}</span>`:''}</div>
+    <div class="pm-body"><h3>${esc(en?v.title.en:v.title.es)}</h3><p>${esc(en?v.resumen.en:v.resumen.es)}</p>
+    <div class="pm-foot"><a class="btn ghost" href="#eventos">${esc(en?v.cta.en:v.cta.es)}</a></div></div></article>` : '';
+  root.innerHTML = c1 + c2;
+  $('#promos').hidden = !(c1 || c2);
+}
 function renderHome(){
+  renderPromos();
   $('#recoRoot').innerHTML = plansHTML();
   const temp = TEMPORADA.map(id=>BY_ID[id]).filter(it=>vigente(it.hasta));
   $('#temporada').hidden = !temp.length;
@@ -1719,16 +1802,17 @@ const IC = {
 };
 function eventoHTML(ev){
   const en = state.lang==='en', L = o => en ? o.en : o.es;
-  const inc = ev.incluye.map(i=>`<li><span class="ev-thumb"><img src="${i.img}" alt="" loading="lazy" decoding="async"></span><span class="ev-it"><b>${esc(en?i.en:i.es)}</b>${(en?i.subEn:i.subEs)?`<small>${esc(en?i.subEn:i.subEs)}</small>`:''}</span></li>`).join('');
+  const inc = (ev.incluye||[]).map(i=>`<li>${i.img?`<span class="ev-thumb"><img src="${i.img}" alt="" loading="lazy" decoding="async"></span>`:'<span class="ev-thumb ph" aria-hidden="true">&#10022;</span>'}<span class="ev-it"><b>${esc(en?i.en:i.es)}</b>${(en?i.subEn:i.subEs)?`<small>${esc(en?i.subEn:i.subEs)}</small>`:''}</span></li>`).join('');
   const wa = `https://wa.me/${ev.tel}?text=${encodeURIComponent(en?ev.waEn:ev.waEs)}`;
   const maps = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(ev.dir)}`;
-  return `<article class="ev rv">
+  return `<article class="ev rv${ev.poster?' poster':''}">
     <div class="ev-photo"><img src="img/${ev.foto}.webp" alt="${esc(L(ev.title))}" loading="lazy" decoding="async"><span class="ev-tag">${esc(L(ev.tag))}</span></div>
     <div class="ev-body">
       <div class="ev-main">
         <h3>${esc(L(ev.title))}</h3>
-        <div class="ev-price"><small>${t('evOnly')}</small><b>${money(ev.precio)}</b></div>
-        <h4>${t('evIncludes')}</h4><ul class="ev-inc">${inc}</ul>
+        ${ev.precio?`<div class="ev-price"><small>${t('evOnly')}</small><b>${money(ev.precio)}</b></div>`:''}
+        ${ev.nota?`<p class="ev-note">${esc(L(ev.nota))}</p>`:''}
+        ${inc?`<h4>${esc(ev.incluyeTitulo?L(ev.incluyeTitulo):t('evIncludes'))}</h4><ul class="ev-inc">${inc}</ul>`:''}
       </div>
       <div class="ev-side">
         <ul class="ev-facts"><li>${IC.clock}<span>${esc(L(ev.hora))}</span></li><li>${IC.pin}<span>${esc(L(ev.lugar))}</span></li><li>${IC.music}<span>${esc(L(ev.musica))}</span></li></ul>
@@ -1747,7 +1831,7 @@ function sedeHTML(s){
   const city = s.city || 'Medellín';
   const q = encodeURIComponent(`${s.a}, ${city}, Antioquia, Colombia`);
   return `<article class="sede${s.here?' here':''}"><div class="sede-top"><h4>${esc(s.n)}</h4>${s.here?`<span class="sede-flag">${t('sedeHere')}</span>`:''}</div>
-    <p>${esc(s.a)} · ${esc(city)}</p>
+    <p>${esc(s.a)} · ${esc(city)}</p>${s.nota?`<p class="sede-note">${esc(state.lang==='en'?s.nota.en:s.nota.es)}</p>`:''}
     <div class="sede-act"><a class="btn ghost" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=${q}">${t('sedeHow')}</a><button class="btn ghost" type="button" data-act="map" data-q="${q}">${t('sedeMap')}</button></div>
     <div class="sede-map" hidden></div></article>`;
 }
@@ -1814,6 +1898,7 @@ function addLine({id,name,variant=null,price,qty=1}){
 }
 function addItem(id, qty=1, optIdx=null){
   const it = BY_ID[id]; if (!it) return;
+  if (!disponibleHoy(it)){ toast(`${nm(it)} · ${state.lang==='en'?it.diasTxt.en:it.diasTxt.es}`); return; }
   let variant = null;
   if (it.opts && optIdx!=null) variant = {es:it.opts[optIdx][0],en:it.opts[optIdx][1]};
   addLine({id, name:{es:it.ce||it.es,en:it.cn||it.en}, variant, price:it.price, qty});
@@ -2343,6 +2428,7 @@ function openModal(id, {keep=false}={}){
   } else { opts.hidden=true; opts.innerHTML=''; }
   $('#qVal').textContent = mQty;
   $('#mAdd').style.display = it.prices ? 'none' : '';
+  $('#mAdd').disabled = !disponibleHoy(it);
   $('#modal').classList.add('show'); $('#scrim').classList.add('show');
   $('#modal').setAttribute('aria-hidden','false');
   document.body.classList.add('locked','modal-open');
@@ -2522,7 +2608,7 @@ $('#fAddr').addEventListener('input',e=>{ store.set('coctelazo-addr',e.target.va
 const goDelivery = () => { setMode('dom'); closeGate(); setView('carta'); };
 $('#gDom').addEventListener('click',goDelivery);
 $('#ctaDom').addEventListener('click',goDelivery);
-setInterval(renderHeroDom, 60000);
+setInterval(()=>{ renderHeroDom(); renderPromos(); }, 60000);
 
 /* mesa: chip de la barra, pantalla de inicio y escáner */
 $('#mesaChip').addEventListener('click',()=>{ closeDrawer(); openScan(state.cart.length?'drawer':'menu'); });
