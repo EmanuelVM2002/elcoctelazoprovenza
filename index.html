@@ -445,8 +445,10 @@ body.has-mouse .spot{opacity:1}
   .pr-cta{justify-content:flex-start}
   .pr-badge{width:108px;height:108px;font-size:18px;right:3%}
 }
-@media(max-width:759px){.pr-slide.vac .pr-stage{height:clamp(210px,35vh,320px)}}   /* el combo de vacaciones es una foto alta: necesita más alto en el celular */
-@media(max-width:759px) and (max-height:700px){.pr-stage,.pr-slide.vac .pr-stage{height:24vh}.pr-copy p{display:none}.pr-copy{padding-bottom:50px}}
+@media(max-width:759px){.pr-slide.vac .pr-stage{height:clamp(210px,35vh,320px)}.pr-slide.vac.poster .pr-stage{height:clamp(240px,41vh,380px)}}   /* el combo de vacaciones y los afiches son imágenes altas: necesitan más alto en el celular */
+@media(max-width:759px) and (max-height:700px){.pr-stage,.pr-slide.vac .pr-stage,.pr-slide.vac.poster .pr-stage{height:24vh}.pr-copy p{display:none}.pr-copy{padding-bottom:50px}}
+.pr-slide.poster .pr-img{border-radius:10px}
+@media(max-width:759px){.pr-slide.poster .pr-badge{right:auto;left:1%;top:30%;width:84px;height:84px;font-size:14px}}   /* el sello de precio no tapa el título del afiche */
 
 /* nuevos productos: fila que se desliza */
 .nv-row{display:flex;gap:12px;overflow-x:auto;margin:18px calc(-1*var(--gut)) 0;padding:6px var(--gut) 14px;scroll-snap-type:x proximity;scrollbar-width:none}
@@ -1261,6 +1263,25 @@ const SEDES_PER = [
 
 // Eventos (pestaña Eventos). Para agregar otro: súmalo aquí con su foto en img/. No hay fecha de vencimiento porque el afiche no la trae.
 const EVENTOS = [{
+  id:'graduation', foto:'evento-graduation', poster:true, precio:89000,
+  pill:{es:'Graduation Party',en:'Graduation Party'}, cta:{es:'Ver el evento',en:'See the event'},
+  tag:{es:'Provenza',en:'Provenza'},
+  title:{es:'Graduation Party',en:'Graduation Party'},
+  resumen:{es:'Por fin se logró: 2 hamburguesas + La Bestia Blanca. Cóctel de bienvenida para los graduados.',en:'We made it! 2 burgers + The White Beast. Welcome cocktail for the graduates.'},
+  nota:{es:'Por fin se logró. Ven a celebrarlo con nosotros.',en:'We finally made it. Come celebrate with us.'},
+  incluyeTitulo:{es:'La promo incluye',en:'The deal includes'},
+  incluye:[
+    {es:'2 hamburguesas',en:'2 burgers',subEs:'Las gourmet de la casa',subEn:'Our gourmet house burgers',img:'img/mini/hamburguesas.webp'},
+    {es:'La Bestia Blanca',en:'The White Beast',subEs:'2 litros de granizado, chamoy y tajín',subEn:'2 liters of slush, chamoy and Tajín',img:'img/mini/bestia-blanca.webp'},
+    {es:'Cóctel de bienvenida',en:'Welcome cocktail',subEs:'De cortesía para los graduados',subEn:'Complimentary for the graduates'}
+  ],
+  hora:{es:'Desde las 9:00 P.M.',en:'From 9:00 P.M.'},
+  lugar:{es:'Provenza · Cra. 35 #8A 11',en:'Provenza · Cra. 35 #8A 11'},
+  musica:{es:'Clásicos, dancehall y reggaetón',en:'Classics, dancehall and reggaeton'},
+  dir:'Carrera 35 #8A-11, Provenza, Medellín, Antioquia, Colombia',
+  tel:WHATSAPP_NUMBER, telTxt:'302 037 0950',
+  waEs:'Hola, quiero reservar para la Graduation Party en Provenza.', waEn:'Hi, I’d like to book for the Graduation Party at Provenza.'
+},{
   id:'vacaciones', foto:'combo-vacaciones', precio:229000,
   tag:{es:'Provenza',en:'Provenza'},
   title:{es:'Combo Vacaciones',en:'Vacation Combo'},
@@ -1679,7 +1700,7 @@ function planHTML(pl){
 /* Recomendados: se muestran en el Home y también como primera pestaña de la Carta (mismos planes, mismo estado) */
 /* Combo recomendado de la casa: va primero, antes de los planes. Es el primer evento de EVENTOS y lleva a su pestaña */
 function comboHTML(){
-  const ev = EVENTOS[0]; if (!ev) return '';
+  const ev = EVENTOS.find(e=>e.id==='vacaciones'); if (!ev) return '';
   const en = state.lang==='en', L = o => en ? o.en : o.es;
   const inc = ev.incluye.map(i=>esc(en?i.en:i.es)).join(' + ');
   const wa = `https://wa.me/${ev.tel}?text=${encodeURIComponent(en?ev.waEn:ev.waEs)}`;
@@ -1711,8 +1732,7 @@ function promoFall(){
   return Array.from({length:18},()=>`<span class="pr-spark" style="left:${(r()*96).toFixed(1)}%;--d:${(7+r()*8).toFixed(1)}s;--dl:${(-r()*12).toFixed(1)}s;--dx:${(r()*80-40)|0}px;font-size:${(10+r()*14)|0}px">&#10022;</span>`).join('');
 }
 function promoSlide(s, on){
-  const en = state.lang==='en', cls = `pr-slide ${s.k}${on?' on':''}`;
-  const ev = s.ev, L = o => en ? o.en : o.es;
+  const ev = s.ev, en = state.lang==='en', cls = `pr-slide ${s.k}${ev.poster?' poster':''}${on?' on':''}`, L = o => en ? o.en : o.es;
   const inc = ev.resumen ? esc(L(ev.resumen)) : ev.incluye.map(i=>esc(en?i.en:i.es)).join(' + ');
   return `<section class="${cls}" data-k="${s.k}" aria-label="${esc(L(ev.title))}">
       <div class="pr-fall" aria-hidden="true">${promoFall()}</div>${PR_WAVES}
