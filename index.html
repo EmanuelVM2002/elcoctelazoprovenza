@@ -463,6 +463,21 @@ body.has-mouse .spot{opacity:1}
   .pr-spark:nth-child(n+9){display:none}
 }
 @media(max-width:759px){.pr-slide.poster .pr-badge{right:auto;left:1%;top:30%;width:84px;height:84px;font-size:14px}}   /* el sello de precio no tapa el título del afiche */
+/* MODO LIVIANO PARA CELULAR. En Android hacían titilar toda la pantalla: los desenfoques de fondo (backdrop-filter) sobre un fondo que se mueve todo el
+   tiempo, el blur de las capas de humo y los anillos que crecen con sombra. En el celular se quitan los desenfoques (los fondos quedan un poco más
+   opacos, casi igual de bonitos), el humo sigue moviéndose pero sin blur (ya son degradados suaves) y los anillos no se dibujan. */
+@media(max-width:759px){
+  html .topbar,html .catnav,html .mainnav,html .scrim,html .scan,html .adm,html .ev-tag{backdrop-filter:none;-webkit-backdrop-filter:none}
+  html .topbar{background:rgba(10,9,11,.96)}
+  html .catnav{background:rgba(10,9,11,.96)}
+  html .mainnav{background:rgba(22,10,17,.94)}
+  html .scrim{background:rgba(5,4,6,.9)}
+  html .scan,html .adm{background:rgba(5,4,6,.97)}
+  html .ev-tag{background:rgba(10,6,9,.88)}
+  html .marble::before,html .marble::after,html .marble i{filter:none}
+  html .mainnav a::before{filter:none}
+  html .pr-ring{display:none}
+}
 
 /* nuevos productos: fila que se desliza */
 .nv-row{display:flex;gap:12px;overflow-x:auto;margin:18px calc(-1*var(--gut)) 0;padding:6px var(--gut) 14px;scroll-snap-type:x proximity;scrollbar-width:none}
@@ -2712,6 +2727,7 @@ topBtn.addEventListener('click',()=>scrollTo({top:0,behavior:'smooth'}));
   }
   function tick(){
     if(!run) return;
+    if (document.documentElement.classList.contains('promo-on')){ requestAnimationFrame(tick); return; }   // con la publicidad abierta las luces se quedan quietas (menos trabajo para el celular)
     ctx.clearRect(0,0,W,H);
     for (const p of ps){
       p.y+=p.vy; p.sw+=p.sp; p.tw+=.025; p.x+=Math.sin(p.sw)*.32;
